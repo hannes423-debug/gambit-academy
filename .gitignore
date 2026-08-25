@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+.DS_Store
+*.log
+# working files from the opening-book build
+tools/data/
+tools/openings.json

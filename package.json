@@ -1,0 +1,16 @@
+{
+  "name": "gambit-academy",
+  "version": "1.0.0",
+  "description": "A single-file chess training app: guided lessons, classified mistakes, recovery challenges, a 3,810-line opening tree and Stockfish-backed punishment analysis.",
+  "private": true,
+  "scripts": {
+    "test": "node tools/validate.js && node tools/playthrough.js && node tools/subsystems.js",
+    "validate": "node tools/validate.js",
+    "playthrough": "node tools/playthrough.js",
+    "subsystems": "node tools/subsystems.js",
+    "build:openings": "node tools/build-openings.js",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": { "jsdom": "^24.0.0" },
+  "license": "GPL-3.0-or-later"
+}
