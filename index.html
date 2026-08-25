@@ -139,6 +139,7 @@ ul{margin:0;padding:0;list-style:none}
   border-radius:var(--r-pill);background:var(--amber-soft);
   color:#9A6512;font-weight:800;font-size:13px;
 }
+.xp-chip svg{width:15px;height:15px;flex:none}
 
 /* ============================================================================
    SECTION 4 — GENERIC UI: cards, buttons, bars, chips
@@ -321,7 +322,7 @@ ul{margin:0;padding:0;list-style:none}
 }
 .sq{position:relative;display:grid;place-items:center}
 .sq.light{background:var(--sq-light)} .sq.dark{background:var(--sq-dark)}
-.sq__coord{position:absolute;font-size:8px;font-weight:800;opacity:.42;pointer-events:none}
+.sq__coord{position:absolute;font-size:max(8px, calc(var(--sqsize, 45px) * .19));font-weight:800;opacity:.42;pointer-events:none}
 .sq__coord.f{right:2px;bottom:0px} .sq__coord.r{left:2px;top:0px}
 /* Vector pieces. Two custom properties per colour restyle the whole set. */
 .pc{display:block;width:94%;height:94%;pointer-events:none;overflow:visible;
@@ -392,7 +393,7 @@ ul{margin:0;padding:0;list-style:none}
 }
 .sheet.is-open{transform:none}
 .sheet__grip{width:42px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 12px}
-@media (min-width:560px){ .sheet{border-radius:var(--r-xl);left:14px;right:14px;bottom:14px} }
+@media (min-width:560px){ .sheet{border-radius:var(--r-xl);left:14px;right:14px;bottom:14px;transform:translateY(calc(102% + 18px))} .sheet.is-open{transform:none} }
 
 .verdict{border-radius:var(--r-lg);padding:14px;display:flex;gap:12px;align-items:flex-start}
 .verdict__icon{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff}
@@ -549,6 +550,57 @@ ul{margin:0;padding:0;list-style:none}
   .actions .btn{min-height:46px}
   .lesson__mission{font-size:14px}
   .goalbtn{display:none}
+}
+/* ============================================================================
+   SECTION 10c — DESKTOP LAYOUT (>=1000px)
+   Below this width the app stays a phone column — that is still the primary
+   target. From here it becomes a two-pane workspace: a big board on the left,
+   the coach rail on the right, the way a desktop chess site is laid out.
+   Only the lesson re-flows, and it does so purely with grid areas, so the DOM
+   order stays the phone order. The list screens keep a readable measure
+   instead of stretching text across the full width.
+   ========================================================================== */
+@media (min-width:1000px){
+  .app{max-width:1200px;height:min(100dvh - 48px, 940px)}
+
+  /* Reading measure for the list screens, and a tab bar that stays grouped. */
+  .scroll{padding-left:max(16px,calc((100% - 680px) / 2));
+          padding-right:max(16px,calc((100% - 680px) / 2))}
+  .nav{grid-template-columns:repeat(5,104px);justify-content:center}
+
+  .lesson.is-active{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 380px;
+    grid-template-rows:auto auto auto auto 1fr auto;
+    grid-template-areas:
+      "board head"
+      "board dots"
+      "board turn"
+      "board goal"
+      "board coach"
+      "board actions";
+    column-gap:26px;
+    padding:20px 24px calc(20px + var(--safe-b));
+  }
+  /* padding, not 0: the board's decorative rings sit outside .boardwrap and
+     .boardarea clips with overflow:hidden. */
+  .lesson .boardarea{grid-area:board;padding:10px}
+  .lesson .lesson__head{grid-area:head;padding:0;text-align:left}
+  .lesson .lesson__titles{text-align:left}
+  .lesson .lesson__mission{font-size:20px}
+  .lesson .lesson__course{font-size:11px}
+  .lesson .dots{grid-area:dots;justify-content:flex-start;padding:10px 0 0}
+  .lesson .turnrow{grid-area:turn;justify-content:flex-start;padding:14px 0 0}
+  .lesson .goalbtn{grid-area:goal;margin:10px auto 0 0}
+  .lesson .coach{grid-area:coach;margin:12px 0 0}
+  .lesson .coach__text{font-size:15px;line-height:1.5}
+  .lesson .actions{grid-area:actions;padding:14px 0 0}
+  .lesson .actions .btn{min-height:54px;font-size:15px}
+
+  /* Dialogs centred and readable rather than full-bleed. */
+  .sheet{left:50%;right:auto;transform:translate(-50%,calc(102% + 18px));width:min(580px,calc(100% - 28px))}
+  .sheet.is-open{transform:translate(-50%,0)}
+  .done__inner{max-width:600px;margin-inline:auto;width:100%}
 }
 </style>
 </head>
