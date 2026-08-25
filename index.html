@@ -497,7 +497,10 @@ ul{margin:0;padding:0;list-style:none}
 /* ============================================================================
    SECTION 10b — OPENING EXPLORER
    ========================================================================== */
-.explore{display:flex;flex-direction:column;flex:1;min-height:0}
+/* No `display` here: `.screen` owns show/hide. A `display:flex` on this class
+   sits later in the sheet than `.screen{display:none}` at equal specificity,
+   which kept Explore permanently mounted and stole half the lesson column. */
+.explore{flex-direction:column;flex:1;min-height:0}
 .tbar{flex:none;display:flex;align-items:center;gap:8px;padding:0 14px 6px}
 .tbar__name{flex:1;min-width:0;font-size:13px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tbar__name b{font-weight:800}
