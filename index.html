@@ -4750,6 +4750,92 @@ const Academy = (function(){
   }
 
   /* ==========================================================================
+     PLACEMENT — a short adaptive test instead of "pick the level that sounds
+     like you". Items are drawn from the same exercise pool the lessons use,
+     so nothing is written specially for it and nothing it asks is unverified.
+     Answers do NOT count towards mastery: a cold test is not practice.
+     ======================================================================== */
+  const PLACEMENT = { size:9, min:6, start:700, tight:200, spread:260 };
+  const exerciseRating = x => x.rating == null ? (x.band || 0) + 50 : x.rating;
+  function placementStart(opts){
+    opts = opts || {};
+    const start = opts.start == null ? PLACEMENT.start : opts.start;
+    return { rating:start, start, lo:0, hi:MAX_RATING, asked:[], answers:[], n:0, done:false,
+             size: opts.size || PLACEMENT.size, min: opts.min || PLACEMENT.min,
+             seed: opts.seed || Date.now() };
+  }
+  /** The next probe: the untried item nearest the current estimate. Guided
+      items are skipped (their label gives the answer away), and a concept is
+      not asked twice while untouched concepts remain. */
+  function placementNext(session, pool){
+    if (session.done || session.n >= session.size) return null;
+    const seen = {}; session.asked.forEach(id => { seen[id] = true; });
+    const used = {}; session.answers.forEach(a => { used[a.conceptId] = true; });
+    const usable = pool.filter(x => !seen[x.id] && x.stage !== 'guided');
+    if (!usable.length) return null;
+    const fresh = usable.filter(x => !used[x.conceptId]);
+    const rand = rng(session.seed + session.n);
+    /* a small random nudge so two runs do not walk the identical ladder */
+    return (fresh.length ? fresh : usable)
+      .map(x => ({ x, d:Math.abs(exerciseRating(x) - session.rating) + rand() * 40 }))
+      .sort((a, b) => a.d - b.d)[0].x;
+  }
+  /** The rating that best explains the answers so far: a grid search over the
+      same logistic curve the skill estimates use, with a weak pull towards the
+      starting guess so one lucky answer cannot swing it 800 points. An Elo
+      walk was tried first and sat ~200 points high at the bottom of the range,
+      because early steps are large and the pool has no items below 30. */
+  function placementFit(answers, prior){
+    let bestR = prior, bestLL = -Infinity;
+    for (let r = 0; r <= MAX_RATING; r += 10){
+      /* a weak prior, sigma 500: enough that one lucky answer on the hardest
+         item cannot place a beginner at 1400, and weak enough to be swamped
+         by six real answers */
+      let ll = -Math.pow((r - prior) / 500, 2) / 2;
+      for (let i = 0; i < answers.length; i++){
+        const a = answers[i];
+        const p = 1 / (1 + Math.pow(10, (a.rating - r) / 400));
+        ll += Math.log(Math.max(a.success ? p : 1 - p, 1e-6));
+      }
+      if (ll > bestLL){ bestLL = ll; bestR = r; }
+    }
+    return bestR;
+  }
+  /** Record one answer: it refits the estimate and keeps a bracket of what the
+      learner has actually shown — solved ratings raise the floor, misses lower
+      the ceiling. */
+  function placementAnswer(session, ex, success){
+    const r = exerciseRating(ex);
+    if (success) session.lo = Math.max(session.lo, r); else session.hi = Math.min(session.hi, r);
+    session.asked.push(ex.id);
+    session.answers.push({ id:ex.id, conceptId:ex.conceptId, rating:r, success:!!success, skills:ex.skills || {} });
+    session.n++;
+    session.rating = placementFit(session.answers, session.start);
+    if (session.n >= session.size) session.done = true;
+    else if (session.n >= session.min && session.hi - session.lo <= PLACEMENT.tight) session.done = true;
+    return session;
+  }
+  /** The result: a stage, how sure it is, and which skills it saw. */
+  function placementResult(session){
+    const answers = session.answers, solved = answers.filter(a => a.success);
+    let rating = answers.length ? placementFit(answers, session.start) : session.start;
+    /* every item right means the pool ran out of range, not certainty */
+    const ceiling = !!answers.length && solved.length === answers.length;
+    const floor = !!answers.length && !solved.length;
+    if (ceiling) rating = Math.max(rating, session.lo);
+    const skills = {};
+    answers.forEach(a => Object.keys(a.skills).forEach(k => {
+      const t = skills[k] || (skills[k] = { n:0, hit:0 });
+      t.n++; if (a.success) t.hit++;
+    }));
+    const r = Math.round(clamp(rating, 0, MAX_RATING) / 100) * 100;
+    return { rating:r, band:bandOf(r), solved:solved.length, asked:answers.length, ceiling, floor,
+             hardest: answers.length ? Math.max.apply(null, answers.map(a => a.rating)) : 0,
+             spread: Math.round(answers.length ? PLACEMENT.spread / Math.sqrt(answers.length) : PLACEMENT.spread),
+             confidence: clamp(answers.length / PLACEMENT.size, 0, 1), skills };
+  }
+
+  /* ==========================================================================
      EDUCATIONAL QUALITY — puzzle rating alone is not enough to teach with.
      ======================================================================== */
   const MOTIF_THEMES = ['fork','pin','skewer','discoveredAttack','doubleCheck','deflection','attraction','interference',
@@ -4815,6 +4901,7 @@ const Academy = (function(){
     winPct, tolerance, objectiveLabel, calcCapacity, candidate, difficulty, executionRisk, analysePosition,
     levelText, evalVisible, fmtEval, GOALS, goalMet, pinsBy, judge, judgeSquare,
     LIVE_TEXT, liveScore, liveText, judgeLive,
+    PLACEMENT, exerciseRating, placementStart, placementNext, placementAnswer, placementResult, placementFit,
     newState, newConcept, computeMastery, record, schedule, isDue, RELEARN_MS, MASTERED, UNLOCK,
     updateSkills, overall, skillRating, ratingFor, masteryOf, prereqsMet, conceptStatus, recommended,
     rng, buildReview, buildMasteryTest, MOTIF_THEMES, EduQuality, PuzzleQuery
@@ -5885,6 +5972,32 @@ function academyStatusChip(st, c){
   }[st];
 }
 
+/* What the Review tab and the Profile need from the Academy. Kept here so
+   those screens never reach into Academy state themselves. */
+function academySummary(now){
+  now = now || Date.now();
+  const s = AcademyStore.load(), taught = {};
+  ACADEMY.pool().forEach(x => { taught[x.conceptId] = true; });
+  const ids = Object.keys(s.concepts).filter(id => taught[id] && s.concepts[id].attempts);
+  const at = id => s.concepts[id].nextReview || 0;
+  const due  = ids.filter(id => Academy.isDue(s.concepts[id], now)).sort((a, b) => at(a) - at(b));
+  const soon = ids.filter(id => due.indexOf(id) < 0 && at(id)).sort((a, b) => at(a) - at(b));
+  const rating = Academy.overall(s);
+  return { rating, band:Academy.bandLabel(rating), due, soon, started:ids.length,
+           mastered: ids.filter(id => s.concepts[id].mastery >= Academy.MASTERED).length,
+           lessons: Object.keys(s.lessons || {}).length,
+           of: id => ({ id, concept:ACADEMY.concepts[id] || { id, title:id },
+                        rec:s.concepts[id], mastery:Academy.masteryOf(s, id) }) };
+}
+/** Relative time for a review that is due, or coming up. */
+function academyDueText(t, now){
+  const d = t - (now || Date.now());
+  if (d <= 0) return 'now';
+  if (d < 3600000) return 'in ' + Math.max(1, Math.round(d / 60000)) + ' min';
+  if (d < 86400000) return 'in ' + Math.round(d / 3600000) + ' h';
+  return 'in ' + Math.round(d / 86400000) + ' d';
+}
+
 function renderAcademy(){
   const s = AcademyStore.load(), now = Date.now();
   const overall = Academy.overall(s), band = Academy.bandOf(overall);
@@ -6031,7 +6144,10 @@ function academyPlacementSheet(){
   const s = AcademyStore.load();
   Sheet.open(
     '<div class="eyebrow" style="margin-bottom:8px">Your starting stage</div>' +
-    '<p class="muted">Pick the stage that sounds like you. It sets where recommendations start and how feedback is pitched until your exercises give better evidence. You can change it at any time.</p>' +
+    '<p class="muted">Take the short test, or pick the stage that sounds like you. Either way it only sets where recommendations start and how feedback is pitched — nothing is locked, and you can change it at any time.</p>' +
+    '<button class="btn btn--primary btn--wide" data-act="ac-placement-test" style="margin:12px 0 4px">' +
+      icon('target') + 'Take the placement test</button>' +
+    '<p class="muted" style="margin-bottom:12px;font-size:12px">Six to nine positions from the Academy\'s own exercises, adapting as you go. It does not teach and it is not recorded as practice.</p>' +
     '<div class="ac-place">' + Academy.BANDS.map(b =>
       '<button class="ac-place__b' + (s.placement === b.rating ? ' is-on' : '') + '" data-act="ac-place" data-id="' + b.rating + '">' +
         '<b>' + (b.rating === 0 ? 'Start' : b.rating === 2100 ? '2100+' : b.rating) + '</b><span>' + b.title + '</span></button>').join('') +
@@ -6114,6 +6230,36 @@ const AcademyRunner = {
     });
     this.begin(lesson.title, lesson.branch);
   },
+  /* ---- placement: a short adaptive test, no teaching, nothing recorded ---- */
+  startPlacement(opts){
+    const pool = ACADEMY.pool();
+    const session = Academy.placementStart(opts || {});
+    const first = Academy.placementNext(session, pool);
+    if (!first) return toast('No placement items are available yet.');
+    Sheet.close(); Complete.hide();
+    this.lesson = null; this.mode = 'placement'; this.session = session;
+    this.steps = [this.placementStep(first)];
+    this.begin('Placement test', 'analysis');
+  },
+  placementStep(ex){
+    return { kind:'exercise', test:true, placement:true,
+             ex:Object.assign({}, ex, { showLabel:false, testItem:true }) };
+  },
+  /** Ask the next question, or finish. Called after each answer. */
+  placementAdvance(){
+    const next = Academy.placementNext(this.session, ACADEMY.pool());
+    if (!next) return this.finish();
+    this.steps.push(this.placementStep(next));
+    this.i = this.steps.length - 1;
+    this.render();
+  },
+  /** "I don't know" is an answer, and a placement test needs it. */
+  placementPass(){
+    if (this.busy || this.mode !== 'placement') return;
+    this.failed = true;
+    this.recordAttempt(false, 'MISSED_OBJECTIVE');   /* no-op if already answered */
+    this.placementAdvance();
+  },
   startReview(){
     const s = AcademyStore.load();
     const items = Academy.buildReview(s, ACADEMY.pool(), { size:6 });
@@ -6152,6 +6298,7 @@ const AcademyRunner = {
   step(){ return this.steps[this.i]; },
   next(){
     if (this.busy) return;
+    if (this.mode === 'placement') return this.placementAdvance();
     this.i++;
     if (this.i >= this.steps.length) return this.finish();
     this.render();
@@ -6251,6 +6398,7 @@ const AcademyRunner = {
   stageLabel(st){
     const ex = st.ex;
     if (this.mode === 'review') return 'Review';
+    if (this.mode === 'placement') return 'Placement · ' + (this.session.n + 1);
     if (st.test) return 'Mastery test';
     return { guided:'Guided', transfer:'Transfer', recognition:'Your move', defense:'Defence', test:'Test' }[ex.stage] || '';
   },
@@ -6263,7 +6411,7 @@ const AcademyRunner = {
     Board.set(this.pos, flip); Board.last = null; Board.fit();
     const showLabel = !st.test && ex.showLabel !== false && ['guided','transfer','defense'].indexOf(ex.stage) >= 0 && ex.label;
     const lead = '<span class="ac-stagelabel">' + this.stageLabel(st) + '</span> ';
-    const prompt = st.test || this.mode === 'review'
+    const prompt = st.test || this.mode === 'review' || this.mode === 'placement'
       ? (ex.kind === 'square' ? ex.prompt : (this.pos.turn === 'w' ? 'White' : 'Black') + ' to move. What would you play?')
       : ex.prompt;
     this.basePrompt = lead + (showLabel ? '<b>' + ex.label + '.</b> ' : '') + prompt;
@@ -6274,6 +6422,13 @@ const AcademyRunner = {
     this.attach();
   },
   exActions(done){
+    if (this.mode === 'placement'){
+      const last = this.session.done || this.session.n >= this.session.size;
+      this.actions(done
+        ? [{ label:last ? 'See your stage' : 'Next question', kind:'primary', act:'ac-next', icon:'chevronRight' }]
+        : [{ label:'I don\'t know', kind:'ghost', act:'ac-place-pass', icon:'chevronRight' }]);
+      return;
+    }
     if (done){
       this.actions([{ label:this.i >= this.steps.length - 1 ? 'Finish' : 'Continue', kind:'primary', act:'ac-next', icon:'chevronRight' }]);
       return;
@@ -6410,6 +6565,12 @@ const AcademyRunner = {
       setTimeout(() => this.resetBoard(start), 1500);
       return this.exActions();
     }
+    if (this.mode === 'placement'){
+      if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
+      this.say('<b>Not this time.</b> ' + (res.san ? res.san + ' is not the move here. ' : '') +
+               'A placement test does not teach — you will meet this idea properly in a lesson.', 'bad');
+      return this.exActions(true);
+    }
     Board.shake();
     if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
     this.say('<b>' + res.title + '.</b>', 'bad');
@@ -6471,6 +6632,14 @@ const AcademyRunner = {
     const ex = this.ex, s = AcademyStore.load();
     if (this.recorded === ex) return;            /* one rated attempt per exercise visit */
     this.recorded = ex;
+    if (this.mode === 'placement'){
+      /* a cold test is not practice: it estimates, it does not teach, and it
+         must not leave mastery or review debt behind */
+      Academy.placementAnswer(this.session, ex, !!success);
+      this.run.total++; if (success) this.run.first++;
+      this.run.results.push({ id:ex.id, concept:ex.conceptId, success, category });
+      return;
+    }
     if (!(ex.conceptId in this.run.conceptBefore)) this.run.conceptBefore[ex.conceptId] = Academy.masteryOf(s, ex.conceptId);
     const timeMs = Date.now() - this.t0;
     const lesson = ACADEMY.lessonFor(ex.conceptId);
@@ -6568,8 +6737,53 @@ const AcademyRunner = {
   },
 
   /* ---- summary ---- */
+  /** The result screen. It applies the stage and says plainly what the
+      number is and is not. */
+  finishPlacement(){
+    const res = Academy.placementResult(this.session);
+    AcademyStore.place(res.rating);
+    const s = AcademyStore.load();
+    /* The lesson the stage points at, not the first unmet prerequisite: with a
+       cold profile nothing is mastered yet, so `recommended` would send a 1200
+       to board coordinates. Nothing is locked either way. */
+    const written = ACADEMY_LESSONS.filter(l => Academy.masteryOf(s, l.conceptId) < Academy.MASTERED);
+    const next = written.filter(l => (l.band || 0) <= res.rating + 50).sort((a, b) => b.band - a.band)[0] ||
+                 written.sort((a, b) => a.band - b.band)[0];
+    const skill = Academy.SKILLS.map(sk => ({ sk, t:res.skills[sk.id] }))
+      .filter(x => x.t && x.t.n >= 2)
+      .sort((a, b) => (a.t.hit / a.t.n) - (b.t.hit / b.t.n))[0];
+    $('#doneBody').innerHTML =
+      '<div class="done__title">Placement complete</div>' +
+      '<div class="done__grade" style="margin-top:10px">' + res.solved + ' of ' + res.asked + ' solved</div>' +
+      '<div class="done__stats">' +
+        '<div class="tile"><div class="tile__k">Start at</div><div class="tile__v">' + (res.rating || 'Start') + '</div></div>' +
+        '<div class="tile"><div class="tile__k">Stage</div><div class="tile__v" style="font-size:15px">' + res.band.title + '</div></div>' +
+        '<div class="tile"><div class="tile__k">Give or take</div><div class="tile__v">' + res.spread + '</div></div>' +
+      '</div>' +
+      '<p class="done__memory">' +
+        (res.ceiling
+          ? 'You solved everything the test had, up to ' + res.hardest + '. That is its ceiling, not yours — the higher stages are still being written.'
+          : res.floor
+            ? 'Nothing landed this time, so the Academy starts at the beginning: the board, the pieces and what they do.'
+            : 'This is an internal stage for pitching lessons and feedback, not a FIDE, Chess.com or Lichess rating. ' +
+              'It moves on its own as you work, and nothing is ever locked.') +
+      '</p>' +
+      (skill ? '<p class="done__memory">Weakest of what it saw: <b>' + skill.sk.name + '</b> (' +
+               skill.t.hit + ' of ' + skill.t.n + '). The lessons for it are recommended first.</p>' : '') +
+      (next ? '<p class="done__memory">Every earlier lesson stays open — the stage only decides what is suggested.</p>' : '') +
+      '<div class="stack">' +
+        (next ? '<button class="btn btn--primary btn--wide" data-act="ac-start" data-id="' + next.id + '">' +
+                icon('cap') + 'Start with ' + next.title + '</button>' : '') +
+        '<button class="btn btn--ghost btn--wide" data-act="ac-done">Back to the Academy' + icon('chevronRight') + '</button>' +
+        '<button class="btn btn--quiet btn--wide" data-act="ac-placement-test">' + icon('refresh') + 'Take it again</button>' +
+      '</div>';
+    paintIcons($('#doneBody'));
+    $('#done').classList.add('is-open');
+    this.active = false;
+  },
   finish(){
     this.detach();
+    if (this.mode === 'placement') return this.finishPlacement();
     const s = AcademyStore.load(), run = this.run;
     const lesson = this.lesson;
     if (lesson && this.mode === 'lesson'){
@@ -6972,7 +7186,43 @@ function renderReview(){
              '<span class="pips">' + pips + '</span>' +
            '</button>';
   };
-  let html = '';
+  const ac = academySummary(), now = Date.now();
+  const acRow = function(id){
+    const it = ac.of(id), m = it.mastery, isDue = ac.due.indexOf(id) >= 0;
+    const tone = m >= Academy.MASTERED ? 'green' : m >= Academy.UNLOCK ? 'amber' : 'red';
+    let pips = '';
+    for (let i = 0; i < 6; i++) pips += '<i style="background:' + (i < Math.round(m * 6) ?
+      'var(--' + tone + ')' : 'var(--line)') + '"></i>';
+    return '<button class="rev" data-act="ac-start" data-id="' + (it.concept.lessonId || '') + '"' +
+             (it.concept.lessonId ? '' : ' disabled') + '>' +
+             '<span class="rev__icon bg-' + tone + '">' + (isDue ? '↻' : '✓') + '</span>' +
+             '<span class="rev__body"><span class="rev__t">' + it.concept.title + '</span>' +
+               '<span class="rev__s t-' + tone + '">' + pct(m) + '% mastery · ' +
+               (isDue ? 'due now' : academyDueText(it.rec.nextReview, now)) + '</span></span>' +
+             '<span class="pips">' + pips + '</span>' +
+           '</button>';
+  };
+  let html = '<div class="eyebrow" style="margin-bottom:8px">Academy · ' + ac.band + '</div>';
+  if (ac.due.length){
+    html += ac.due.slice(0, 6).map(acRow).join('') +
+            '<button class="btn btn--primary btn--wide" data-act="ac-review" style="margin:6px 0 4px">' +
+            icon('brain') + 'Start Academy review · ' + ac.due.length + ' due</button>' +
+            '<p class="muted" style="text-align:center;margin-top:8px">Mixed review never names the motif, and mixes in positions with no tactic at all.</p>';
+  } else if (ac.started){
+    html += '<div class="card" style="padding:16px">' +
+              '<p class="muted"><b>' + ac.started + ' ' + (ac.started === 1 ? 'concept' : 'concepts') + '</b> in progress, ' +
+              ac.mastered + ' mastered. Nothing due yet' +
+              (ac.soon.length ? ' — next ' + academyDueText(ac.of(ac.soon[0]).rec.nextReview, now) + '.' : '.') + '</p>' +
+              (ac.soon.length ? ac.soon.slice(0, 3).map(acRow).join('') : '') +
+            '</div>';
+  } else {
+    html += '<div class="card" style="padding:16px">' +
+              '<p class="muted">The Academy schedules its own reviews per concept, from the board itself up to 2100+. ' +
+              'Finish one lesson and it starts showing up here.</p>' +
+              '<button class="btn btn--ghost btn--wide" data-nav="academy" style="margin-top:12px">Open the Academy</button>' +
+            '</div>';
+  }
+  html += '<div class="eyebrow" style="margin:22px 0 8px">Missions</div>';
   if (due.length){
     html += '<div class="eyebrow" style="margin-bottom:8px">Ready now · ' + due.length + '</div>' + due.map(k => card(k, true)).join('');
     html += '<button class="btn btn--primary btn--wide" data-act="start-review" style="margin:6px 0 4px">' +
@@ -7027,6 +7277,19 @@ function renderProfile(){
         '<p class="muted" style="margin-top:6px">How much you would still remember tomorrow — not how many missions you cleared.</p>' +
       '</div>' +
     '</div>' +
+    (function(){
+      const ac = academySummary();
+      return '<button class="mrow2" data-nav="academy" style="border:1px solid var(--line);border-radius:14px;margin-bottom:14px">' +
+               '<span class="mrow2__icon bg-purple">' + icon('cap') + '</span>' +
+               '<span class="mrow2__n">Academy · ' + ac.band + '<br>' +
+                 '<span class="muted" style="font-weight:600">' +
+                   (ac.started ? ac.started + ' ' + (ac.started === 1 ? 'concept' : 'concepts') + ' started · ' +
+                                 ac.mastered + ' mastered' + (ac.due.length ? ' · ' + ac.due.length + ' due' : '')
+                              : 'Not started — the curriculum runs from the board to 2100+') +
+                 '</span></span>' +
+               '<span class="muted">' + icon('chevronRight') + '</span>' +
+             '</button>';
+    })() +
     '<div class="card" style="overflow:hidden;margin-bottom:14px">' +
       DOMAINS.map(function(d){
         const v = P.mastery[d.id] || 0;
@@ -7229,6 +7492,8 @@ document.addEventListener('click', function(e){
     case 'ac-start':       AcademyRunner.start(id); break;
     case 'ac-test':        AcademyRunner.start(id, { testOnly:true }); break;
     case 'ac-review':      AcademyRunner.startReview(); break;
+    case 'ac-placement-test': Complete.hide(); AcademyRunner.startPlacement(); break;
+    case 'ac-place-pass':  AcademyRunner.placementPass(); break;
     case 'ac-next':        AcademyRunner.next(); break;
     case 'ac-frame-next':  AcademyRunner.frameNext(); break;
     case 'ac-frame-back':  AcademyRunner.frameBack(); break;

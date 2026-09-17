@@ -216,6 +216,63 @@ async function until(fn, ms){ const end = Date.now() + (ms || 3000); while (Date
   ev("P.settings.liveEngine = true;");
   click('[data-act="exit-lesson"]'); await wait(80);
 
+  console.log('\n— placement test —');
+  const before = ev("JSON.stringify(AcademyStore.load().concepts)");
+  ev("academyPlacementSheet()"); await wait(40);
+  t('the placement sheet offers the test', !!$('#sheetBody [data-act="ac-placement-test"]'));
+  click('#sheetBody [data-act="ac-placement-test"]'); await wait(150);
+  t('placement starts on the lesson screen', ev("AcademyRunner.mode") === 'placement' && !!$('#lesson.is-active'), txt('#lsMission'));
+  t('it never names the motif', !/fork|pin|skewer/i.test(txt('#lsText')), txt('#lsText').slice(0, 70));
+  t('there are no hints to take', !$('#lsActions [data-act="ac-hint"]') && !!$('#lsActions [data-act="ac-place-pass"]'));
+
+  let asked = 0;
+  for (let k = 0; k < 12 && ev("AcademyRunner.mode") === 'placement' && !$('#done.is-open'); k++){
+    const ex = step().ex;
+    asked++;
+    if (k === 1){ click('#lsActions [data-act="ac-place-pass"]'); await wait(120); continue; }
+    if (ex.kind === 'square'){ tap(ex.target); await wait(90); }
+    else { await move(ev("AcademyRunner.best().move")); await wait(120); }
+    if ($('#done.is-open')) break;
+    click('#lsActions [data-act="ac-next"]'); await wait(120);
+  }
+  t('the test ends by itself after six to nine questions', !!$('#done.is-open') &&
+    asked >= 6 && asked <= 9, asked + ' questions');
+  t('the result names a stage and how sure it is', /Placement complete/.test(txt('#doneBody')) &&
+    /Give or take/.test(txt('#doneBody')), txt('.done__grade'));
+  t('the result says what the number is not', /not a FIDE|ceiling, not yours|starts at the beginning/.test(txt('#doneBody')));
+  t('it applied the stage', ev("AcademyStore.load().placement") === ev("Academy.placementResult(AcademyRunner.session).rating"),
+    'placement=' + ev("AcademyStore.load().placement"));
+  t('a cold test left mastery and reviews untouched', ev("JSON.stringify(AcademyStore.load().concepts)") === before);
+  t('it offers the first lesson to start with', !!$('#doneBody [data-act="ac-start"]') || /starts at the beginning/.test(txt('#doneBody')),
+    txt('#doneBody [data-act="ac-start"]'));
+  click('#doneBody [data-act="ac-done"]'); await wait(80);
+  t('back on the academy screen', !!$('#screen-academy.is-active'));
+
+  console.log('\n— academy progress on the other screens —');
+  $('[data-nav="review"]').click(); await wait(80);
+  t('review screen active', !!$('#screen-review.is-active'));
+  t('the review tab has an academy block', /Academy ·/.test(txt('#reviewBody')), txt('#reviewBody .eyebrow'));
+  const dueNow = ev("academySummary().due.length");
+  t('concepts practised above are listed as due', dueNow > 0 && /due now/.test(txt('#reviewBody')), dueNow + ' due');
+  t('the academy review button says how many are due', !!$('#reviewBody [data-act="ac-review"]') &&
+    new RegExp(dueNow + ' due').test(txt('#reviewBody [data-act="ac-review"]')), txt('#reviewBody [data-act="ac-review"]'));
+  t('mission reviews still have their own section', /Missions/.test(txt('#reviewBody')));
+  t('imported puzzles still have their own section', /Tactics puzzles/.test(txt('#reviewBody')));
+
+  $('[data-nav="profile"]').click(); await wait(120);
+  t('profile shows the academy rating and progress', /Academy ·/.test(txt('#profileBody')) &&
+    /concepts started/.test(txt('#profileBody')), txt('#profileBody').slice(0, 80));
+  t('the profile card opens the academy', !!$('#profileBody [data-nav="academy"]'));
+  $('#profileBody [data-nav="academy"]').click(); await wait(80);
+  t('and it navigates there', !!$('#screen-academy.is-active'));
+
+  /* a fresh profile must not claim progress */
+  ev("(function(){ const s = AcademyStore.load(); AcademyStore.state = Academy.newState(600); AcademyStore.save(); window.__saved = s; })()");
+  $('[data-nav="review"]').click(); await wait(80);
+  t('with nothing started the review tab invites you in', /starts showing up here/.test(txt('#reviewBody')) &&
+    !$('#reviewBody [data-act="ac-review"]'), txt('#reviewBody').slice(0, 70));
+  ev("AcademyStore.state = window.__saved; AcademyStore.save();");
+
   console.log('\n— legacy lessons still work —');
   ev("Lesson.start('fk-1')"); await wait(120);
   t('board hooks were handed back', ev("Board.onSquare") === null && ev("Board.onIllegal") === null && ev("AcademyRunner.active") === false);

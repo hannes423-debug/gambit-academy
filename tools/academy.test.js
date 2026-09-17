@@ -608,5 +608,85 @@ test('a missing or half-missing score changes nothing', () => {
   eq(A.judgeLive(null, ex, 900, liveOf({})), null);
 });
 
+/* ======================================================================== */
+section('placement test');
+const POOL = AC.pool();
+/* A simulated learner: solves an item with the same logistic curve the
+   estimator assumes, deterministically per seed. */
+function simulate(truth, seed, opts){
+  const s = A.placementStart(Object.assign({ seed }, opts || {}));
+  let ex, k = 0;
+  while ((ex = A.placementNext(s, POOL))){
+    const r = A.exerciseRating(ex);
+    const p = 1 / (1 + Math.pow(10, (r - truth) / 400));
+    A.placementAnswer(s, ex, ((seed * 137 + (k++) * 41) % 100) / 100 < p);
+  }
+  return { s, res:A.placementResult(s) };
+}
+test('a placement lands near a simulated learner of known strength', () => {
+  [[200, 350], [500, 350], [900, 300]].forEach(([truth, slack]) => {
+    for (let seed = 1; seed <= 5; seed++){
+      const { res } = simulate(truth, seed);
+      ok(Math.abs(res.rating - truth) <= slack, 'truth ' + truth + ' seed ' + seed + ' gave ' + res.rating);
+    }
+  });
+});
+test('it asks between min and size questions and stops early on a tight bracket', () => {
+  const { s } = simulate(900, 3);
+  ok(s.asked.length >= A.PLACEMENT.min && s.asked.length <= A.PLACEMENT.size, s.asked.length + ' asked');
+  ok(s.done, 'session finished');
+  const long = simulate(900, 3, { min:9, size:9 });
+  eq(long.s.asked.length, 9);
+});
+test('no item is repeated, and guided items are never used', () => {
+  const { s } = simulate(700, 2, { size:9, min:9 });
+  eq(new Set(s.asked).size, s.asked.length, 'repeated item');
+  s.asked.forEach(id => ok(AC.exercises[id].stage !== 'guided', id + ' is a guided item'));
+});
+test('a concept is not asked twice while untouched concepts remain', () => {
+  const { s } = simulate(700, 4, { size:9, min:9 });
+  const concepts = s.answers.map(a => a.conceptId);
+  const pool = new Set(POOL.filter(x => x.stage !== 'guided').map(x => x.conceptId));
+  if (concepts.length <= pool.size) eq(new Set(concepts).size, concepts.length, concepts.join(','));
+});
+test('solving everything reports a ceiling instead of certainty', () => {
+  const s = A.placementStart({ seed:9 });
+  let ex;
+  while ((ex = A.placementNext(s, POOL))) A.placementAnswer(s, ex, true);
+  const res = A.placementResult(s);
+  ok(res.ceiling && !res.floor, JSON.stringify({ c:res.ceiling, f:res.floor }));
+  ok(res.rating >= res.hardest - 50, res.rating + ' vs hardest ' + res.hardest);
+  eq(res.solved, res.asked);
+});
+test('missing everything places the learner at the very beginning', () => {
+  const s = A.placementStart({ seed:9 });
+  let ex;
+  while ((ex = A.placementNext(s, POOL))) A.placementAnswer(s, ex, false);
+  const res = A.placementResult(s);
+  ok(res.floor && !res.ceiling);
+  eq(res.rating, 0);
+  eq(res.band.rating, 0);
+});
+test('one lucky answer cannot swing the estimate across the range', () => {
+  const s = A.placementStart({ seed:5, start:700 });
+  const hard = POOL.filter(x => x.stage !== 'guided').sort((a, b) => A.exerciseRating(b) - A.exerciseRating(a))[0];
+  A.placementAnswer(s, hard, true);
+  ok(A.placementResult(s).rating <= A.exerciseRating(hard) + 200, String(A.placementResult(s).rating));
+});
+test('the result tallies which skills it actually saw', () => {
+  const { s, res } = simulate(900, 1);
+  const seen = {};
+  s.answers.forEach(a => Object.keys(a.skills).forEach(k => { seen[k] = (seen[k] || 0) + 1; }));
+  Object.keys(seen).forEach(k => eq(res.skills[k].n, seen[k], k));
+  Object.keys(res.skills).forEach(k => ok(res.skills[k].hit <= res.skills[k].n, k));
+});
+test('the fit is a real maximum, not a walk that depends on order', () => {
+  const answers = [{ rating:200, success:true }, { rating:600, success:true }, { rating:900, success:false }];
+  const fit = A.placementFit(answers, 700);
+  const reversed = A.placementFit(answers.slice().reverse(), 700);
+  eq(fit, reversed, 'order changed the estimate');
+  ok(fit > 200 && fit < 900, String(fit));
+});
+
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed ? 1 : 0);

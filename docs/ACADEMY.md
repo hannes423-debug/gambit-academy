@@ -44,6 +44,31 @@ three data points, otherwise the overall rating (`Academy.ratingFor`).
 Nothing is locked. Prerequisites and mastery decide what is **recommended**
 (`Academy.recommended`, `Academy.conceptStatus`), not what is allowed.
 
+## Placement
+
+`AcademyRunner.startPlacement()` runs six to nine positions drawn from the
+**existing exercise pool** — nothing is authored specially for it, so nothing
+it asks is unverified. Guided items are skipped (their label gives the answer
+away) and a concept is never asked twice while untouched concepts remain.
+
+The estimate is a **fit, not a walk**: `Academy.placementFit` grid-searches the
+rating that best explains the answers under the same logistic curve the skill
+estimates use, with a weak prior (sigma 500) towards the starting guess. An Elo
+walk was tried first and sat about 200 points high at the bottom of the range,
+because its early steps are large and the pool has no items below 30.
+
+- it stops early once the bracket (`lo`/`hi`) is within 200 points
+- solving everything reports `ceiling` and names the hardest item, because the
+  pool runs out before strong players do; missing everything reports `floor`
+- **answers are not practice**: `recordAttempt` sends them to the session only,
+  so a cold test leaves no mastery, no review debt and no skill evidence
+- the result applies `AcademyStore.place()` and points at the highest written
+  lesson at or below the stage — not the first unmet prerequisite, which with a
+  cold profile would send a 1200 to board coordinates
+
+`tools/academy.test.js` simulates learners of known strength against it, and
+the jsdom harness runs the whole flow including "I don't know".
+
 ## Mastery and review
 
 Per concept the store keeps attempts, successes, the last ten scores, failure
