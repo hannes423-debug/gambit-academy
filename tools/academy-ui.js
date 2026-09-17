@@ -237,6 +237,31 @@ async function until(fn, ms){ const end = Date.now() + (ms || 3000); while (Date
     return ev("Board.pos.board[Rules.idx('b8')]"); })()) === 'Q');
   click('[data-act="exit-lesson"]'); await wait(80);
 
+  console.log('\n— the new tactics lessons run end to end —');
+  /* One exercise from each of the band 400-600 lessons, played through the
+     real runner: the model tests prove the answers judge correct, this proves
+     the runner accepts them on the board. */
+  const batch = [
+    { lesson:'academy-skewer', uci:'a1c1', name:'skewer' },
+    { lesson:'academy-discovered-attack', uci:'e5c6', name:'discovered attack' },
+    { lesson:'academy-back-rank-mate', uci:'b1b8', name:'back-rank mate' },
+    { lesson:'academy-double-attack', uci:'c1c4', name:'double attack' },
+    { lesson:'academy-removing-defender', uci:'e2e8', name:'removing the defender' },
+    { lesson:'academy-overloaded-pieces', uci:'d1d4', name:'overload' },
+    { lesson:'academy-mate-in-two', uci:'c2c8', name:'mate in two' },
+    { lesson:'academy-cct', uci:'d1d8', name:'checks, captures, threats' },
+    { lesson:'academy-opponent-threats', uci:'b1c2', name:'opponent threats' },
+    { lesson:'academy-queen-safety', uci:'d5d4', name:'queen safety' },
+    { lesson:'academy-what-changed', uci:'d1d5', name:'what changed' }
+  ];
+  for (const b of batch){
+    ev("AcademyRunner.start('" + b.lesson + "')"); await wait(110);
+    ev("AcademyRunner.i = AcademyRunner.steps.findIndex(s => s.kind === 'exercise'); AcademyRunner.render();"); await wait(110);
+    await move(b.uci); await wait(220);
+    t(b.name + ' accepts its answer', /is-good/.test($('#lsCoach').className), txt('#lsText').slice(0, 64));
+  }
+  click('[data-act="exit-lesson"]'); await wait(80);
+
   console.log('\n— placement test —');
   const before = ev("JSON.stringify(AcademyStore.load().concepts)");
   ev("academyPlacementSheet()"); await wait(40);

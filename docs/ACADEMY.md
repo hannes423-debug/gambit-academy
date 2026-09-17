@@ -168,6 +168,26 @@ drives it in the browser with a scripted worker.
 exercise practises: no failure is recorded and the board resets. `fail` opens
 the feedback sheet and is recorded once per exercise visit.
 
+## Positions the build tool rejected
+
+Worth knowing before authoring the next batch, because each of these looked
+right on paper:
+
+- **A "quiet" position where White was in check.** A bishop on b4 checks a king
+  on e1 along b4–e1, so every quiet move in the exercise was illegal. The same
+  bishop also made `Qd8` not mate, because it could interpose on f8.
+- **Doubled rooks capture with the FRONT rook.** `Re1xe8` with your own rook on
+  e2 is not a move. Three exercises and two demos had it backwards.
+- **A defender that was not defending.** A knight on b4 still covers d5; a pawn
+  on c5 no longer covers d5 but one on c6 does; a knight on c3 does not defend
+  d2 but one on b3 does. Check the actual square, not the story.
+- **A demo frame playing the wrong side's move.** A demo starts from the FEN's
+  side to move, so `fen: '... w'` followed by a Black move fails.
+- **Positions that were simply lost.** K+R against K+N+P with the pawn one step
+  from promoting is a tablebase loss, so no "winning idea" exists to teach.
+- **Squares the piece could not reach.** A queen on c3 cannot take on b5; a
+  queen on d5 does not attack b4; a pawn on b2 cannot capture on c4.
+
 ## Avoiding puzzle brain
 
 Every lesson from 400 up includes at least one `quiet` position where the

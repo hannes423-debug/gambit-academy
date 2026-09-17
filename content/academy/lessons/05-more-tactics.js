@@ -1,0 +1,87 @@
+/* Band 500: the two tactics that live next door to the pin — the skewer and
+   the discovered attack — and the mate every club player loses a game to once.
+   Spec format: see tools/author/build.js. Text is original to Gambit Academy. */
+const MISS = { outcome:'retry', category:'MISSED_OBJECTIVE' };
+
+module.exports = [
+{ id:'skewer', title:'The skewer', band:500, branch:'tactics', durability:'TIMELESS',
+  skills:{ tactics:.8, boardVision:.2 }, prerequisites:['pin'], mastery:{ targetMs:35000 },
+  intro:'A <b>skewer</b> is a pin turned around: the valuable piece stands in <b>front</b>. You attack it along a line, it has to move, and you take whatever was behind it. Against a king it is close to unanswerable, because the check is not optional.',
+  demo:{ fen:'2q5/8/8/8/2k5/8/8/R3K3 w - - 0 1', frames:[
+    ['The black king and queen share the c-file, with the king in front.', { marks:'target:c4 key:c8' }],
+    ['Rc1+ puts your rook on that file. The check has to be answered.', { move:'a1c1', arrows:'c1-c4 red' }],
+    ['Wherever the king goes, it leaves the file.', { move:'c4d4' }],
+    ['And the queen behind it falls.', { move:'c1c8', marks:'key:c8' }] ]},
+  exercises:[
+    { stage:'guided', fen:'2q5/8/8/8/2k5/8/8/R3K3 w - - 0 1', label:'Skewer the king', prompt:'The king and queen share a file. Win the queen.',
+      goal:{ type:'check' }, answer:'a1c1',
+      hints:['Get your rook onto the file they are both standing on.', 'It has to come with check, or the queen simply moves away.', '@to'],
+      success:'Rc1+ — the king must leave the c-file and Rxc8 collects the queen. A rook for a queen, out of one check.' },
+    { stage:'transfer', fen:'1b2k3/8/8/8/8/8/5K2/6R1 b - - 0 1', orientation:'b', label:'On a diagonal', prompt:'You are Black. Win the rook.',
+      goal:{ type:'check' }, answer:'b8a7',
+      hints:['Find the diagonal that runs through the white king to something behind it.', 'a7 to g1 is that diagonal — get your bishop onto it with check.', '@to'],
+      success:'…Ba7+ — the king has to step off the long diagonal, and …Bxg1 takes the rook. Same idea as the pin, mirrored: the king is in front, the loot is behind.' },
+    { stage:'recognition', fen:'8/8/5K2/8/8/8/3k3q/R7 w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'check' }, answer:'a1a2',
+      hints:['The black king and queen are on the same rank.', 'Your rook can reach that rank with check — and the king blocks the queen from defending.', '@to'],
+      success:'Ra2+ — check along the second rank. The queen cannot defend a2 because her own king is in the way, so after the king moves, Rxh2 wins her.' },
+    { stage:'test', fen:'8/8/8/8/q3k3/8/8/4K2R w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'check' }, answer:'h1h4',
+      hints:['King and queen on the fourth rank again.', '@to'],
+      success:'Rh4+ and the queen falls next move.' } ] },
+
+{ id:'discovered-attack', title:'Discovered attack', band:500, branch:'tactics', durability:'TIMELESS',
+  skills:{ tactics:.8, calculation:.2 }, prerequisites:['pin'], mastery:{ targetMs:35000 },
+  intro:'Two of your pieces on one line, one standing in front of the other: when the front piece moves, the back one suddenly attacks. That is a <b>discovered attack</b> — and it is the only tactic where a piece can attack two things by moving <i>away</i>. If the discovery is a <b>check</b>, the opponent has no time to save anything else.',
+  demo:{ fen:'4k3/8/2q5/4N3/8/8/8/4R1K1 w - - 0 1', frames:[
+    ['Your rook on e1 is aimed at the black king — but your own knight blocks the file.', { marks:'key:e1,e5 target:e8' }],
+    ['Nxc6+ takes the queen and uncovers the rook at the same time.', { move:'e5c6', arrows:'e1-e8 red' }],
+    ['Black must answer the check — and d8 is covered by the knight, so the king goes to f8. The queen stays taken.', { move:'e8f8', marks:'key:c6' }] ]},
+  exercises:[
+    { stage:'guided', fen:'4k3/8/2q5/4N3/8/8/8/4R1K1 w - - 0 1', label:'Discovered check', prompt:'Win the queen.',
+      goal:{ type:'capture' }, answer:'e5c6',
+      hints:['What is behind your knight, and what is it pointing at?', 'Move the knight so that it takes something on the way.', '@to'],
+      success:'Nxc6+ — the rook gives check the moment the knight leaves the file, so Black has no time to recapture. The queen is simply gone.' },
+    { stage:'transfer', fen:'4r1k1/8/8/8/4n3/2Q5/8/4K3 b - - 0 1', orientation:'b', label:'Your turn to discover', prompt:'You are Black. Win the queen.',
+      goal:{ type:'capture' }, answer:'e4c3',
+      hints:['Your rook on e8 and the white king are on the same file, with your knight in between.', 'Move the knight — and take something with it.', '@to'],
+      success:'…Nxc3+ — the discovered check means White has to move the king, and your knight keeps the queen.' },
+    { stage:'recognition', fen:'4k3/pp4pp/8/8/8/8/PP4PP/4K3 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['e1e2','e1d2','e1f2','e1d1','e1f1','a2a3','b2b3','g2g3','h2h3','a2a4','b2b4','g2g4','h2h4'], policy:'sound',
+      hints:['Two pieces of yours on one line with something of theirs behind? There is nothing of theirs at all.', 'Nothing to discover here. Improve the king.'],
+      success:'No pieces, no lines, no tactic — just a pawn ending. Walking the king towards the middle is the move, and noticing that there is nothing to calculate is a skill of its own.',
+      allowWorse:12, allowWorseWhy:'A symmetrical pawn ending; every reasonable move holds the draw.' },
+    { stage:'test', fen:'1k6/8/8/3r4/1N6/8/8/1R2K3 w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'capture' }, answer:'b4d5',
+      hints:['Your rook on b1 and the black king share the b-file.', '@to'],
+      success:'Nxd5+ — the rook discovers check, and the knight takes a rook for free.' } ] },
+
+{ id:'back-rank-mate', title:'Back-rank mate', band:500, branch:'checkmates', durability:'TIMELESS',
+  skills:{ tactics:.5, defense:.5 }, prerequisites:['checkmate'], mastery:{ targetMs:35000 },
+  intro:'A castled king sits behind three pawns that have never moved. That is shelter against everything except one thing: a rook or queen arriving on the back rank, where the pawns become the walls of a cell. Know it from both sides — it is a mate you will deliver, and a mate you will walk into.',
+  demo:{ fen:'6k1/5ppp/8/8/8/8/5PPP/1R4K1 w - - 0 1', frames:[
+    ['The black king has three pawns in front of it and not one square to step to.', { marks:'attack:f7,g7,h7' }],
+    ['Rb8 covers the whole eighth rank.', { move:'b1b8', arrows:'b8-g8 red' }],
+    ['Check, no escape, no block, no capture: mate. Your own king has the same weakness until you move a pawn.', { marks:'key:g1,h2' }] ]},
+  exercises:[
+    { stage:'guided', fen:'6k1/5ppp/8/8/8/8/5PPP/1R4K1 w - - 0 1', label:'Deliver it', prompt:'Mate in one.',
+      goal:{ type:'mate' }, answer:'b1b8',
+      hints:['The king has no squares of its own.', 'Take the whole back rank.', '@to'],
+      success:'Rb8# — the pawns that shelter the king are also the bars on its door.' },
+    { stage:'transfer', fen:'6k1/5ppp/8/8/8/8/r4PPP/6K1 w - - 0 1', label:'Now save yourself', prompt:'You are a rook down and Black threatens mate. Play the move that saves the game.',
+      answer:['h2h3','g2g3','h2h4','g2g4'], policy:'sound',
+      threat:{ move:'a2a1', mate:true, text:'…Ra1 is mate: your king has nowhere to go, exactly like the last position.' },
+      hints:['Ask what …Ra1 would do.', 'Your king needs a hole to breathe through — that is called luft.'],
+      success:'h3 (or g3) gives the king a square, and …Ra1+ is just a check now. One tiny pawn move is the whole difference between losing and playing on.',
+      allowWorse:10, allowWorseWhy:'Any move that makes luft saves the mate; which pawn is a matter of taste.',
+      notes:{ f2f3:{ feedback:'f3 does not make a hole: after …Ra1 the king still has no square, because f2 is not where it would go.', outcome:'fail', category:'MISSED_THREAT' },
+              f2f4:{ feedback:'The f-pawn is not the one that shelters your king here. …Ra1 is still mate.', outcome:'fail', category:'MISSED_THREAT' } } },
+    { stage:'recognition', fen:'6k1/5pp1/7p/8/8/7P/5PP1/6K1 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['g1h2','g1f1','g1h1','f2f3','g2g3','f2f4','g2g4','h3h4'], policy:'sound',
+      hints:['Both kings already have luft: h2 for you, h7 for Black.', 'So there is no back-rank tactic here at all — just play a normal move.'],
+      success:'Both sides have made luft already, so the back rank is not a weakness for anyone. Recognising that a pattern is <i>absent</i> matters as much as spotting it.',
+      allowWorse:12, allowWorseWhy:'A symmetrical pawn ending: every sensible move keeps the balance.' },
+    { stage:'test', fen:'6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1', prompt:'Mate in one.',
+      goal:{ type:'mate' }, answer:'a1a8',
+      hints:['@to'], success:'Ra8# — same pattern, different file.' } ] }
+];
