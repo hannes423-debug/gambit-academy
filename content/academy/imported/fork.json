@@ -1,0 +1,366 @@
+{
+ "motif": "fork",
+ "concept": "fork",
+ "generated": "2026-09-17",
+ "exercises": [
+  {
+   "id": "pz-fork-BGccX",
+   "conceptId": "fork",
+   "stage": "review",
+   "band": 900,
+   "rating": 857,
+   "fen": "8/R3Kpk1/3n2p1/5p1p/5P1P/6P1/8/8 b - - 0 1",
+   "orientation": "black",
+   "label": "Find the fork",
+   "prompt": "Black to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "One move creates two threats at once. Which piece can hit two things from one square?"
+    },
+    {
+     "text": "The piece that does it starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "d6c8",
+     "engineRank": 1,
+     "engineEval": 617,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.87682,
+     "calculationDepth": 2,
+     "feedback": "Correct — Nc8+. The knight attacks the king on e7 and the rook on a7 at the same time, and the check has to be answered first."
+    },
+    {
+     "move": "d6e4",
+     "engineRank": null,
+     "engineEval": -50,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Ne4. It is a legal move, but it lets the position go: Nc8+ was there, and the knight attacks the king on e7 and the rook on a7 at the same time, and the check has to be answered first.",
+     "whyBetter": "Nc8+ wins material on the spot."
+    },
+    {
+     "move": "d6c4",
+     "engineRank": null,
+     "engineEval": -535,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Nc4. It is a legal move, but it lets the position go: Nc8+ was there, and the knight attacks the king on e7 and the rook on a7 at the same time, and the check has to be answered first.",
+     "whyBetter": "Nc8+ wins material on the spot."
+    }
+   ],
+   "success": "Correct — Nc8+. The knight attacks the king on e7 and the rook on a7 at the same time, and the check has to be answered first.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "BGccX",
+    "sourceUrl": "https://lichess.org/xmksLLHg#95",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 45 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "BGccX",
+    "rating": 857,
+    "themes": [
+     "crushing",
+     "endgame",
+     "fork",
+     "master",
+     "short"
+    ],
+    "quality": 0.87682,
+    "popularity": 100
+   }
+  },
+  {
+   "id": "pz-fork-Cu3Qd",
+   "conceptId": "fork",
+   "stage": "review",
+   "band": 900,
+   "rating": 884,
+   "fen": "8/6p1/2k2p2/2p2B2/3p1BP1/2p2r2/2K4P/8 w - - 0 1",
+   "orientation": "white",
+   "label": "Find the fork",
+   "prompt": "White to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "One move creates two threats at once. Which piece can hit two things from one square?"
+    },
+    {
+     "text": "The piece that does it starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "f5e4",
+     "engineRank": 1,
+     "engineEval": 497,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.87682,
+     "calculationDepth": 2,
+     "feedback": "Correct — Be4+. The bishop attacks the king on c6 and the rook on f3 at the same time, and the check has to be answered first."
+    },
+    {
+     "move": "f4g3",
+     "engineRank": null,
+     "engineEval": -418,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Bg3. It is a legal move, but it lets the position go: Be4+ was there, and the bishop attacks the king on c6 and the rook on f3 at the same time, and the check has to be answered first.",
+     "whyBetter": "Be4+ wins material on the spot."
+    },
+    {
+     "move": "f4b8",
+     "engineRank": null,
+     "engineEval": -468,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Bb8. It is a legal move, but it lets the position go: Be4+ was there, and the bishop attacks the king on c6 and the rook on f3 at the same time, and the check has to be answered first.",
+     "whyBetter": "Be4+ wins material on the spot."
+    }
+   ],
+   "success": "Correct — Be4+. The bishop attacks the king on c6 and the rook on f3 at the same time, and the check has to be answered first.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "Cu3Qd",
+    "sourceUrl": "https://lichess.org/MmxQN9qn/black#86",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 69 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "Cu3Qd",
+    "rating": 884,
+    "themes": [
+     "crushing",
+     "endgame",
+     "fork",
+     "master",
+     "short"
+    ],
+    "quality": 0.87682,
+    "popularity": 100
+   }
+  },
+  {
+   "id": "pz-fork-OB76B",
+   "conceptId": "fork",
+   "stage": "review",
+   "band": 800,
+   "rating": 847,
+   "fen": "8/5p2/4p1k1/6p1/4Q1K1/6P1/8/8 b - - 0 1",
+   "orientation": "black",
+   "label": "Find the fork",
+   "prompt": "Black to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "One move creates two threats at once. Which piece can hit two things from one square?"
+    },
+    {
+     "text": "The piece that does it starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "f7f5",
+     "engineRank": 1,
+     "engineEval": 664,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.8763200000000001,
+     "calculationDepth": 2,
+     "feedback": "Correct — f5+. The pawn attacks the king on g4 and the queen on e4 at the same time, and the check has to be answered first."
+    },
+    {
+     "move": "g6f6",
+     "engineRank": null,
+     "engineEval": -1771,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Kf6. It is a legal move, but it lets the position go: f5+ was there, and the pawn attacks the king on g4 and the queen on e4 at the same time, and the check has to be answered first.",
+     "whyBetter": "f5+ wins material on the spot."
+    },
+    {
+     "move": "g6g7",
+     "engineRank": null,
+     "engineEval": -1819,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Kg7. It is a legal move, but it lets the position go: f5+ was there, and the pawn attacks the king on g4 and the queen on e4 at the same time, and the check has to be answered first.",
+     "whyBetter": "f5+ wins material on the spot."
+    }
+   ],
+   "success": "Correct — f5+. The pawn attacks the king on g4 and the queen on e4 at the same time, and the check has to be answered first.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "OB76B",
+    "sourceUrl": "https://lichess.org/gip729Aj#147",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 92 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "OB76B",
+    "rating": 847,
+    "themes": [
+     "crushing",
+     "endgame",
+     "fork",
+     "queenEndgame",
+     "short"
+    ],
+    "quality": 0.8763200000000001,
+    "popularity": 99
+   }
+  },
+  {
+   "id": "pz-fork-VjQOw",
+   "conceptId": "fork",
+   "stage": "review",
+   "band": 900,
+   "rating": 859,
+   "fen": "4r2k/6bp/8/4P1p1/8/6Qq/P3R2B/7K b - - 0 1",
+   "orientation": "black",
+   "label": "Find the fork",
+   "prompt": "Black to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "One move creates two threats at once. Which piece can hit two things from one square?"
+    },
+    {
+     "text": "The piece that does it starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "h3f1",
+     "engineRank": 1,
+     "engineEval": 592,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.87682,
+     "calculationDepth": 2,
+     "feedback": "Correct — Qf1+. The queen attacks the king on h1 and the rook on e2 at the same time, and the check has to be answered first."
+    },
+    {
+     "move": "h3h5",
+     "engineRank": null,
+     "engineEval": 21,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Qh5. It is a legal move, but it lets the position go: Qf1+ was there, and the queen attacks the king on h1 and the rook on e2 at the same time, and the check has to be answered first.",
+     "whyBetter": "Qf1+ wins material on the spot."
+    },
+    {
+     "move": "h3f5",
+     "engineRank": null,
+     "engineEval": 10,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Qf5. It is a legal move, but it lets the position go: Qf1+ was there, and the queen attacks the king on h1 and the rook on e2 at the same time, and the check has to be answered first.",
+     "whyBetter": "Qf1+ wins material on the spot."
+    }
+   ],
+   "success": "Correct — Qf1+. The queen attacks the king on h1 and the rook on e2 at the same time, and the check has to be answered first.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "VjQOw",
+    "sourceUrl": "https://lichess.org/yAL1RoGA#73",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 38 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "VjQOw",
+    "rating": 859,
+    "themes": [
+     "crushing",
+     "endgame",
+     "fork",
+     "short"
+    ],
+    "quality": 0.87682,
+    "popularity": 100
+   }
+  }
+ ]
+}

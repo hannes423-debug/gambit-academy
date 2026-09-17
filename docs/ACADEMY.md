@@ -219,6 +219,35 @@ already two pieces down, with `d5` losing to `…Bxd5`. And `Bf5` in the pin
 lesson "attacks the queen" but is mate in one for Black, because it unblocks
 the d-file.
 
+## Imported review items
+
+`tools/import/puzzle-exercises.js` turns the CC0 Lichess puzzle database into
+Academy review items — the step between a raw import and something that can
+teach. It writes `content/academy/imported/<concept>.json` (committed, small)
+and regenerates **SECTION 34b** (`ACADEMY_IMPORTED`), which joins the pool
+beside the hand-written exercises. The engine evaluations are cached next to
+the JSON, so a rebuild needs neither the shards nor the engine:
+`node tools/import/puzzle-exercises.js --rebuild`.
+
+What it refuses to keep:
+
+- a line longer than two solver moves, or one needing more than two moves of
+  calculation — only the **first** answer move is judged
+- any position where the puzzle's answer is not the engine's own first choice
+  at depth 18, MultiPV 4
+- any position where the runner-up is less than 10 win% worse: a review item
+  with two right answers teaches nothing
+- any position that does not actually show the motif, tested against the
+  position itself (`Academy.pinsBy`, `attacksFrom`, `attackers`), not the
+  puzzle's theme tags
+- with `--variety`, a second example of the same shape (which piece does it,
+  with or without check). Beginner fork puzzles are almost all knight checks;
+  without this the batch is six of the same idea.
+
+The explanation is generated from the verified position ("the knight attacks
+the king on e7 and the rook on a7 at the same time"), never from the tags.
+Provenance is `imported`, CC0, `humanReviewed:false`, with the puzzle's URL.
+
 ## Datasets
 
 See [the README](../README.md#importing-datasets). Nothing large is committed.

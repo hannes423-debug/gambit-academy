@@ -1,0 +1,187 @@
+{
+ "motif": "pin",
+ "concept": "pin",
+ "generated": "2026-09-17",
+ "exercises": [
+  {
+   "id": "pz-pin-FMeKr",
+   "conceptId": "pin",
+   "stage": "review",
+   "band": 900,
+   "rating": 932,
+   "fen": "8/6p1/4p1k1/5p2/6q1/2R5/P1R2K2/8 w - - 0 1",
+   "orientation": "white",
+   "label": "Find the pin",
+   "prompt": "White to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "Look for an enemy piece standing in front of something more valuable."
+    },
+    {
+     "text": "The piece that does the pinning starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "c3g3",
+     "engineRank": 1,
+     "engineEval": 547,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.87682,
+     "calculationDepth": 2,
+     "feedback": "Correct — Rg3. The queen on g4 cannot move without exposing the king on g6 behind it, and against the king that is not even legal."
+    },
+    {
+     "move": "c3c4",
+     "engineRank": null,
+     "engineEval": -323,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Rc4. It is a legal move, but it lets the position go: Rg3 was there, and the queen on g4 cannot move without exposing the king on g6 behind it, and against the king that is not even legal.",
+     "whyBetter": "Rg3 wins material on the spot."
+    },
+    {
+     "move": "c3c8",
+     "engineRank": null,
+     "engineEval": -344,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Rc8. It is a legal move, but it lets the position go: Rg3 was there, and the queen on g4 cannot move without exposing the king on g6 behind it, and against the king that is not even legal.",
+     "whyBetter": "Rg3 wins material on the spot."
+    }
+   ],
+   "success": "Correct — Rg3. The queen on g4 cannot move without exposing the king on g6 behind it, and against the king that is not even legal.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "FMeKr",
+    "sourceUrl": "https://lichess.org/f5IEUM1y/black#84",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 65 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "FMeKr",
+    "rating": 932,
+    "themes": [
+     "crushing",
+     "endgame",
+     "master",
+     "pin",
+     "queenRookEndgame",
+     "short"
+    ],
+    "quality": 0.87682,
+    "popularity": 100
+   }
+  },
+  {
+   "id": "pz-pin-snPVi",
+   "conceptId": "pin",
+   "stage": "review",
+   "band": 1000,
+   "rating": 958,
+   "fen": "8/1k3p1p/1P1bp1p1/8/3R4/1P3P2/6P1/6K1 b - - 0 1",
+   "orientation": "black",
+   "label": "Find the pin",
+   "prompt": "Black to move. What would you play?",
+   "policy": "target",
+   "hints": [
+    {
+     "text": "Look for an enemy piece standing in front of something more valuable."
+    },
+    {
+     "text": "The piece that does the pinning starts here.",
+     "show": "from"
+    }
+   ],
+   "candidates": [
+    {
+     "move": "d6c5",
+     "engineRank": 1,
+     "engineEval": 585,
+     "mateScore": null,
+     "conceptAlignment": 1,
+     "pedagogicalQuality": 0.8751533333333333,
+     "calculationDepth": 2,
+     "feedback": "Correct — Bc5. The rook on d4 cannot move without exposing the king on g1 behind it, and against the king that is not even legal."
+    },
+    {
+     "move": "b7c6",
+     "engineRank": null,
+     "engineEval": -388,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Kc6. It is a legal move, but it lets the position go: Bc5 was there, and the rook on d4 cannot move without exposing the king on g1 behind it, and against the king that is not even legal.",
+     "whyBetter": "Bc5 wins material on the spot."
+    },
+    {
+     "move": "d6e5",
+     "engineRank": null,
+     "engineEval": -493,
+     "mateScore": null,
+     "conceptAlignment": 0,
+     "category": "TACTICAL_MISS",
+     "feedback": "Not Be5. It is a legal move, but it lets the position go: Bc5 was there, and the rook on d4 cannot move without exposing the king on g1 behind it, and against the king that is not even legal.",
+     "whyBetter": "Bc5 wins material on the spot."
+    }
+   ],
+   "success": "Correct — Bc5. The rook on d4 cannot move without exposing the king on g1 behind it, and against the king that is not even legal.",
+   "fallback": {
+    "outcome": "fail",
+    "category": "TACTICAL_MISS",
+    "feedback": "There is a move here that wins material outright. Look at every capture and every check first."
+   },
+   "provenance": {
+    "sourceType": "lichess-puzzles",
+    "sourceName": "Lichess puzzle database",
+    "sourceId": "snPVi",
+    "sourceUrl": "https://lichess.org/YFprTzCG#77",
+    "license": "CC0-1.0",
+    "attributionRequired": false,
+    "retrievedAt": "2026-09-17",
+    "originalOrAdapted": "imported",
+    "humanReviewed": false,
+    "notes": "Position from the CC0 Lichess puzzle database. Re-scored here at depth 18 (MultiPV 4); kept only because the puzzle answer is the engine's first choice and the runner-up is 70 win% worse. The explanation is generated from the position itself."
+   },
+   "engine": {
+    "tool": "stockfish-18-lite-single",
+    "depth": 18,
+    "multipv": 4,
+    "checked": "2026-09-17"
+   },
+   "source": {
+    "puzzleId": "snPVi",
+    "rating": 958,
+    "themes": [
+     "crushing",
+     "endgame",
+     "pin",
+     "short"
+    ],
+    "quality": 0.8751533333333333,
+    "popularity": 99
+   }
+  }
+ ]
+}

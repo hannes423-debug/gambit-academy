@@ -17,7 +17,8 @@
     "import:games": "node tools/import/pgn-games.js",
     "import:evals": "node tools/import/engine-annotate.js",
     "import:tablebase": "node tools/import/tablebase.js",
-    "test:live": "node tools/live.test.js"
+    "test:live": "node tools/live.test.js",
+    "import:exercises": "node tools/import/puzzle-exercises.js"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"

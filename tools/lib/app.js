@@ -46,7 +46,8 @@ function load(markers){
 /** The pure layers: rules, legacy curriculum/helpers, academy model + content. */
 function loadAcademy(){
   return load(['SECTION 13 — RULES LAYER', 'SECTION 14 — CURRICULUM DATA', 'SECTION 15 — INDEX + HELPERS',
-               'SECTION 33 — ACADEMY MODEL', 'SECTION 34a — ACADEMY GENERATED CONTENT?', 'SECTION 34 — ACADEMY CURRICULUM']);
+               'SECTION 33 — ACADEMY MODEL', 'SECTION 34a — ACADEMY GENERATED CONTENT?',
+               'SECTION 34b — IMPORTED REVIEW ITEMS?', 'SECTION 34 — ACADEMY CURRICULUM']);
 }
 
 module.exports = { blocks, load, loadAcademy, HTML };

@@ -688,5 +688,62 @@ test('the fit is a real maximum, not a walk that depends on order', () => {
   ok(fit > 200 && fit < 900, String(fit));
 });
 
+/* ======================================================================== */
+section('imported review items');
+const IMPORTED = EXERCISES.filter(x => /^pz-/.test(x.id));
+test('imported items exist and belong to concepts the lessons teach', () => {
+  ok(IMPORTED.length >= 6, IMPORTED.length + ' imported');
+  IMPORTED.forEach(x => ok(!!AC.lessonFor(x.conceptId), x.id + ' has no lesson for ' + x.conceptId));
+});
+test('every imported answer is legal and is the item it claims to be', () => {
+  IMPORTED.forEach(x => {
+    const pos = Rules.parse(x.fen);
+    x.candidates.forEach(c => ok(legal(pos, c.move), x.id + ': illegal candidate ' + c.move));
+    const best = x.candidates[0];
+    eq(best.engineRank, 1, x.id + ' first candidate is not the engine move');
+    const res = A.judge(x, pos, Rules.coerce(pos, best.move), x.rating);
+    eq(res.outcome, 'correct', x.id + ': ' + res.text);
+  });
+});
+test('an imported item names the motif from the position, in squares that exist', () => {
+  IMPORTED.forEach(x => {
+    const pos = Rules.parse(x.fen);
+    const squares = (x.success.match(/\b[a-h][1-8]\b/g) || []);
+    ok(squares.length >= 1, x.id + ': the explanation names no square');
+    squares.forEach(s => {
+      if (s === Rules.name(Rules.coerce(pos, x.candidates[0].move).to)) return;
+      ok(!!Rules.apply(pos, Rules.coerce(pos, x.candidates[0].move)).board[Rules.idx(s)],
+         x.id + ': ' + x.success + ' names empty square ' + s);
+    });
+  });
+});
+test('a second-best move is not also accepted', () => {
+  IMPORTED.forEach(x => {
+    const pos = Rules.parse(x.fen);
+    x.candidates.slice(1).forEach(c => {
+      const res = A.judge(x, pos, Rules.coerce(pos, c.move), x.rating);
+      ok(res.outcome !== 'correct' && res.outcome !== 'accepted', x.id + ': ' + c.move + ' passed as ' + res.outcome);
+    });
+  });
+});
+test('imported provenance is CC0, links the source and is not claimed as original', () => {
+  IMPORTED.forEach(x => {
+    eq(A.validateProvenance(x.provenance).length, 0, x.id + ': ' + A.validateProvenance(x.provenance).join('; '));
+    eq(x.provenance.license, 'CC0-1.0', x.id);
+    eq(x.provenance.originalOrAdapted, 'imported', x.id);
+    eq(x.provenance.humanReviewed, false, x.id);
+    ok(/lichess\.org/.test(x.provenance.sourceUrl), x.id + ': ' + x.provenance.sourceUrl);
+    ok(x.engine && x.engine.depth >= 16 && x.engine.multipv >= 2, x.id + ': ' + JSON.stringify(x.engine));
+  });
+});
+test('imported items reach mixed review but never pose as guided lessons', () => {
+  IMPORTED.forEach(x => ok(x.stage !== 'guided', x.id));
+  const state = A.newState(800);
+  IMPORTED.forEach(x => { A.record(state, x.conceptId, { success:false, category:'TACTICAL_MISS', hints:0, timeMs:9000, targetMs:30000, exerciseRating:x.rating, skills:x.skills }); });
+  const items = A.buildReview(state, AC.pool(), { size:6, now:Date.now() + 20 * 60 * 1000, seed:3 });
+  ok(items.length > 0, 'review built nothing');
+  ok(items.every(i => i.showLabel === false || i.showLabel === undefined), 'a review item carried a label');
+});
+
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed ? 1 : 0);
