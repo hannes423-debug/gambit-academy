@@ -4,13 +4,22 @@
   "description": "A single-file chess training app: guided lessons, classified mistakes, recovery challenges, a 3,810-line opening tree and Stockfish-backed punishment analysis.",
   "private": true,
   "scripts": {
-    "test": "node tools/validate.js && node tools/playthrough.js && node tools/subsystems.js",
+    "test": "node tools/validate.js && node tools/academy.test.js && node tools/import.test.js && node tools/playthrough.js && node tools/subsystems.js && node tools/academy-ui.js",
     "validate": "node tools/validate.js",
     "playthrough": "node tools/playthrough.js",
     "subsystems": "node tools/subsystems.js",
     "build:openings": "node tools/build-openings.js",
-    "serve": "python3 -m http.server 8080"
+    "serve": "python3 -m http.server 8080",
+    "academy": "node tools/academy.test.js && node tools/academy-ui.js",
+    "verify:academy": "node tools/verify-academy.js --tb",
+    "import:puzzles": "node tools/import/lichess-puzzles.js",
+    "query:puzzles": "node tools/import/query-puzzles.js",
+    "import:games": "node tools/import/pgn-games.js",
+    "import:evals": "node tools/import/engine-annotate.js",
+    "import:tablebase": "node tools/import/tablebase.js"
   },
-  "devDependencies": { "jsdom": "^24.0.0" },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  },
   "license": "GPL-3.0-or-later"
 }

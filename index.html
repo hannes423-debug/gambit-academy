@@ -192,7 +192,7 @@ ul{margin:0;padding:0;list-style:none}
    ========================================================================== */
 .nav{
   position:absolute;left:0;right:0;bottom:0;z-index:40;
-  display:grid;grid-template-columns:repeat(5,1fr);
+  display:grid;grid-template-columns:repeat(6,1fr);
   padding-bottom:var(--safe-b);
   background:rgba(255,255,255,.94);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -540,6 +540,90 @@ ul{margin:0;padding:0;list-style:none}
 .tbtns{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 12px 8px}
 .tbtns .btn{min-height:42px;font-size:12px;padding:0 6px}
 
+/* ============================================================================
+   SECTION 10d — ACADEMY
+   Same cards, pills and bars as the rest of the app; stages are chapters
+   rather than a skill tree, so the whole curriculum stays readable on a phone.
+   ========================================================================== */
+.ac-hero{margin:4px 0 14px;padding:16px 18px;border-radius:var(--r-lg);color:#fff;
+  background:linear-gradient(135deg,#2E80E8 0%,#1F63BC 100%);box-shadow:0 8px 22px rgba(31,99,188,.26)}
+.ac-hero__top{display:flex;align-items:flex-start;gap:12px}
+.ac-hero__rating{flex:1;min-width:0;display:flex;flex-direction:column}
+.ac-hero__rating b{font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin-top:2px}
+.ac-hero__rating span:last-child{font-size:13px;font-weight:700;opacity:.9}
+.ac-hero__stage{flex:none;height:32px;padding:0 12px;border-radius:var(--r-pill);background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:800}
+.ac-hero__note{font-size:11.5px;line-height:1.4;opacity:.82;margin-top:8px}
+.ac-hero__cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ac-hero__cta .hero__cta{height:40px;font-size:13px;color:#1F63BC;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-hero__cta .hero__cta[disabled]{opacity:.55}
+.ac-cta-review{background:rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:none!important}
+
+.ac-skills{padding:14px;margin-bottom:14px}
+.ac-skills__head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ac-skill{display:grid;grid-template-columns:104px 1fr 44px;align-items:center;gap:10px;padding:5px 0}
+.ac-skill__n{font-size:13px;font-weight:700}
+.ac-skill__v{font-size:13px;font-weight:850;text-align:right}
+.ac-skill__v.is-est{color:var(--ink-3)}
+
+.ac-branches{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.ac-branches::-webkit-scrollbar{display:none}
+.ac-branch{flex:none;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:var(--r-pill);
+  background:var(--surface);border:1px solid var(--line);font-size:12.5px;font-weight:750;color:var(--ink-2)}
+.ac-branch i{font-style:normal;font-size:10.5px;font-weight:850;background:var(--bg-2);border-radius:var(--r-pill);padding:1px 6px}
+.ac-branch.is-on{background:var(--ink);border-color:var(--ink);color:#fff}
+.ac-branch.is-on i{background:rgba(255,255,255,.18)}
+
+.ac-stage{margin-bottom:8px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--sh-1);overflow:hidden}
+.ac-stage.is-mine{border-color:#F3D69B}
+.ac-stage__head{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;text-align:left}
+.ac-stage__band{flex:none;min-width:48px;height:28px;padding:0 8px;border-radius:9px;display:grid;place-items:center;background:var(--bg-2);font-size:12px;font-weight:850}
+.ac-stage.is-mine .ac-stage__band{background:var(--amber);color:#fff}
+.ac-stage__title{flex:1;min-width:0;font-size:14.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-stage__count{flex:none;font-size:11.5px;font-weight:800;color:var(--ink-3)}
+.ac-stage__chev{flex:none;width:16px;height:16px;color:var(--ink-3);transition:transform .2s}
+.ac-topics{display:flex;flex-direction:column;border-top:1px solid var(--line-2)}
+.ac-topic{display:flex;align-items:center;gap:10px;width:100%;padding:10px 14px;text-align:left;border-bottom:1px solid var(--line-2)}
+.ac-topic:last-child{border-bottom:0}
+.ac-topic:active{background:var(--surface-2)}
+.ac-topic__icon{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:15px}
+.ac-topic__body{flex:1;min-width:0;display:flex;flex-direction:column}
+.ac-topic__t{font-size:14px;font-weight:750}
+.ac-topic__m{font-size:11.5px;color:var(--ink-2);margin-top:2px;line-height:1.35}
+.ac-topic__bar{height:5px;margin-top:6px;max-width:160px}
+.ac-topic .pill{flex:none;height:22px;font-size:10.5px}
+.ac-topic--planned .ac-topic__t{color:var(--ink-3);font-weight:650}
+.ac-topic--planned .ac-topic__icon{opacity:.45}
+.ac-pill-planned{background:var(--bg-2);color:var(--ink-3)}
+.ac-pill-ahead{background:var(--purple-soft);color:var(--purple)}
+.ac-pill-dur{background:var(--bg-2);color:var(--ink-2)}
+
+.ac-sheet__title{font-size:20px;font-weight:850;letter-spacing:-.02em}
+.ac-sheet__chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ac-prereqs{margin-top:12px;padding:12px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--line-2)}
+.ac-prereq{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13.5px;font-weight:650}
+.ac-prereq .muted{margin-left:auto}
+.ac-claim{margin-top:12px;padding:12px;border-radius:var(--r-md);background:var(--amber-soft);border:1px solid #F3D69B}
+.ac-claim p{font-size:13.5px;line-height:1.45;margin:4px 0}
+.ac-claim .muted{font-size:11.5px}
+.ac-place{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:12px}
+.ac-place__b{display:flex;flex-direction:column;align-items:flex-start;padding:9px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line-2);text-align:left}
+.ac-place__b b{font-size:14px}
+.ac-place__b span{font-size:11.5px;color:var(--ink-2)}
+.ac-place__b.is-on{background:var(--blue-soft);border-color:#CFE0FA}
+
+.ac-stagelabel{display:inline-block;font-size:10px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
+.ac-note{display:block;margin-top:6px;font-size:12.5px;color:var(--ink-2)}
+.ac-labels{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.ac-label{font-size:10.5px;font-weight:850;letter-spacing:.04em;padding:2px 7px;border-radius:var(--r-pill);background:rgba(255,255,255,.7)}
+.ac-sum{padding:4px 14px;margin:6px 0 4px;text-align:left}
+.ac-sum__row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:13px}
+.ac-sum__row:last-child{border-bottom:0}
+
+/* demonstration highlights */
+.sq.key::after{content:"";position:absolute;inset:0;background:rgba(46,128,232,.14);box-shadow:inset 0 0 0 3px rgba(46,128,232,.7)}
+.sq.attack::after{content:"";position:absolute;inset:0;background:rgba(220,91,76,.2)}
+.sq.target::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 4px rgba(220,91,76,.9)}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
 }
@@ -566,7 +650,7 @@ ul{margin:0;padding:0;list-style:none}
   /* Reading measure for the list screens, and a tab bar that stays grouped. */
   .scroll{padding-left:max(16px,calc((100% - 680px) / 2));
           padding-right:max(16px,calc((100% - 680px) / 2))}
-  .nav{grid-template-columns:repeat(5,104px);justify-content:center}
+  .nav{grid-template-columns:repeat(6,104px);justify-content:center}
 
   .lesson.is-active{
     display:grid;
@@ -623,6 +707,16 @@ ul{margin:0;padding:0;list-style:none}
       <div id="pathBody"></div>
       <p class="muted" style="text-align:center;margin:22px 0 4px">Learn the idea, play it, understand the misses.</p>
     </div>
+  </section>
+
+  <!-- ---------- ACADEMY: curriculum from beginner to 2100+ ---------- -->
+  <section class="screen" id="screen-academy" data-screen="academy">
+    <header class="appbar" data-appbar>
+      <button class="iconbtn" data-act="ac-placement" aria-label="Set your starting stage" data-icon="target"></button>
+      <div class="appbar__title">Academy<small>beginner → 2100+</small></div>
+      <div class="xp-chip" title="Academy stage"><span data-icon="cap"></span><span id="acChip">0</span></div>
+    </header>
+    <div class="scroll" data-scroll><div id="academyBody"></div></div>
   </section>
 
   <!-- ---------- LEARN ---------- -->
@@ -767,6 +861,7 @@ ul{margin:0;padding:0;list-style:none}
   <!-- ---------- BOTTOM NAV ---------- -->
   <nav class="nav" id="nav">
     <button class="nav__btn is-active" data-nav="path"><span data-icon="flag"></span>Path</button>
+    <button class="nav__btn" data-nav="academy"><span data-icon="cap"></span>Academy</button>
     <button class="nav__btn" data-nav="learn"><span data-icon="book"></span>Learn</button>
     <button class="nav__btn" data-nav="explore"><span data-icon="path"></span>Explore</button>
     <button class="nav__btn" data-nav="review"><span data-icon="brain"></span>Review</button>
@@ -804,7 +899,8 @@ const ICONS = {
   flame:'<path d="M12 2.5s5.5 4.2 5.5 9.2a5.5 5.5 0 0 1-11 0c0-2 1-3.4 1-3.4s.6 1.6 2 1.6c0-3.4 2.5-5.6 2.5-7.4z" fill="currentColor" stroke="none"/>',
   clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.2l3.2 2"/>',
   trend:'<path d="M3.5 16.5 9 11l3.5 3.5L20 7"/><path d="M15 7h5v5"/>',
-  flag:'<path d="M5.5 21V4"/><path d="M5.5 5.2h11l-2 3.4 2 3.4h-11z"/>'
+  flag:'<path d="M5.5 21V4"/><path d="M5.5 5.2h11l-2 3.4 2 3.4h-11z"/>',
+  cap:'<path d="M2.5 9.2 12 4.5l9.5 4.7L12 14z"/><path d="M6.5 11.3v4.6c0 1.3 2.5 3 5.5 3s5.5-1.7 5.5-3v-4.6"/><path d="M21.5 9.2v5.3"/>'
 };
 function paintIcons(root){
   (root||document).querySelectorAll('[data-icon]').forEach(function(el){
@@ -1963,12 +2059,12 @@ const CURRICULUM = [
                      after:'Always check what defends the square you are landing on.',
                      recovery:null}],
               fallback:{verdict:'mistake', text:'No material won. Look for a square where the knight hits two pieces at once.'} },
-            { type:'move', fen:'3q1rk1/5ppp/2n1b3/8/3P4/8/5PPP/3Q1RK1 w - - 0 1',
+            { type:'move', fen:'6k1/p4ppp/2n1b3/8/2PP4/8/4BPPP/1N4K1 w - - 0 1',
               expect:'d4d5', prompt:'Different piece, same idea.',
               goal:'Pawns fork too — and they are the cheapest forkers of all.',
               hints:['Two black pieces are sitting side by side.','A pawn attacks diagonally forward.',{text:'Push it here.',show:'to'}],
-              success:'d5! One little pawn attacks the knight and the bishop. Black saves one and you win the other.',
-              alts:[{move:'d1d3', verdict:'inaccuracy', text:'A decent square for the queen, but you had a free piece available.'}],
+              success:'d5! One little pawn attacks the knight and the bishop, and the c4 pawn protects it. Black saves one and you win the other.',
+              alts:[{move:'e2d3', verdict:'inaccuracy', text:'A decent square for the bishop, but you had a fork available.'}],
               fallback:{verdict:'mistake', text:'Look again — a pawn push wins a piece here.'} }
           ]}
       ]},
@@ -2437,6 +2533,8 @@ function reducedMotion(){
 function makeBoard(){ return {
   el:null, arrowEl:null, pos:null, flip:false, sel:-1, legal:[], last:null,
   marks:{}, interactive:false, onMove:null,
+  onSquare:null,   /* (i) — square-naming exercises take raw taps */
+  onIllegal:null,  /* (from, to) — a tap that is not a legal move, so it can be explained */
 
   uid: 'b' + Math.random().toString(36).slice(2, 7),
   mount(el, arrowEl){
@@ -2500,6 +2598,7 @@ function makeBoard(){ return {
   },
   tap(i){
     if (!this.interactive || !this.pos) return;
+    if (this.onSquare){ this.onSquare(i); return; }
     const p = this.pos.board[i];
     if (this.sel >= 0 && this.legal.indexOf(i) >= 0){
       const mv = { from:this.sel, to:i };
@@ -2510,7 +2609,11 @@ function makeBoard(){ return {
     if (p && Rules.isW(p) === (this.pos.turn === 'w')){
       this.sel = (this.sel === i) ? -1 : i;
       this.legal = this.sel >= 0 ? Rules.moves(this.pos, this.sel) : [];
-    } else { this.sel = -1; this.legal = []; }
+    } else {
+      const from = this.sel;
+      this.sel = -1; this.legal = [];
+      if (from >= 0 && this.onIllegal){ this.render(); this.onIllegal(from, i); return; }
+    }
     this.render();
   },
   mark(i, cls){ this.marks[i] = cls; this.render(); },
@@ -2545,18 +2648,28 @@ function makeBoard(){ return {
   },
   shake(){ this.el.classList.add('shake'); setTimeout(() => this.el.classList.remove('shake'), 400); },
   arrow(from, to){
+    if (from == null) return this.arrows([]);
+    this.arrows([[from, to, 'green']]);
+  },
+  /** Several arrows at once: [[from, to, 'green'|'red'|'blue'], ...] */
+  arrows(list){
     if (!this.arrowEl) return;
-    if (from == null){ this.arrowEl.innerHTML = ''; return; }
+    if (!list || !list.length){ this.arrowEl.innerHTML = ''; return; }
+    const COL = { green:'#3FA45B', red:'#DC5B4C', blue:'#2E80E8' };
     const c = i => { const v = this.flip ? 63 - i : i; return { x:(v % 8) * 12.5 + 6.25, y:(v >> 3) * 12.5 + 6.25 }; };
-    const A = c(from), B = c(to);
-    const ang = Math.atan2(B.y - A.y, B.x - A.x);
-    const back = 4.2;
-    const ex = B.x - Math.cos(ang) * back, ey = B.y - Math.sin(ang) * back;
-    this.arrowEl.innerHTML =
-      '<defs><marker id="ah' + this.uid + '" markerWidth="4" markerHeight="4" refX="2.2" refY="2" orient="auto">' +
-      '<path d="M0,0 L4,2 L0,4 z" fill="#3FA45B"/></marker></defs>' +
-      '<line x1="' + A.x + '" y1="' + A.y + '" x2="' + ex + '" y2="' + ey + '" stroke="#3FA45B" stroke-width="2.4" ' +
-      'stroke-linecap="round" marker-end="url(#ah' + this.uid + ')" opacity=".82"/>';
+    const used = {};
+    const lines = list.map(([from, to, colour]) => {
+      const col = COL[colour] ? colour : 'green'; used[col] = 1;
+      const A = c(from), B = c(to);
+      const ang = Math.atan2(B.y - A.y, B.x - A.x);
+      const back = 4.2;
+      const ex = B.x - Math.cos(ang) * back, ey = B.y - Math.sin(ang) * back;
+      return '<line x1="' + A.x + '" y1="' + A.y + '" x2="' + ex + '" y2="' + ey + '" stroke="' + COL[col] + '" stroke-width="2.4" ' +
+        'stroke-linecap="round" marker-end="url(#ah' + this.uid + col + ')" opacity=".82"/>';
+    }).join('');
+    this.arrowEl.innerHTML = '<defs>' + Object.keys(used).map(col =>
+      '<marker id="ah' + this.uid + col + '" markerWidth="4" markerHeight="4" refX="2.2" refY="2" orient="auto">' +
+      '<path d="M0,0 L4,2 L0,4 z" fill="' + COL[col] + '"/></marker>').join('') + '</defs>' + lines;
   }
 }; }
 /* The lesson board. The opening explorer builds its own with makeBoard(). */
@@ -2582,6 +2695,8 @@ const Lesson = {
                : { hints:0, penalty:0, first:0, moves:0, mistakes:0, recovery:'none' };
     this.hintLevel = 0; this.phase = 'idle'; this.pending = null;
     this.pos = Rules.parse(Rules.START);
+    if (typeof AcademyRunner !== 'undefined') AcademyRunner.active = false;
+    Board.onSquare = null; Board.onIllegal = null;
     Board.set(this.pos, m.side === 'b');
     Board.last = null; Board.clearMarks();
 
@@ -3760,6 +3875,2560 @@ const Puzzles = {
 <script>
 "use strict";
 /* ============================================================================
+   SECTION 33 — ACADEMY MODEL
+   ----------------------------------------------------------------------------
+   The instructional layer that sits on top of Rules. Pure logic, no DOM, so
+   tools/ can load it in Node and test exactly what the browser runs.
+
+   The idea this whole section exists for: a chess move has THREE qualities,
+   and they are allowed to disagree.
+
+     objective      what the engine thinks (verification, never pedagogy)
+     practical      what a human of this strength will actually get out of it
+     instructional  what this lesson, at this level, should be teaching
+
+   So Stockfish's #1 move is not automatically "correct", and a move 0.15
+   pawns worse is not automatically "wrong". Everything below is shaped by
+   the learner's ACADEMY RATING — an internal instructional stage, not a
+   FIDE / Chess.com / Lichess rating.
+   ========================================================================== */
+const Academy = (function(){
+  const DAY = 86400000;
+  const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+
+  /* ---- Academy rating bands ------------------------------------------------
+     Recommended learning stages, roughly 100 points apart. They order
+     material; they never lock it. */
+  const BANDS = [
+    { rating:0,    title:'Absolute beginner' },
+    { rating:100,  title:'Piece movement' },
+    { rating:200,  title:'Captures and safety' },
+    { rating:300,  title:'Check and mate' },
+    { rating:400,  title:'Stop hanging pieces' },
+    { rating:500,  title:'Basic tactics' },
+    { rating:600,  title:'Tactical vision' },
+    { rating:700,  title:'Opening fundamentals' },
+    { rating:800,  title:'Calculation I' },
+    { rating:900,  title:'Basic endgames' },
+    { rating:1000, title:'Positional foundations' },
+    { rating:1100, title:'Combinations' },
+    { rating:1200, title:'Pawn structures I' },
+    { rating:1300, title:'Planning' },
+    { rating:1400, title:'Calculation II' },
+    { rating:1500, title:'Practical strategy' },
+    { rating:1600, title:'Advanced endgames' },
+    { rating:1700, title:'Advanced positional play' },
+    { rating:1800, title:'Advanced tactics' },
+    { rating:1900, title:'Strategic structures' },
+    { rating:2000, title:'Expert calculation' },
+    { rating:2100, title:'Master studies' }
+  ];
+  const MAX_RATING = 2800;
+  function bandOf(r){
+    let b = BANDS[0];
+    for (const x of BANDS) if ((r || 0) >= x.rating) b = x;
+    return b;
+  }
+  function bandLabel(r){
+    const b = bandOf(r);
+    return b.rating === 0 ? 'Beginner' : b.rating >= 2100 ? '2100+' : String(b.rating);
+  }
+
+  /* ---- Skills: the learner is never one number ----------------------------- */
+  const SKILLS = [
+    { id:'boardVision', name:'Board vision',  weight:.08 },
+    { id:'tactics',     name:'Tactics',       weight:.18 },
+    { id:'calculation', name:'Calculation',   weight:.14 },
+    { id:'strategy',    name:'Strategy',      weight:.14 },
+    { id:'pawnPlay',    name:'Pawn play',     weight:.08 },
+    { id:'endgames',    name:'Endgames',      weight:.12 },
+    { id:'openings',    name:'Openings',      weight:.08 },
+    { id:'defense',     name:'Defense',       weight:.10 },
+    { id:'practical',   name:'Practical play',weight:.08 }
+  ];
+
+  /* ---- Branches: how the curriculum is browsed ------------------------------
+     `piece` icons are drawn with the app's SVG set, never Unicode chess glyphs
+     (iOS swaps those for its own symbol font and ignores the colour). */
+  const BRANCHES = [
+    { id:'fundamentals', name:'Fundamentals',   accent:'amber',  piece:'P' },
+    { id:'vision',       name:'Board Vision',   accent:'blue',   glyph:'◎' },
+    { id:'tactics',      name:'Tactics',        accent:'blue',   glyph:'⚔' },
+    { id:'calculation',  name:'Calculation',    accent:'purple', glyph:'∑' },
+    { id:'checkmates',   name:'Checkmates',     accent:'red',    piece:'K' },
+    { id:'openings',     name:'Openings',       accent:'green',  piece:'N' },
+    { id:'strategy',     name:'Strategy',       accent:'amber',  piece:'R' },
+    { id:'pawns',        name:'Pawn Play',      accent:'green',  piece:'P' },
+    { id:'endgames',     name:'Endgames',       accent:'purple', piece:'K' },
+    { id:'defense',      name:'Defense',        accent:'orange', glyph:'🛡' },
+    { id:'practical',    name:'Practical Play', accent:'orange', glyph:'⏱' },
+    { id:'analysis',     name:'Analysis',       accent:'blue',   glyph:'🔍' }
+  ];
+
+  /* ---- How long a piece of chess knowledge stays true ---------------------- */
+  const DURABILITY = {
+    TIMELESS:         { label:'Timeless',         note:'Rules, geometry, basic endgames. Never needs revalidation.', revalidateDays:null },
+    MOSTLY_TIMELESS:  { label:'Mostly timeless',  note:'Principles and structures. Engines refine the details, not the idea.', revalidateDays:null },
+    THEORY_SENSITIVE: { label:'Theory-sensitive', note:'Concrete opening or evaluation claims. Re-check with a modern engine.', revalidateDays:730 },
+    CURRENT_THEORY:   { label:'Current theory',   note:'Fashion at the top level. Expires; revalidate yearly.', revalidateDays:365 }
+  };
+
+  /* ---- Recommendation labels ----------------------------------------------- */
+  const LABELS = {
+    ENGINE_BEST:        { text:'Engine best',        tone:'green',  rank:0 },
+    PRACTICAL_BEST:     { text:'Practical best',     tone:'green',  rank:1 },
+    INSTRUCTIONAL_BEST: { text:'Lesson move',        tone:'green',  rank:2 },
+    STRONG_ALTERNATIVE: { text:'Strong alternative', tone:'green',  rank:3 },
+    PLAYABLE:           { text:'Playable',           tone:'blue',   rank:4 },
+    INACCURATE:         { text:'Inaccurate',         tone:'amber',  rank:5 },
+    MISTAKE:            { text:'Mistake',            tone:'orange', rank:6 },
+    BLUNDER:            { text:'Blunder',            tone:'red',    rank:7 }
+  };
+
+  /* ---- Failure categories: never just "wrong" ------------------------------ */
+  const FAILURES = {
+    ILLEGAL_MOVE:              { title:'Not a legal move',              tone:'red' },
+    WRONG_SQUARE:              { title:'Not that square',               tone:'amber' },
+    HANGING_PIECE:             { title:'That leaves a piece hanging',   tone:'red' },
+    MISSED_THREAT:             { title:'You missed their threat',       tone:'red' },
+    TACTICAL_MISS:             { title:'A tactic was available',        tone:'orange' },
+    WRONG_MOVE_ORDER:          { title:'Right idea, wrong order',       tone:'orange' },
+    RIGHT_PLAN_WRONG_EXECUTION:{ title:'Right plan, wrong execution',   tone:'amber' },
+    MISSED_DEFENSIVE_RESOURCE: { title:'They have a defence',           tone:'orange' },
+    POSITIONAL_INACCURACY:     { title:'Playable, but positionally off',tone:'amber' },
+    ENDGAME_OUTCOME_CHANGE:    { title:'That changes the result',       tone:'red' },
+    PLAYABLE_NOT_BEST:         { title:'Playable, not the best',        tone:'blue' },
+    THEORY_MISUNDERSTANDING:   { title:'Right idea, wrong position',    tone:'amber' },
+    MISSED_OBJECTIVE:          { title:'Not what we are practising',    tone:'blue' }
+  };
+
+  /* ---- Competing chess advice ---------------------------------------------- */
+  const DISAGREEMENTS = {
+    LEVEL_DEPENDENT:           'True at one level, misleading at another.',
+    TIME_CONTROL_DEPENDENT:    'Right in blitz, wrong in classical (or the reverse).',
+    STYLE_OR_REPERTOIRE_CHOICE:'Both are fine; it depends on the player.',
+    OUTDATED_THEORY:           'Believed once; modern analysis disagrees.',
+    ENGINE_DEPTH_DIFFERENCE:   'Different search depths give different answers.',
+    PEDAGOGICAL_SIMPLIFICATION:'A useful rule of thumb that is not literally true.',
+    TINY_EVALUATION_DIFFERENCE:'The engines differ by an amount no human can use.',
+    ACTUAL_ERROR:              'One side is simply wrong.'
+  };
+
+  /* ==========================================================================
+     PROVENANCE — where every imported or generated record came from.
+     ======================================================================== */
+  const PROVENANCE_FIELDS = ['sourceType','sourceName','sourceId','sourceUrl','license',
+    'attributionRequired','retrievedAt','originalOrAdapted','humanReviewed','notes'];
+  const SOURCE_TYPES = ['original','synthetic','lichess-puzzles','lichess-openings','public-domain',
+    'licensed-games','engine-analysis','tablebase'];
+  const LICENSES = {
+    'CC0-1.0':           { redistribute:true,  attribution:false },
+    'Public-Domain':     { redistribute:true,  attribution:false },
+    'CC-BY-4.0':         { redistribute:true,  attribution:true  },
+    'CC-BY-SA-4.0':      { redistribute:true,  attribution:true  },
+    'MIT':               { redistribute:true,  attribution:true  },
+    'GPL-3.0-or-later':  { redistribute:true,  attribution:true  },
+    'Project-Original':  { redistribute:true,  attribution:false },
+    'Research-Only':     { redistribute:false, attribution:true  }
+  };
+  /* Protected instruction may inform research (topic choice, sequencing,
+     where teachers disagree). It may never be the text or positions we ship. */
+  const PROTECTED_SOURCES = /chess\.com|chessable|youtube|udemy|chessbase\s*video|patreon|\bbook\b/i;
+
+  function validateProvenance(p, opts){
+    opts = opts || {};
+    const errs = [];
+    if (!p || typeof p !== 'object') return ['provenance missing'];
+    PROVENANCE_FIELDS.forEach(f => { if (!(f in p)) errs.push('missing field: ' + f); });
+    if (p.sourceType && SOURCE_TYPES.indexOf(p.sourceType) < 0) errs.push('unknown sourceType: ' + p.sourceType);
+    const lic = LICENSES[p.license];
+    if (!lic) errs.push('unknown license: ' + p.license);
+    else {
+      if (opts.shipped !== false && !lic.redistribute) errs.push('license ' + p.license + ' does not permit shipping this record');
+      if (lic.attribution && p.attributionRequired !== true) errs.push('license ' + p.license + ' requires attributionRequired:true');
+    }
+    if (['original','adapted','imported'].indexOf(p.originalOrAdapted) < 0) errs.push('originalOrAdapted must be original|adapted|imported');
+    if (typeof p.humanReviewed !== 'boolean') errs.push('humanReviewed must be boolean');
+    if (p.originalOrAdapted !== 'original'){
+      if (!p.sourceUrl) errs.push('non-original record needs sourceUrl');
+      if (!p.retrievedAt || isNaN(Date.parse(p.retrievedAt))) errs.push('non-original record needs an ISO retrievedAt');
+    }
+    if (PROTECTED_SOURCES.test(p.sourceName || '') && p.originalOrAdapted !== 'original')
+      errs.push('protected source "' + p.sourceName + '" may inform research only, never shipped content');
+    return errs;
+  }
+  /** Provenance for content written for this project. */
+  function originalProvenance(id, notes, extra){
+    return Object.assign({ sourceType:'original', sourceName:'Gambit Academy', sourceId:id, sourceUrl:'',
+      license:'Project-Original', attributionRequired:false, retrievedAt:'', originalOrAdapted:'original',
+      humanReviewed:false, notes:notes || '' }, extra || {});
+  }
+
+  /* ==========================================================================
+     BOARD GEOMETRY — attacks independent of whose turn it is.
+     Rules only answers "what may the side to move do". Teaching needs "who
+     attacks this square", "who defends that piece", and "why is this illegal".
+     ======================================================================== */
+  const VALUE = { p:1, n:3, b:3, r:5, q:9, k:100 };
+  const NAME  = { p:'pawn', n:'knight', b:'bishop', r:'rook', q:'queen', k:'king' };
+  const sqName = i => Rules.name(i);
+  const typeOf = p => p ? p.toLowerCase() : '';
+  const fileOf = i => i % 8, rankOf = i => i >> 3;           /* rankOf: 0 = rank 8 */
+  const DIRS = { r:[[1,0],[-1,0],[0,1],[0,-1]], b:[[1,1],[1,-1],[-1,1],[-1,-1]] };
+  DIRS.q = DIRS.r.concat(DIRS.b);
+  const KN = [[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]];
+
+  /** Squares the piece on `from` attacks (occupied squares of either colour included). */
+  function attacksFrom(board, from){
+    const p = board[from]; if (!p) return [];
+    const t = typeOf(p), white = Rules.isW(p), out = [];
+    const f0 = fileOf(from), r0 = rankOf(from);
+    const at = (f, r) => (f >= 0 && f < 8 && r >= 0 && r < 8) ? r * 8 + f : -1;
+    if (t === 'p'){ const dr = white ? -1 : 1; [-1,1].forEach(df => { const s = at(f0+df, r0+dr); if (s >= 0) out.push(s); }); }
+    else if (t === 'n'){ KN.forEach(([df,dr]) => { const s = at(f0+df, r0+dr); if (s >= 0) out.push(s); }); }
+    else if (t === 'k'){ DIRS.q.forEach(([df,dr]) => { const s = at(f0+df, r0+dr); if (s >= 0) out.push(s); }); }
+    else DIRS[t].forEach(([df,dr]) => {
+      let f = f0+df, r = r0+dr;
+      while (at(f, r) >= 0){ const s = at(f, r); out.push(s); if (board[s]) break; f += df; r += dr; }
+    });
+    return out;
+  }
+  /** Indices of `byWhite` pieces attacking `sq`. */
+  function attackers(board, sq, byWhite){
+    const out = [];
+    for (let i = 0; i < 64; i++){
+      const p = board[i];
+      if (p && Rules.isW(p) === byWhite && attacksFrom(board, i).indexOf(sq) >= 0) out.push(i);
+    }
+    return out;
+  }
+  function pieceWord(board, i){ return NAME[typeOf(board[i])] + ' on ' + sqName(i); }
+  function material(board, white){
+    return board.reduce((s, p) => s + (p && p !== 'K' && p !== 'k' && Rules.isW(p) === white ? VALUE[typeOf(p)] : 0), 0);
+  }
+
+  /** Can a piece of this type ever travel from→to on an empty board? */
+  function geometryOk(p, from, to){
+    const t = typeOf(p), df = fileOf(to) - fileOf(from), dr = rankOf(to) - rankOf(from);
+    const adf = Math.abs(df), adr = Math.abs(dr);
+    if (t === 'r') return (df === 0) !== (dr === 0);
+    if (t === 'b') return adf === adr && adf > 0;
+    if (t === 'q') return (df === 0) !== (dr === 0) || (adf === adr && adf > 0);
+    if (t === 'n') return (adf === 1 && adr === 2) || (adf === 2 && adr === 1);
+    if (t === 'k') return (adf <= 1 && adr <= 1 && (adf + adr) > 0) || (adr === 0 && adf === 2);
+    if (t === 'p'){ const fwd = Rules.isW(p) ? -1 : 1; return (dr === fwd && adf <= 1) || (dr === 2 * fwd && df === 0); }
+    return false;
+  }
+  function firstBlocker(board, from, to){
+    const df = Math.sign(fileOf(to) - fileOf(from)), dr = Math.sign(rankOf(to) - rankOf(from));
+    let f = fileOf(from) + df, r = rankOf(from) + dr;
+    while (r * 8 + f !== to){ if (board[r * 8 + f]) return r * 8 + f; f += df; r += dr; }
+    return -1;
+  }
+
+  /** WHY a move is illegal, in words a beginner can use. Returns null if legal. */
+  function explainIllegal(pos, from, to){
+    const p = pos.board[from];
+    if (!p) return 'There is no piece on ' + sqName(from) + '.';
+    const white = Rules.isW(p), t = typeOf(p), piece = NAME[t];
+    if (white !== (pos.turn === 'w')) return 'That is your opponent\'s ' + piece + '. It is ' + (pos.turn === 'w' ? 'White' : 'Black') + ' to move.';
+    if (from === to) return null;
+    if (Rules.moves(pos, from).indexOf(to) >= 0) return null;
+    const target = pos.board[to];
+    if (target && Rules.isW(target) === white) return 'You cannot capture your own ' + NAME[typeOf(target)] + '.';
+    const say = {
+      r:'Rooks move in straight lines — along a rank or a file, never diagonally.',
+      b:'Bishops move diagonally only, so they stay on one colour of square for the whole game.',
+      q:'The queen moves in straight lines or diagonals, but always in one straight direction per move.',
+      n:'Knights move in an L: two squares one way, then one square to the side.',
+      k:'The king moves one square in any direction.',
+      p:'Pawns move straight forward — two squares only from their starting rank — and capture one square diagonally forward.'
+    };
+    if (!geometryOk(p, from, to)) return say[t];
+    if (t === 'p'){
+      const df = fileOf(to) - fileOf(from);
+      if (df !== 0 && !target && to !== pos.ep) return 'Pawns capture diagonally — but there is nothing to capture on ' + sqName(to) + '.';
+      if (df === 0 && target) return 'Pawns cannot capture straight ahead. The ' + NAME[typeOf(target)] + ' on ' + sqName(to) + ' blocks it.';
+      if (df === 0 && Math.abs(rankOf(to) - rankOf(from)) === 2){
+        const startRank = white ? 6 : 1;
+        if (rankOf(from) !== startRank) return 'A pawn may move two squares only from its starting square.';
+        const mid = (from + to) / 2;
+        if (pos.board[mid]) return 'The ' + pieceWord(pos.board, mid) + ' is in the way.';
+      }
+    }
+    if (t === 'k' && Math.abs(fileOf(to) - fileOf(from)) === 2){
+      const side = to > from ? 'kingside' : 'queenside';
+      const flag = white ? (to > from ? 'K' : 'Q') : (to > from ? 'k' : 'q');
+      if ((pos.castle || '').indexOf(flag) < 0) return 'You can no longer castle ' + side + ': the king or that rook has already moved.';
+      if (Rules.inCheck(pos, white)) return 'You cannot castle out of check.';
+      const step = to > from ? 1 : -1;
+      const between = to > from ? [from+1, from+2] : [from-1, from-2, from-3];
+      const blocked = between.find(s => pos.board[s]);
+      if (blocked !== undefined) return 'You cannot castle ' + side + ' while the ' + pieceWord(pos.board, blocked) + ' is in the way.';
+      const crossed = [from + step, from + 2 * step].find(s => attackers(pos.board, s, !white).length);
+      if (crossed !== undefined){
+        const a = attackers(pos.board, crossed, !white)[0];
+        return 'You cannot castle through or into check: the ' + pieceWord(pos.board, a) + ' controls ' + sqName(crossed) + '.';
+      }
+    }
+    if ('rbq'.indexOf(t) >= 0){
+      const b = firstBlocker(pos.board, from, to);
+      if (b >= 0) return 'The ' + pieceWord(pos.board, b) + ' is in the way.';
+    }
+    /* geometrically fine — so it must expose the king */
+    const after = Rules.apply(pos, { from, to });
+    const kSq = t === 'k' ? to : pos.board.indexOf(white ? 'K' : 'k');
+    const hitters = attackers(after.board, kSq, !white);
+    const who = hitters.length ? 'the ' + pieceWord(after.board, hitters[0]) : 'an enemy piece';
+    if (t === 'k') return 'Your king cannot move to ' + sqName(to) + ' because ' + who + ' controls that square.';
+    if (Rules.inCheck(pos, white)){
+      const checker = attackers(pos.board, pos.board.indexOf(white ? 'K' : 'k'), !white)[0];
+      return 'You are in check from the ' + pieceWord(pos.board, checker) + '. This move does not block it, capture it, or move the king.';
+    }
+    return 'Your ' + piece + ' on ' + sqName(from) + ' is pinned: moving it would expose your king to ' + who + '.';
+  }
+
+  /** Pieces of the side that just moved which the opponent can now win.
+      Returns [{sq, piece, attacker, defended, loss}] biggest loss first. */
+  function hangingAfter(before, mv){
+    const after = Rules.apply(before, mv);
+    const white = before.turn === 'w';
+    const captured = before.board[mv.to] ? VALUE[typeOf(before.board[mv.to])] : 0;
+    const replies = Rules.allMoves(after);
+    const out = [];
+    for (let i = 0; i < 64; i++){
+      const p = after.board[i];
+      if (!p || Rules.isW(p) !== white || typeOf(p) === 'k') continue;
+      const caps = replies.filter(m => m.to === i);
+      if (!caps.length) continue;
+      const cheapest = caps.map(m => VALUE[typeOf(after.board[m.from])]).sort((a, b) => a - b)[0];
+      const attackerSq = caps.find(m => VALUE[typeOf(after.board[m.from])] === cheapest).from;
+      const defended = attackers(after.board, i, white).length > 0;
+      const loss = defended ? VALUE[typeOf(p)] - cheapest : VALUE[typeOf(p)];
+      /* was it already en prise before this move? then this move did not cause it */
+      const wasHanging = i !== mv.to && before.board[i] === p &&
+        attackers(before.board, i, !white).length > 0 && attackers(before.board, i, white).length === 0;
+      /* a capture that trades evenly is not "hanging" */
+      if (loss > 0 && !(i === mv.to && captured >= loss) && !wasHanging)
+        out.push({ sq:i, piece:NAME[typeOf(p)], attacker:attackerSq, attackerName:NAME[typeOf(after.board[attackerSq])], defended, loss });
+    }
+    return out.sort((a, b) => b.loss - a.loss);
+  }
+
+  /** Does the opponent's threat still work after the learner's move?
+      A threat is { move:'b4c2', target:'a1' }: it "works" if it is still legal
+      and it is check or still hits an undefended / more valuable target. */
+  function threatStillWorks(before, mv, threat){
+    const after = Rules.apply(before, mv);
+    const tm = Rules.coerce(after, threat.move);
+    if (!after.board[tm.from] || Rules.moves(after, tm.from).indexOf(tm.to) < 0) return false;
+    const res = Rules.apply(after, tm);
+    const mover = res.board[tm.to];
+    const victimWhite = before.turn === 'w';
+    if (threat.mate) return Rules.allMoves(res).length === 0 && Rules.inCheck(res, victimWhite);
+    /* can we simply capture the threatening piece for free? */
+    const recapture = attackers(res.board, tm.to, victimWhite).length > 0 && !Rules.inCheck(res, victimWhite);
+    if (threat.target && Rules.idx(threat.target) === tm.to){
+      /* a capture threat: it works if the victim is still ours and it is not a fair trade */
+      const victim = after.board[tm.to];
+      if (!victim || Rules.isW(victim) !== victimWhite) return false;
+      const defended = attackers(res.board, tm.to, victimWhite).length > 0;
+      return !defended || VALUE[typeOf(victim)] > VALUE[typeOf(mover)];
+    }
+    if (threat.target){
+      const t = Rules.idx(threat.target);
+      const victim = res.board[t];
+      if (!victim || Rules.isW(victim) !== victimWhite) return false;
+      const hits = attacksFrom(res.board, tm.to).indexOf(t) >= 0;
+      const check = Rules.inCheck(res, victimWhite);
+      if (!hits) return false;
+      if (check) return true;
+      if (recapture) return false;
+      return attackers(res.board, t, victimWhite).length === 0 || VALUE[typeOf(victim)] > VALUE[typeOf(mover)];
+    }
+    return !recapture;
+  }
+
+  /* ==========================================================================
+     HUMAN-AWARE MOVE MODEL
+     ======================================================================== */
+  /** Lichess's win-probability curve. Centipawns are not linear: +8.0 vs +7.5
+      is nothing, +0.5 vs 0.0 is a lot. Always compare moves in win %. */
+  function winPct(cp, mate){
+    if (mate != null) return mate > 0 ? 100 : mate < 0 ? 0 : 50;
+    if (cp == null) return 50;
+    return 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1);
+  }
+  /** How forgiving judgement is at this rating: 1.0 at Academy 1200. */
+  function tolerance(r){ return clamp(1.6 - (r || 0) / 2000, .55, 1.6); }
+  const BASE = { strong:2.5, playable:6, inaccurate:12, mistake:22 };
+  function objectiveLabel(drop, r){
+    const k = tolerance(r);
+    if (drop <= .05) return 'ENGINE_BEST';
+    if (drop <= BASE.strong * k) return 'STRONG_ALTERNATIVE';
+    if (drop <= BASE.playable * k) return 'PLAYABLE';
+    if (drop <= BASE.inaccurate * k) return 'INACCURATE';
+    if (drop <= BASE.mistake * k) return 'MISTAKE';
+    return 'BLUNDER';
+  }
+  /** Plies a learner can calculate reliably. */
+  function calcCapacity(r){ return 1 + Math.max(0, r || 0) / 250; }
+
+  const CAND_DEFAULTS = {
+    move:null, engineRank:null, engineEval:null, mateScore:null, evalDeltaFromBest:null,
+    objectiveQuality:null, practicalQuality:null, pedagogicalQuality:.5,
+    forcingness:0, branchingFactor:1, calculationDepth:1, onlyMoveRisk:0, tacticalComplexity:0,
+    positionVolatility:0, theoryDependency:0, memorizationBurden:0,
+    humanPopularity:null, humanSuccessRate:null, conceptAlignment:0, explanationComplexity:.3,
+    recommendedRatingMin:0, recommendedRatingMax:MAX_RATING
+  };
+  function candidate(c){ return Object.assign({}, CAND_DEFAULTS, c); }
+
+  function difficulty(c, r){
+    const overload = Math.max(0, c.calculationDepth - calcCapacity(r)) / calcCapacity(r);
+    return clamp(.35 * Math.min(1, overload) + .2 * c.onlyMoveRisk + .15 * c.tacticalComplexity +
+                 .1 * Math.min(1, (c.branchingFactor - 1) / 5) + .1 * c.positionVolatility +
+                 .05 * c.memorizationBurden + .05 * c.theoryDependency, 0, 1);
+  }
+  /** Chance a learner of rating r fails to follow the move up correctly. */
+  function executionRisk(c, r){
+    const overload = Math.max(0, c.calculationDepth - calcCapacity(r)) / calcCapacity(r);
+    const skill = 1 - clamp((r || 0) / 2600, 0, .9);
+    return clamp(overload * .55 + c.onlyMoveRisk * c.positionVolatility * skill + c.tacticalComplexity * .25 * skill
+                 + c.memorizationBurden * .15 * skill, 0, .9);
+  }
+
+  /** Score every authored candidate for a learner. Pure; no engine call.
+      Returns { rating, list:[cand + {winPct, drop, objective, practical, labels}], engineBest, practicalBest, instructionalBest } */
+  function analysePosition(ex, r){
+    const list = (ex.candidates || []).map(candidate);
+    if (!list.length) return { rating:r, list:[], engineBest:null, practicalBest:null, instructionalBest:null };
+    list.forEach(c => { c.winPct = winPct(c.engineEval, c.mateScore); });
+    const bestWin = Math.max.apply(null, list.map(c => c.winPct));
+    list.forEach(c => {
+      c.drop = Math.max(0, bestWin - c.winPct);
+      /* +7 vs +8 is the same result for a human: shrink gaps inside a decided position */
+      if ((c.winPct >= 80 && bestWin >= 80) || (c.winPct <= 20 && bestWin <= 20)) c.drop *= .4;
+      c.objective = objectiveLabel(c.drop, r);
+      const fail = executionRisk(c, r);
+      const failWin = c.failEval != null ? winPct(c.failEval) : Math.min(c.winPct, 50);
+      c.practical = (1 - fail) * c.winPct + fail * failWin;
+      c.risk = fail;
+      c.labels = [];
+    });
+    const engineBest = list.reduce((a, b) => b.winPct > a.winPct || (b.winPct === a.winPct && (b.engineRank || 99) < (a.engineRank || 99)) ? b : a);
+    const practicalBest = list.reduce((a, b) => b.practical > a.practical + .01 ? b : a);
+    /* instructional: sound enough, suitable for this rating, and on-concept */
+    const inWindow = c => r >= c.recommendedRatingMin && r <= c.recommendedRatingMax;
+    const sound = c => ['ENGINE_BEST','STRONG_ALTERNATIVE','PLAYABLE'].indexOf(c.objective) >= 0;
+    const teach = c => c.conceptAlignment * .55 + c.pedagogicalQuality * .3 + (1 - difficulty(c, r)) * .15;
+    const pool = list.filter(c => sound(c) && inWindow(c));
+    const instructionalBest = (pool.length ? pool : [practicalBest]).reduce((a, b) => teach(b) > teach(a) + .001 ? b : a);
+    list.forEach(c => {
+      if (c === engineBest) c.labels.push('ENGINE_BEST');
+      if (c === practicalBest) c.labels.push('PRACTICAL_BEST');
+      if (c === instructionalBest) c.labels.push('INSTRUCTIONAL_BEST');
+      if (!c.labels.length) c.labels.push(c.objective === 'ENGINE_BEST' ? 'STRONG_ALTERNATIVE' : c.objective);
+      /* authored pedagogical overrides by rating ("fine at 600, inaccurate at 1900") */
+      (c.labelByRating || []).forEach(o => {
+        if (r >= (o.min || 0) && r <= (o.max == null ? MAX_RATING : o.max)) {
+          c.labels = c.labels.filter(l => ['ENGINE_BEST','PRACTICAL_BEST','INSTRUCTIONAL_BEST'].indexOf(l) >= 0);
+          if (c.labels.indexOf(o.label) < 0) c.labels.push(o.label);
+        }
+      });
+    });
+    return { rating:r, list, engineBest, practicalBest, instructionalBest };
+  }
+
+  /** Pick the text variant for a learner. Accepts a string or [{min, max?, text}]. */
+  function levelText(v, r){
+    if (v == null) return '';
+    if (typeof v === 'string') return v;
+    let pick = null;
+    v.forEach(x => { if ((r || 0) >= (x.min || 0) && (x.max == null || r <= x.max)) pick = x; });
+    return pick ? pick.text : '';
+  }
+  /** Numbers only once they help, and only when the gap is one a human can use. */
+  function evalVisible(r, drop){ return (r || 0) >= 1600 && (drop == null || drop >= 2); }
+  function fmtEval(c){
+    if (c.mateScore != null) return '#' + c.mateScore;
+    if (c.engineEval == null) return '';
+    return (c.engineEval > 0 ? '+' : '') + (c.engineEval / 100).toFixed(2);
+  }
+
+  /** Goal predicates an exercise can ask for, independent of the engine. */
+  const GOALS = {
+    check:     (pos, mv, after) => Rules.inCheck(after, after.turn === 'w'),
+    safeCheck: (pos, mv, after) => Rules.inCheck(after, after.turn === 'w') && !hangingAfter(pos, mv).some(h => h.sq === mv.to),
+    capture:   (pos, mv, after, g) => !!pos.board[mv.to] && (!g.square || Rules.name(mv.to) === g.square),
+    reach:     (pos, mv, after, g) => Rules.name(mv.to) === g.square,
+    mate:      (pos, mv, after) => Rules.inCheck(after, after.turn === 'w') && Rules.allMoves(after).length === 0,
+    safe:      (pos, mv) => hangingAfter(pos, mv).length === 0,
+    prevent:   (pos, mv, after, g) => !threatStillWorks(pos, mv, g.threat),
+    pin:       (pos, mv, after) => pinsBy(after, mv.to).length > 0
+  };
+  /** Enemy pieces the slider on `sq` pins against something more valuable behind them. */
+  function pinsBy(pos, sq){
+    const p = pos.board[sq], t = typeOf(p);
+    if (!p || 'rbq'.indexOf(t) < 0) return [];
+    const white = Rules.isW(p), out = [];
+    DIRS[t].forEach(([df, dr]) => {
+      let f = fileOf(sq) + df, r = rankOf(sq) + dr, first = -1;
+      while (f >= 0 && f < 8 && r >= 0 && r < 8){
+        const s = r * 8 + f, q = pos.board[s];
+        if (q){
+          if (Rules.isW(q) === white) break;
+          if (first < 0) first = s;
+          else { if (VALUE[typeOf(q)] > VALUE[typeOf(pos.board[first])]) out.push({ pinned:first, behind:s, absolute:typeOf(q) === 'k' }); break; }
+        }
+        f += df; r += dr;
+      }
+    });
+    return out;
+  }
+  function goalMet(goal, pos, mv){
+    if (!goal) return null;
+    const after = Rules.apply(pos, mv);
+    const all = Array.isArray(goal) ? goal : [goal];
+    return all.every(g => GOALS[g.type] ? GOALS[g.type](pos, mv, after, g) : true);
+  }
+
+  /** THE judgement. One place decides what a move means for this learner.
+      exercise: { fen, candidates, policy, goal, threat, fallback, conceptId }
+      Returns { outcome:'correct'|'accepted'|'retry'|'fail', category, labels, title, text, san, cand, stronger } */
+  function judge(ex, pos, mv, r){
+    const key = Rules.key(mv) + (mv.promo && mv.promo !== 'q' ? mv.promo : '');
+    const san = Rules.san(pos, mv);
+    const analysis = analysePosition(ex, r);
+    const cand = analysis.list.find(c => c.move === key || c.move === Rules.key(mv));
+    const policy = ex.policy || 'target';
+    const res = { san, cand:cand || null, labels:cand ? cand.labels : [], analysis, move:key };
+    const says = v => levelText(v, r);
+
+    /* 1. failure detectors that do not need the engine */
+    const hang = hangingAfter(pos, mv);
+    const worstHang = hang.find(h => h.loss >= 2);
+    const missedThreat = ex.threat && threatStillWorks(pos, mv, ex.threat);
+    const met = goalMet(ex.goal, pos, mv);
+
+    let outcome, category = cand && cand.category || null;
+    const lab = cand ? cand.labels : [];
+    const has = l => lab.indexOf(l) >= 0;
+
+    if (cand){
+      if (has('INSTRUCTIONAL_BEST') || has('PRACTICAL_BEST') || has('ENGINE_BEST')) outcome = 'correct';
+      else if (has('STRONG_ALTERNATIVE')) outcome = 'accepted';
+      else if (has('PLAYABLE')) outcome = policy === 'sound' ? 'accepted' : 'retry';
+      else outcome = 'fail';
+      /* an exercise goal the move does not meet is never a pass — however good the move */
+      if (met === false && (outcome === 'correct' || outcome === 'accepted')) outcome = 'retry';
+      /* authored overrides: explicit acceptance, or an outcome pinned per rating */
+      if (cand.accept) outcome = 'accepted';
+      if (cand.outcome) outcome = cand.outcome;
+      (cand.outcomeByRating || []).forEach(o => {
+        if (r >= (o.min || 0) && r <= (o.max == null ? MAX_RATING : o.max)) outcome = o.outcome;
+      });
+      /* retry/fail on an authored move keeps its authored category */
+    } else if (met === true && !worstHang && !missedThreat){
+      outcome = policy === 'target' ? 'accepted' : 'accepted';
+    } else {
+      const fb = ex.fallback || {};
+      outcome = fb.outcome || 'fail';
+      category = fb.category || null;
+    }
+    if (outcome === 'fail' || outcome === 'retry'){
+      if (!category && cand && met === false) category = 'MISSED_OBJECTIVE';
+      if (!category){
+        if (missedThreat) category = 'MISSED_THREAT';
+        else if (worstHang) category = 'HANGING_PIECE';
+        else if (met === false) category = 'MISSED_OBJECTIVE';
+        else if (analysis.engineBest && analysis.engineBest.tacticalComplexity >= .5) category = 'TACTICAL_MISS';
+        else category = outcome === 'retry' ? 'PLAYABLE_NOT_BEST' : 'POSITIONAL_INACCURACY';
+      }
+    } else category = null;
+    /* a sound move that happens to hang material is still a failure */
+    if ((outcome === 'accepted') && !cand && worstHang){ outcome = 'fail'; category = 'HANGING_PIECE'; }
+
+    res.outcome = outcome;
+    res.category = category;
+
+    /* 2. words */
+    let text = cand ? says(cand.feedback) : '';
+    if (!text){
+      if (outcome === 'correct' || outcome === 'accepted') text = says(ex.success) || 'Good move.';
+      else if (category === 'HANGING_PIECE' && worstHang)
+        text = 'This move leaves your ' + worstHang.piece + ' on ' + sqName(worstHang.sq) + ' ' +
+               (worstHang.defended ? 'under-protected' : 'undefended') + ' — the ' + worstHang.attackerName +
+               ' on ' + sqName(worstHang.attacker) + ' can take it.';
+      else if (category === 'MISSED_THREAT') text = says(ex.threat.text) || 'You continued your own plan, but your opponent\'s threat is still on.';
+      else text = says((ex.fallback || {}).feedback) || 'Legal, but not what this position needs.';
+    }
+    res.title = (outcome === 'correct' || outcome === 'accepted')
+      ? (outcome === 'correct' ? 'Correct — ' + san : 'Good — ' + san)
+      : (FAILURES[category] || FAILURES.PLAYABLE_NOT_BEST).title;
+    res.text = text;
+
+    /* 3. the stronger move, if it is worth mentioning at this level */
+    const top = analysis.instructionalBest;
+    const eng = analysis.engineBest;
+    if (cand && outcome !== 'correct'){
+      const target = top && top !== cand ? top : null;
+      if (target){
+        const numbers = evalVisible(r, cand.drop) ? ' (' + fmtEval(target) + ' vs ' + fmtEval(cand) + ')' : '';
+        res.stronger = { move:target.move, text: says(target.whyBetter) || '', numbers };
+      }
+    } else if (cand && eng && eng !== cand && r >= 1100 && eng.drop === 0 && cand.drop > .05){
+      /* correct for this level, but a stronger tactical possibility exists */
+      res.stronger = { move:eng.move, text: says(eng.whyBetter) || '', numbers: evalVisible(r, cand.drop) ? ' (' + fmtEval(eng) + ')' : '' };
+    }
+    return res;
+  }
+
+  /** A square-tapping exercise (coordinates). */
+  function judgeSquare(ex, sq, flipped){
+    const want = Rules.idx(ex.target);
+    if (sq === want) return { outcome:'correct', category:null, title:'Correct — ' + ex.target, text: ex.success || '' };
+    const name = sqName(sq);
+    let text;
+    const swapped = String.fromCharCode(96 + (8 - rankOf(want))) + (fileOf(want) + 1);
+    if (name === swapped) text = 'That is ' + name + ' — you swapped the letter and the number. The letter is the file (column), the number is the rank (row).';
+    else if (sq === 63 - want) text = 'That is ' + name + ' — the board is upside down from ' + (flipped ? 'Black\'s' : 'White\'s') + ' side. Read the letters along the edge nearest you.';
+    else if (fileOf(sq) === fileOf(want)) text = 'Right file, wrong rank: that is ' + name + '. Count the rank numbers from 1 on ' + (flipped ? 'Black\'s far edge' : 'White\'s side') + '.';
+    else if (rankOf(sq) === rankOf(want)) text = 'Right rank, wrong file: that is ' + name + '. The files run a to h from ' + (flipped ? 'right to left from your view' : 'left to right') + '.';
+    else text = 'That is ' + name + '. Find the ' + ex.target[0] + '-file first, then go along it to rank ' + ex.target[1] + '.';
+    return { outcome:'fail', category:'WRONG_SQUARE', title:FAILURES.WRONG_SQUARE.title, text };
+  }
+
+  /* ==========================================================================
+     SKILL PROFILE + MASTERY + SPACED REVIEW
+     ======================================================================== */
+  function newState(placement){
+    const p = placement == null ? 0 : placement;
+    const skills = {};
+    SKILLS.forEach(s => { skills[s.id] = { rating:p, n:0 }; });
+    return { v:1, placement:p, skills, concepts:{}, lessons:{}, history:[] };
+  }
+  const MASTERED = .8, UNLOCK = .5;
+
+  function newConcept(){
+    return { attempts:0, successes:0, recent:[], failures:{}, hintsUsed:0, totalTimeMs:0,
+             successDays:[], mastery:0, reps:0, ease:2.3, interval:0, lastReviewed:0, nextReview:0 };
+  }
+  function computeMastery(c){
+    if (!c.attempts) return 0;
+    let wsum = 0, sum = 0;
+    c.recent.forEach((s, i) => { const w = Math.pow(1.35, i); wsum += w; sum += w * s; });   /* newest weighs most */
+    const recent = wsum ? sum / wsum : 0;
+    const overall = (c.successes + 1) / (c.attempts + 2);
+    const days = c.successDays.length;
+    const spacing = Math.min(1, Math.max(0, days - 1) / 3);
+    let m = .5 * recent + .2 * overall + .3 * spacing * recent;
+    if (days < 2) m = Math.min(m, .6);          /* one sitting never makes it permanent */
+    if (c.attempts < 3) m = Math.min(m, .45);
+    return clamp(m, 0, 1);
+  }
+  /** Record one attempt at a concept.
+      a = { success, hints, timeMs, targetMs, category, exerciseRating, skills:{tactics:1}, now } */
+  function record(state, conceptId, a){
+    const now = a.now || Date.now();
+    const c = state.concepts[conceptId] || (state.concepts[conceptId] = newConcept());
+    const hints = a.hints || 0;
+    const slow = a.targetMs && a.timeMs ? clamp((a.timeMs - a.targetMs) / (a.targetMs * 3), 0, .25) : 0;
+    const score = a.success ? clamp(1 - .2 * hints - slow, .35, 1) : 0;
+    c.attempts++;
+    if (a.success) c.successes++;
+    c.recent.push(score); if (c.recent.length > 10) c.recent.shift();
+    if (a.category) c.failures[a.category] = (c.failures[a.category] || 0) + 1;
+    c.hintsUsed += hints;
+    c.totalTimeMs += a.timeMs || 0;
+    const day = Math.floor(now / DAY);
+    if (a.success && c.successDays.indexOf(day) < 0){ c.successDays.push(day); if (c.successDays.length > 12) c.successDays.shift(); }
+    c.mastery = computeMastery(c);
+    schedule(c, a.success, hints, slow, now);
+    if (a.skills) updateSkills(state, a.skills, a.exerciseRating == null ? 400 : a.exerciseRating, score);
+    state.history.push({ t:now, c:conceptId, s:a.success ? 1 : 0 });
+    if (state.history.length > 400) state.history.splice(0, state.history.length - 400);
+    return c;
+  }
+  const RELEARN_MS = 10 * 60000;
+  /** SM-2 flavoured: misses come back in minutes, solid concepts drift out to months. */
+  function schedule(c, success, hints, slow, now){
+    c.lastReviewed = now;
+    if (!success){
+      c.reps = 0;
+      c.ease = Math.max(1.3, c.ease - .2);
+      c.interval = 0;
+      c.nextReview = now + RELEARN_MS;
+      return c;
+    }
+    const q = hints === 0 && slow === 0 ? 5 : hints <= 1 ? 4 : 3;
+    c.reps++;
+    c.ease = clamp(c.ease + (.1 - (5 - q) * (.08 + (5 - q) * .02)), 1.3, 2.8);
+    let days = c.reps === 1 ? 1 : c.reps === 2 ? 3 : Math.round(Math.max(c.interval, 1) * c.ease);
+    days = Math.round(days * (.6 + .8 * c.mastery));
+    c.interval = clamp(days, 1, 180);
+    c.nextReview = now + c.interval * DAY;
+    return c;
+  }
+  function isDue(c, now){ return !!c && c.attempts > 0 && c.nextReview <= (now || Date.now()); }
+
+  function updateSkills(state, weights, exRating, score){
+    Object.keys(weights).forEach(id => {
+      const w = weights[id]; if (!w) return;
+      const s = state.skills[id] || (state.skills[id] = { rating:state.placement, n:0 });
+      const expected = 1 / (1 + Math.pow(10, (exRating - s.rating) / 400));
+      const K = Math.max(12, 64 / Math.sqrt(1 + s.n / 4)) * w;
+      s.rating = clamp(s.rating + K * (score - expected), 0, MAX_RATING);
+      s.n++;
+    });
+  }
+  /** Overall Academy rating: skill estimates blended with the placement until
+      there is enough evidence to trust them. */
+  function overall(state){
+    let num = 0, den = 0;
+    SKILLS.forEach(sk => {
+      const s = state.skills[sk.id] || { rating:state.placement, n:0 };
+      const conf = Math.min(1, s.n / 10);
+      num += sk.weight * (conf * s.rating + (1 - conf) * state.placement);
+      den += sk.weight;
+    });
+    return Math.round(num / den / 10) * 10;
+  }
+  function skillRating(state, id){
+    const s = state.skills[id];
+    if (!s || s.n < 3) return overall(state);
+    return Math.round(s.rating / 10) * 10;
+  }
+  /** The rating feedback should be pitched at for this exercise. */
+  function ratingFor(state, skillWeights){
+    const ids = Object.keys(skillWeights || {});
+    if (!ids.length) return overall(state);
+    const main = ids.sort((a, b) => skillWeights[b] - skillWeights[a])[0];
+    return skillRating(state, main);
+  }
+
+  /* ---- Curriculum state ---------------------------------------------------- */
+  function masteryOf(state, id){ const c = state.concepts[id]; return c ? c.mastery : 0; }
+  function prereqsMet(state, concept){ return (concept.prerequisites || []).every(p => masteryOf(state, p) >= UNLOCK); }
+  /** 'mastered' | 'review' | 'learning' | 'ready' | 'ahead' | 'planned' */
+  function conceptStatus(state, concept, now){
+    const c = state.concepts[concept.id];
+    if (!concept.lessonId) return 'planned';
+    if (c && c.mastery >= MASTERED && !isDue(c, now)) return 'mastered';
+    if (c && isDue(c, now)) return 'review';
+    if (c && c.attempts) return 'learning';
+    return prereqsMet(state, concept) ? 'ready' : 'ahead';
+  }
+  function recommended(state, concept){
+    const r = overall(state);
+    return !!concept.lessonId && prereqsMet(state, concept) && concept.band <= r + 150 && masteryOf(state, concept.id) < MASTERED;
+  }
+
+  /* ---- Mixed review --------------------------------------------------------
+     Due concepts first (most overdue, weakest), interleaved with other known
+     concepts and quiet positions so the learner cannot infer the motif from
+     the queue. Never shows a label. */
+  function rng(seed){ let s = (seed >>> 0) || 1; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+  function shuffle(arr, rand){ for (let i = arr.length - 1; i > 0; i--){ const j = Math.floor(rand() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+  function buildReview(state, pool, opts){
+    opts = opts || {};
+    const now = opts.now || Date.now(), size = opts.size || 6, rand = rng(opts.seed || now);
+    const byConcept = {};
+    pool.forEach(ex => { (byConcept[ex.conceptId] = byConcept[ex.conceptId] || []).push(ex); });
+    const overdue = id => { const c = state.concepts[id]; return (now - c.nextReview) / Math.max(DAY, c.interval * DAY); };
+    const due = Object.keys(state.concepts).filter(id => byConcept[id] && isDue(state.concepts[id], now))
+      .sort((a, b) => (overdue(b) - overdue(a)) || (masteryOf(state, a) - masteryOf(state, b)));
+    const pick = id => { const xs = byConcept[id].filter(x => x.stage !== 'guided'); return xs.length ? xs[Math.floor(rand() * xs.length)] : null; };
+    const items = [];
+    due.slice(0, Math.ceil(size * .67)).forEach(id => { const x = pick(id); if (x) items.push(x); });
+    const quiet = shuffle(pool.filter(x => x.quiet), rand);
+    const known = shuffle(Object.keys(state.concepts).filter(id => byConcept[id] && due.indexOf(id) < 0), rand);
+    while (items.length < size && (quiet.length || known.length)){
+      const wantQuiet = quiet.length && (items.filter(x => x.quiet).length < Math.ceil(size / 4) || !known.length);
+      const x = wantQuiet ? quiet.shift() : pick(known.shift());
+      if (x && items.indexOf(x) < 0) items.push(x);
+    }
+    shuffle(items, rand);
+    for (let i = 1; i < items.length; i++){                      /* avoid back-to-back motifs */
+      if (items[i].conceptId === items[i-1].conceptId){
+        const j = items.findIndex((x, k) => k > i && x.conceptId !== items[i].conceptId);
+        if (j > 0) [items[i], items[j]] = [items[j], items[i]];
+      }
+    }
+    return items.map(x => Object.assign({}, x, { showLabel:false, reviewItem:true }));
+  }
+  /** A mastery test: the lesson's own test items hidden among unrelated ones. */
+  function buildMasteryTest(lesson, pool, opts){
+    opts = opts || {};
+    const rand = rng(opts.seed || 7);
+    const own = pool.filter(x => x.conceptId === lesson.conceptId && x.stage !== 'guided');
+    const mine = shuffle(own.slice(), rand).slice(0, opts.own || 3);
+    const n = opts.others == null ? 2 : opts.others;
+    const others = n ? shuffle(pool.filter(x => x.conceptId !== lesson.conceptId && x.stage !== 'guided' &&
+      (x.band || 0) <= (lesson.band || 0) + 100), rand).slice(0, n) : [];
+    return shuffle(mine.concat(others), rand).map(x => Object.assign({}, x, { showLabel:false, testItem:true }));
+  }
+
+  /* ==========================================================================
+     EDUCATIONAL QUALITY — puzzle rating alone is not enough to teach with.
+     ======================================================================== */
+  const MOTIF_THEMES = ['fork','pin','skewer','discoveredAttack','doubleCheck','deflection','attraction','interference',
+    'clearance','xRayAttack','intermezzo','sacrifice','trappedPiece','hangingPiece','backRankMate','smotheredMate',
+    'capturingDefender','exposedKing','quietMove','defensiveMove','zugzwang','promotion','underPromotion','enPassant'];
+  const EduQuality = {
+    FIELDS: ['cleanMotif','visualClarity','alternativeMoves','calculationDepth','requiredPrerequisites',
+             'positionNaturalness','conceptIsolation','defensiveResources','solutionAmbiguity','learnerSuitability'],
+    /** 0..1 teaching value. calculationDepth is in moves; lower is cleaner for a first lesson. */
+    score(q){
+      const n = v => v == null ? .5 : v;
+      const depthPenalty = clamp(((q.calculationDepth || 1) - 1) / 5, 0, 1);
+      return clamp(.24 * n(q.cleanMotif) + .14 * n(q.visualClarity) + .14 * (1 - n(q.solutionAmbiguity)) +
+                   .12 * n(q.conceptIsolation) + .1 * n(q.positionNaturalness) + .1 * (1 - depthPenalty) +
+                   .08 * (1 - clamp((q.alternativeMoves || 0) / 3, 0, 1)) + .08 * n(q.learnerSuitability), 0, 1);
+    },
+    /** Heuristic estimate from a Lichess puzzle row. Every field is a guess to be refined by engine review. */
+    fromLichess(row){
+      const themes = row.themes || [];
+      const motifs = themes.filter(t => MOTIF_THEMES.indexOf(t) >= 0);
+      const plies = (row.moves || []).length;
+      const pieces = String(row.fen || '').split(' ')[0].replace(/[^a-zA-Z]/g, '').length;
+      const calculationDepth = Math.max(1, Math.ceil((plies - 1) / 2));
+      const cleanMotif = motifs.length <= 1 ? .95 : motifs.length === 2 ? .6 : .35;
+      const q = {
+        cleanMotif,
+        visualClarity: pieces <= 12 ? .9 : pieces <= 20 ? .75 : pieces <= 26 ? .6 : .45,
+        alternativeMoves: null,
+        calculationDepth,
+        requiredPrerequisites: motifs.length,
+        positionNaturalness: row.popularity == null ? .5 : clamp((row.popularity + 100) / 200, 0, 1),
+        conceptIsolation: clamp(cleanMotif * (1 - .12 * (calculationDepth - 1)), 0, 1),
+        defensiveResources: themes.indexOf('defensiveMove') >= 0 ? .8 : .2,
+        solutionAmbiguity: row.ratingDeviation == null ? .4 : clamp((row.ratingDeviation - 60) / 120, 0, 1),
+        learnerSuitability: null
+      };
+      q.score = EduQuality.score(q);
+      return q;
+    }
+  };
+
+  /** One query shape for every puzzle store (the Node index and, later, the app). */
+  const PuzzleQuery = {
+    matches(p, q){
+      if (q.ratingMin != null && p.rating < q.ratingMin) return false;
+      if (q.ratingMax != null && p.rating > q.ratingMax) return false;
+      if (q.motif && (p.themes || []).indexOf(q.motif) < 0) return false;
+      if (q.phase && (p.themes || []).indexOf(q.phase) < 0) return false;
+      if (q.opening && (p.openingTags || []).indexOf(q.opening) < 0) return false;
+      if (q.solutionLength != null && Math.ceil(((p.moves || []).length - 1) / 2) !== q.solutionLength) return false;
+      if (q.popularityMin != null && (p.popularity == null || p.popularity < q.popularityMin)) return false;
+      if (q.playsMin != null && (p.nbPlays == null || p.nbPlays < q.playsMin)) return false;
+      if (q.calculationDepthMax != null && p.quality && p.quality.calculationDepth > q.calculationDepthMax) return false;
+      if (q.qualityMin != null && (!p.quality || p.quality.score < q.qualityMin)) return false;
+      return true;
+    }
+  };
+
+  return {
+    DAY, BANDS, MAX_RATING, bandOf, bandLabel, SKILLS, BRANCHES, DURABILITY, LABELS, FAILURES, DISAGREEMENTS,
+    PROVENANCE_FIELDS, SOURCE_TYPES, LICENSES, validateProvenance, originalProvenance,
+    VALUE, attacksFrom, attackers, material, explainIllegal, hangingAfter, threatStillWorks,
+    winPct, tolerance, objectiveLabel, calcCapacity, candidate, difficulty, executionRisk, analysePosition,
+    levelText, evalVisible, fmtEval, GOALS, goalMet, pinsBy, judge, judgeSquare,
+    newState, newConcept, computeMastery, record, schedule, isDue, RELEARN_MS, MASTERED, UNLOCK,
+    updateSkills, overall, skillRating, ratingFor, masteryOf, prereqsMet, conceptStatus, recommended,
+    rng, buildReview, buildMasteryTest, MOTIF_THEMES, EduQuality, PuzzleQuery
+  };
+})();
+</script>
+<script>
+"use strict";
+/* ============================================================================
+   SECTION 34 — ACADEMY CURRICULUM
+   ----------------------------------------------------------------------------
+   Data only. Three layers:
+
+     ACADEMY_SPINE      every topic from Absolute beginner to 2100+, whether or
+                        not a lesson exists yet ("planned" topics still show)
+     ACADEMY_LESSONS    lessons: intro → demo → guided → transfer → recognition
+                        → defence → mini-game → mastery test
+     ACADEMY_EXERCISES  positions, each with CandidateMoveAnalysis records
+
+   Every exercise position is legal (tools/academy.test.js replays them through
+   Rules) and every engineEval was produced by the bundled Stockfish 18 at
+   depth 16 (tools/verify-academy.js re-checks them). Evaluations are from the
+   side to move, in centipawns. K+P positions are Syzygy tablebase results.
+
+   Content is ORIGINAL to Gambit Academy. Classic ideas (opposition, the
+   fork, the back rank) are common chess knowledge, not anyone's lesson text.
+   ========================================================================== */
+const ACADEMY_ENGINE = { tool:'stockfish-18-lite-single', depth:16, checked:'2026-09-17' };
+const ACADEMY_TB     = { tool:'tablebase.lichess.ovh (7-piece Syzygy)', checked:'2026-09-17' };
+const srcOriginal = (id, notes, extra) => Academy.originalProvenance(id, notes, extra);
+
+/* ---------------------------------------------------------------------------
+   THE SPINE. `lesson` names the seeded lesson for a topic; everything else is
+   planned. Branch decides where a topic appears in the Academy view.
+   ------------------------------------------------------------------------- */
+const ACADEMY_SPINE = [
+  { band:0, topics:[
+    ['board-orientation','Board orientation','fundamentals','TIMELESS'],
+    ['coordinates','Coordinates','vision','TIMELESS','academy-coordinates'],
+    ['setup','Setting up the pieces','fundamentals','TIMELESS'],
+    ['turns','Taking turns','fundamentals','TIMELESS'],
+    ['objective','The objective of chess','fundamentals','TIMELESS'] ]},
+  { band:100, topics:[
+    ['rook-movement','The rook','fundamentals','TIMELESS','academy-rook'],
+    ['bishop-movement','The bishop','fundamentals','TIMELESS'],
+    ['queen-movement','The queen','fundamentals','TIMELESS'],
+    ['king-movement','The king','fundamentals','TIMELESS'],
+    ['knight-movement','The knight','fundamentals','TIMELESS'],
+    ['pawn-movement','The pawn','fundamentals','TIMELESS'] ]},
+  { band:200, topics:[
+    ['attacks','Attacks','vision','TIMELESS'],
+    ['defenders','Defenders','vision','TIMELESS'],
+    ['piece-values','Piece values','fundamentals','MOSTLY_TIMELESS'],
+    ['safe-captures','Safe captures','vision','TIMELESS'],
+    ['illegal-king-moves','Illegal king moves','fundamentals','TIMELESS'] ]},
+  { band:300, topics:[
+    ['check','Check','checkmates','TIMELESS','academy-check'],
+    ['escaping-check','Escaping check','defense','TIMELESS'],
+    ['checkmate','Checkmate','checkmates','TIMELESS'],
+    ['stalemate','Stalemate','endgames','TIMELESS'],
+    ['castling','Castling','fundamentals','TIMELESS'],
+    ['promotion','Promotion','fundamentals','TIMELESS'],
+    ['en-passant','En passant','fundamentals','TIMELESS'] ]},
+  { band:400, topics:[
+    ['hanging-pieces','Undefended pieces','vision','TIMELESS','academy-hanging'],
+    ['opponent-threats','Opponent threats','defense','TIMELESS'],
+    ['queen-safety','Queen safety','vision','TIMELESS'],
+    ['what-changed','"What changed after their move?"','defense','TIMELESS'] ]},
+  { band:500, topics:[
+    ['fork','The fork','tactics','TIMELESS','academy-fork'],
+    ['pin','The pin','tactics','TIMELESS','academy-pin'],
+    ['skewer','The skewer','tactics','TIMELESS'],
+    ['discovered-attack','Discovered attack','tactics','TIMELESS'],
+    ['back-rank-mate','Back-rank mate','checkmates','TIMELESS'] ]},
+  { band:600, topics:[
+    ['double-attack','Double attacks','tactics','TIMELESS'],
+    ['removing-defender','Removing the defender','tactics','TIMELESS'],
+    ['overloaded-pieces','Overloaded pieces','tactics','TIMELESS'],
+    ['mate-in-two','Mate in two','checkmates','TIMELESS'],
+    ['cct','Checks, captures, threats','calculation','TIMELESS'] ]},
+  { band:700, topics:[
+    ['centre-control','Control the centre','openings','MOSTLY_TIMELESS'],
+    ['opening-development','Development','openings','MOSTLY_TIMELESS','academy-development'],
+    ['king-safety','King safety','openings','MOSTLY_TIMELESS'],
+    ['tempo','Tempo','openings','MOSTLY_TIMELESS'],
+    ['connect-rooks','Connect the rooks','openings','MOSTLY_TIMELESS'],
+    ['breaking-principles','When principles may be broken','openings','MOSTLY_TIMELESS'] ]},
+  { band:800, topics:[
+    ['candidate-moves','Candidate moves','calculation','TIMELESS'],
+    ['forcing-moves','Forcing moves','calculation','TIMELESS'],
+    ['visualise-3-ply','2–3 ply visualisation','calculation','TIMELESS'],
+    ['move-ordering','Move ordering','calculation','TIMELESS'] ]},
+  { band:900, topics:[
+    ['queen-mate','Queen mate','endgames','TIMELESS'],
+    ['rook-mate','Rook mate','endgames','TIMELESS'],
+    ['opposition','Opposition','endgames','TIMELESS','academy-opposition'],
+    ['square-of-pawn','Square of the pawn','endgames','TIMELESS'],
+    ['passed-pawns','Passed pawns','pawns','TIMELESS'] ]},
+  { band:1000, topics:[
+    ['piece-activity','Piece activity','strategy','MOSTLY_TIMELESS'],
+    ['open-files','Open files','strategy','MOSTLY_TIMELESS','academy-open-files'],
+    ['outposts','Outposts','strategy','MOSTLY_TIMELESS'],
+    ['weak-squares','Weak squares','strategy','MOSTLY_TIMELESS'],
+    ['weak-pawns','Weak pawns','pawns','MOSTLY_TIMELESS'],
+    ['space','Space','strategy','MOSTLY_TIMELESS'] ]},
+  { band:1100, topics:[
+    ['attraction','Attraction','tactics','TIMELESS'],
+    ['deflection','Deflection','tactics','TIMELESS','academy-deflection'],
+    ['interference','Interference','tactics','TIMELESS'],
+    ['clearance','Clearance','tactics','TIMELESS'],
+    ['zwischenzug','Zwischenzug','calculation','TIMELESS'],
+    ['desperado','Desperado','tactics','TIMELESS'] ]},
+  { band:1200, topics:[
+    ['isolated-pawn','Isolated pawn','pawns','MOSTLY_TIMELESS'],
+    ['doubled-pawns','Doubled pawns','pawns','MOSTLY_TIMELESS'],
+    ['backward-pawn','Backward pawn','pawns','MOSTLY_TIMELESS'],
+    ['pawn-chains','Pawn chains','pawns','MOSTLY_TIMELESS'],
+    ['pawn-breaks','Pawn breaks','pawns','MOSTLY_TIMELESS'] ]},
+  { band:1300, topics:[
+    ['worst-piece','Improve your worst piece','strategy','MOSTLY_TIMELESS'],
+    ['create-weaknesses','Create weaknesses','strategy','MOSTLY_TIMELESS'],
+    ['attack-weaknesses','Attack weaknesses','strategy','MOSTLY_TIMELESS'],
+    ['simplification','Simplification','practical','MOSTLY_TIMELESS'],
+    ['prophylaxis-intro','Introductory prophylaxis','strategy','MOSTLY_TIMELESS'] ]},
+  { band:1400, topics:[
+    ['candidate-trees','Deeper candidate trees','calculation','TIMELESS'],
+    ['quiet-moves','Quiet moves','calculation','TIMELESS'],
+    ['defensive-calculation','Defensive calculation','defense','TIMELESS'],
+    ['only-moves','Only moves','defense','TIMELESS'],
+    ['visualisation','Visualisation','calculation','TIMELESS'] ]},
+  { band:1500, topics:[
+    ['initiative','Initiative','practical','MOSTLY_TIMELESS'],
+    ['compensation','Compensation','strategy','MOSTLY_TIMELESS'],
+    ['exchange-decisions','Exchange decisions','practical','MOSTLY_TIMELESS'],
+    ['conversion','Conversion','practical','MOSTLY_TIMELESS'],
+    ['defending-worse','Defending worse positions','defense','MOSTLY_TIMELESS'],
+    ['practical-simplification','Practical simplification','practical','MOSTLY_TIMELESS'] ]},
+  { band:1600, topics:[
+    ['lucena','Lucena position','endgames','TIMELESS'],
+    ['philidor','Philidor position','endgames','TIMELESS'],
+    ['rook-activity','Rook activity','endgames','TIMELESS'],
+    ['minor-piece-endings','Minor-piece endings','endgames','TIMELESS'],
+    ['outside-passed-pawn','Outside passed pawn','endgames','TIMELESS'],
+    ['king-activity','King activity','endgames','TIMELESS'] ]},
+  { band:1700, topics:[
+    ['colour-complexes','Colour complexes','strategy','MOSTLY_TIMELESS'],
+    ['restriction','Restriction','strategy','MOSTLY_TIMELESS'],
+    ['domination','Domination','strategy','TIMELESS'],
+    ['static-dynamic','Static vs dynamic advantages','strategy','MOSTLY_TIMELESS'],
+    ['transforming-advantages','Transforming advantages','strategy','MOSTLY_TIMELESS'] ]},
+  { band:1800, topics:[
+    ['multi-stage-combinations','Multi-stage combinations','tactics','TIMELESS'],
+    ['exchange-sacrifices','Exchange sacrifices','tactics','MOSTLY_TIMELESS'],
+    ['defensive-tactics','Defensive tactics','defense','TIMELESS'],
+    ['deep-quiet-moves','Deep quiet moves','calculation','TIMELESS'],
+    ['complex-forcing-lines','Complex forcing lines','calculation','TIMELESS'] ]},
+  { band:1900, topics:[
+    ['iqp','IQP positions','pawns','MOSTLY_TIMELESS'],
+    ['carlsbad','Carlsbad structure','pawns','MOSTLY_TIMELESS'],
+    ['hanging-pawns','Hanging pawns','pawns','MOSTLY_TIMELESS'],
+    ['maroczy','Maroczy Bind','pawns','THEORY_SENSITIVE'],
+    ['hedgehog','Hedgehog','pawns','THEORY_SENSITIVE'],
+    ['french-structures','French structures','pawns','THEORY_SENSITIVE'],
+    ['sicilian-structures','Sicilian structures','pawns','THEORY_SENSITIVE'],
+    ['kid-structures','King\'s Indian structures','pawns','THEORY_SENSITIVE'] ]},
+  { band:2000, topics:[
+    ['deep-visualisation','Deep visualisation','calculation','TIMELESS'],
+    ['advanced-evaluation','Advanced positional evaluation','analysis','MOSTLY_TIMELESS'],
+    ['fortresses','Fortresses','endgames','TIMELESS'],
+    ['theoretical-endings','Theoretical endings','endgames','TIMELESS'],
+    ['defensive-resources','Advanced defensive resources','defense','TIMELESS'],
+    ['complex-transformations','Complex transformations','strategy','MOSTLY_TIMELESS'] ]},
+  { band:2100, topics:[
+    ['weakness-correction','Personalised weakness correction','analysis','TIMELESS'],
+    ['opening-preparation','Opening preparation','openings','CURRENT_THEORY'],
+    ['chess-studies','Chess studies','calculation','TIMELESS'],
+    ['model-games','Model games','analysis','MOSTLY_TIMELESS'],
+    ['tournament-strategy','Tournament strategy','practical','MOSTLY_TIMELESS'],
+    ['repertoire-work','Advanced repertoire work','openings','CURRENT_THEORY'] ]}
+];
+
+/* Opening education changes shape with level. Families are taught as ideas
+   long before they are taught as move lists. */
+const ACADEMY_OPENING_STAGES = [
+  { min:0,    max:699,  focus:'Principles', teach:['centre','development','king safety','piece activity'] },
+  { min:700,  max:1099, focus:'Opening families and their ideas', teach:['Italian','French','Caro-Kann','Sicilian','Queen\'s Gambit'] },
+  { min:1100, max:1499, focus:'A basic repertoire', teach:['moves','resulting pawn structure','normal piece placement','typical plans','common tactics','the common mistake','the important trap'] },
+  { min:1500, max:1899, focus:'Understanding the repertoire', teach:['transpositions','thematic pawn breaks','alternative plans','critical branches','model games'] },
+  { min:1900, max:2800, focus:'Concrete preparation', teach:['move-order details','theoretical branches','engine preparation','opponent-specific preparation'] }
+];
+
+/* ---------------------------------------------------------------------------
+   COMPETING ADVICE. A rule of thumb is stored as a claim whose wording
+   matures with the learner, together with why teachers disagree about it.
+   ------------------------------------------------------------------------- */
+const ACADEMY_CLAIMS = [
+  { id:'trade-when-ahead', statement:'Trade pieces when you are ahead.',
+    kinds:['LEVEL_DEPENDENT','PEDAGOGICAL_SIMPLIFICATION'],
+    stages:[
+      { min:400,  text:'When you are ahead in material, trading pieces is usually helpful.' },
+      { min:1000, text:'When ahead, exchanging pieces often reduces your opponent\'s counterplay.' },
+      { min:1500, text:'Only simplify if the resulting position preserves your advantage.' },
+      { min:1900, text:'Compare the resulting position objectively rather than exchanging automatically.' } ],
+    provenance: srcOriginal('claim-trade-when-ahead', 'Common coaching heuristic; wording original.') },
+  { id:'knights-before-bishops', statement:'Develop knights before bishops.',
+    kinds:['PEDAGOGICAL_SIMPLIFICATION','STYLE_OR_REPERTOIRE_CHOICE'],
+    stages:[
+      { min:0,    text:'Knights usually come out before bishops: their best squares are clear early, the bishops\' are not.' },
+      { min:1000, text:'Often true because a knight\'s best square is known sooner. Plenty of main lines develop a bishop first (the Italian, the London).' },
+      { min:1600, text:'Develop the piece whose best square you already know. Delay the one whose square depends on the pawn structure.' } ],
+    provenance: srcOriginal('claim-knights-before-bishops', '19th-century rule of thumb (Lasker is often credited); wording original.') },
+  { id:'never-play-f3', statement:'Never play f3 (…f6) in the opening.',
+    kinds:['LEVEL_DEPENDENT','PEDAGOGICAL_SIMPLIFICATION','OUTDATED_THEORY'],
+    stages:[
+      { min:0,    text:'Avoid f3 early: it takes the knight\'s best square and opens the diagonal to your king.' },
+      { min:1200, text:'f3 is bad when it only weakens your king. It is excellent when it supports e4 or g4 in a structure built for it.' },
+      { min:1800, text:'Judge f3 by the structure. The Sämisch King\'s Indian and many Open Sicilian attacks are built on it.' } ],
+    provenance: srcOriginal('claim-never-play-f3', 'Beginner rule; counterexamples are standard master practice.') },
+  { id:'push-passed-pawns', statement:'Passed pawns must be pushed.',
+    kinds:['LEVEL_DEPENDENT','PEDAGOGICAL_SIMPLIFICATION'],
+    stages:[
+      { min:600,  text:'A passed pawn wants to advance — every step makes it harder to stop.' },
+      { min:1200, text:'Push a passed pawn when it is supported. A pawn that runs ahead of its pieces is simply lost.' },
+      { min:1700, text:'Sometimes the passed pawn\'s best job is to tie a piece to its blockade while you play elsewhere.' } ],
+    provenance: srcOriginal('claim-push-passed-pawns', 'Common heuristic (blockade idea classically associated with Nimzowitsch); wording original.') },
+  { id:'early-queen', statement:'Don\'t bring your queen out early.',
+    kinds:['LEVEL_DEPENDENT','TIME_CONTROL_DEPENDENT','TINY_EVALUATION_DIFFERENCE'],
+    stages:[
+      { min:0,    text:'Keep the queen back early on — your opponent will develop by attacking her.' },
+      { min:1200, text:'2.Qh5 is only about −0.2 by the engine and sets traps, which is why it wins blitz games. It is still a poor habit: it spends tempi.' },
+      { min:1800, text:'Early queen moves are judged concretely. Several respectable lines (the Scandinavian, 4.Qc2 Nimzo) move the queen early.' } ],
+    provenance: srcOriginal('claim-early-queen', 'Engine figure from ACADEMY_ENGINE check of 1.e4 e5 2.Qh5.') }
+];
+
+/* ---------------------------------------------------------------------------
+   EXERCISES. Candidate fields follow Academy.candidate(). Only what differs
+   from the defaults is written. `feedback` and `whyBetter` may be a string or
+   a list of { min, max, text } rating variants.
+   ------------------------------------------------------------------------- */
+const ACADEMY_EXERCISES = [
+
+/* ================================================================ COORDINATES */
+{ id:'coord-e4', conceptId:'coordinates', stage:'guided', kind:'square', band:0, rating:60,
+  fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', target:'e4', label:'Name that square', prompt:'Tap <b>e4</b>.',
+  hints:['Letters first: the files run a → h from left to right on White\'s side.', 'Find the e-file, then count up from rank 1: one, two, three, four.', { text:'Here.', show:'target' }],
+  success:'e4 — where the e-file meets the 4th rank. It is also the most-played first move in chess: 1.e4.' },
+{ id:'coord-f6-black', conceptId:'coordinates', stage:'transfer', kind:'square', band:0, rating:120, orientation:'b',
+  fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', target:'f6', label:'From Black\'s side', prompt:'The board is turned round. Tap <b>f6</b>.',
+  hints:['From Black\'s side, a is on the right and rank 1 is at the top.', 'Read the letters along the bottom edge — they now run h → a.', { text:'Here.', show:'target' }],
+  success:'f6. The square\'s name never changes — only your view of it does.' },
+{ id:'coord-e5-busy', conceptId:'coordinates', stage:'recognition', kind:'square', band:0, rating:160,
+  fen:'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', target:'e5', label:'Find it in a game',
+  prompt:'White\'s knight is eyeing Black\'s centre pawn. Tap the square that pawn stands on.',
+  hints:['Black\'s pawns started on rank 7. One of them has moved into the middle.', { text:'That pawn.', show:'target' }],
+  success:'e5. Knowing the square names lets you read — and later write — any chess game.' },
+{ id:'coord-b3', conceptId:'coordinates', stage:'test', kind:'square', band:0, rating:90,
+  fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', target:'b3', prompt:'Tap <b>b3</b>.', hints:[{ text:'Here.', show:'target' }], success:'b3.' },
+{ id:'coord-g7-black', conceptId:'coordinates', stage:'test', kind:'square', band:0, rating:150, orientation:'b',
+  fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', target:'g7', prompt:'Board turned. Tap <b>g7</b>.', hints:[{ text:'Here.', show:'target' }], success:'g7.' },
+{ id:'coord-h5', conceptId:'coordinates', stage:'test', kind:'square', band:0, rating:100,
+  fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', target:'h5', prompt:'Tap <b>h5</b>.', hints:[{ text:'Here.', show:'target' }], success:'h5.' },
+
+/* ============================================================== ROOK MOVEMENT */
+{ id:'rook-capture-knight', conceptId:'rook-movement', stage:'guided', band:100, rating:180,
+  fen:'7k/8/3n4/8/8/8/3R4/6K1 w - - 0 1', label:'Capture with the rook', prompt:'Capture the black knight with your rook.',
+  goal:{ type:'capture', square:'d6' }, policy:'target',
+  hints:['Rooks slide along ranks and files as far as they like.', 'Which black piece shares a file with your rook?', { text:'Slide all the way here.', show:'to' }],
+  candidates:[
+    { move:'d2d6', engineRank:1, engineEval:423, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:'Correct — Rxd6. The rook slid up the open d-file and captured by landing on the knight\'s square.' },
+    { move:'d2d5', engineRank:3, engineEval:30, conceptAlignment:.3, category:'PLAYABLE_NOT_BEST', outcome:'retry',
+      feedback:'The rook now attacks the knight, but it will just jump away. You could take it right now — the path is clear all the way to d6.' },
+    { move:'d2g2', engineRank:2, engineEval:31, conceptAlignment:0, category:'MISSED_OBJECTIVE', outcome:'retry',
+      feedback:'A legal rook move, but the knight is still there for the taking. Look up the d-file.' } ],
+  fallback:{ outcome:'retry', category:'MISSED_OBJECTIVE', feedback:'Legal — but the knight is on the same file as your rook with nothing in between.' } },
+{ id:'rook-long-rank', conceptId:'rook-movement', stage:'transfer', band:100, rating:230,
+  fen:'8/1k6/8/8/b6R/8/5PPP/6K1 w - - 0 1', label:'Across the board', prompt:'Win the bishop.',
+  goal:{ type:'capture', square:'a4' }, policy:'target',
+  hints:['Rooks move along ranks too, not just files.', 'Look along your rook\'s rank, all the way to the edge.', { text:'Here.', show:'to' }],
+  candidates:[
+    { move:'h4a4', engineRank:1, engineEval:778, conceptAlignment:1,
+      feedback:'Correct — Rxa4. Seven squares along the 4th rank in one move: rooks cover distance fast.' },
+    { move:'h4b4', engineRank:2, engineEval:762, conceptAlignment:.7, accept:true,
+      feedback:'Rb4+ works too: it is check, the bishop must block on b5, and you take it next move. Rxa4 was just one move quicker.' },
+    { move:'f2f3', engineRank:3, engineEval:743, conceptAlignment:0, category:'PLAYABLE_NOT_BEST', outcome:'retry',
+      feedback:'You are still winning, but the bishop on a4 was free to take along the 4th rank.' } ],
+  fallback:{ outcome:'retry', category:'MISSED_OBJECTIVE', feedback:'The bishop on a4 is on your rook\'s rank with nothing in between.' } },
+{ id:'rook-take-queen', conceptId:'rook-movement', stage:'recognition', band:100, rating:260,
+  fen:'6k1/5ppp/8/q7/8/8/5PPP/R5K1 w - - 0 1', prompt:'What would you play?', policy:'target',
+  hints:['Is anything of yours attacked? Is anything of theirs undefended?', 'Look along the a-file.', { text:'Here.', show:'to' }],
+  threat:{ move:'a5a1', target:'a1', text:'Black\'s queen attacks your rook on a1 along the a-file, and nothing defends it.' },
+  candidates:[
+    { move:'a1a5', engineRank:1, engineEval:618, conceptAlignment:1,
+      feedback:'Correct — Rxa5. The queen and rook were attacking each other along the a-file; the side to move wins.' },
+    { move:'a1f1', engineRank:2, engineEval:-332, category:'TACTICAL_MISS',
+      feedback:'Your rook escaped — but the queen was attacking it along the a-file, which means your rook was attacking her too. Rxa5 wins the queen.' },
+    { move:'g2g3', engineRank:6, engineEval:-671, category:'MISSED_THREAT',
+      feedback:'The queen on a5 attacks your rook on a1, and nothing defends it: …Qxa1+. You could have taken her first.' } ] },
+{ id:'rook-save-rook', conceptId:'rook-movement', stage:'defense', band:100, rating:280,
+  fen:'6k1/5pp1/7p/8/8/2b5/5PPP/R5K1 w - - 0 1', label:'Save the rook', prompt:'Your rook is attacked. Find it a safe square.',
+  policy:'sound', goal:{ type:'safe' },
+  threat:{ move:'c3a1', target:'a1', text:'The bishop on c3 attacks your rook on a1 along the diagonal.' },
+  hints:['Which black piece attacks a1? Bishops move diagonally.', 'Choose a square the bishop cannot reach. Several work.', 'e1 and a5 are on the bishop\'s diagonals — avoid them.'],
+  candidates:[
+    { move:'a1a8', engineRank:1, engineEval:215, conceptAlignment:1, feedback:'Safe — and Ra8+ even gives check. The bishop moves only on dark squares; a8 is light.' },
+    { move:'a1a3', engineRank:2, engineEval:193, conceptAlignment:1, feedback:'Safe. From a3 the rook also attacks the bishop.' },
+    { move:'a1c1', engineRank:3, engineEval:192, conceptAlignment:1, feedback:'Safe, and the rook now attacks the bishop up the c-file.' },
+    { move:'a1a6', engineRank:4, engineEval:177, conceptAlignment:.9, feedback:'Safe. Any square off the bishop\'s diagonals works.' },
+    { move:'a1b1', engineRank:5, engineEval:176, conceptAlignment:.9, feedback:'Safe: b1 is a light square, and bishops on dark squares never reach it.' },
+    { move:'a1e1', engineEval:-415, category:'HANGING_PIECE',
+      feedback:'e1 is on the bishop\'s other diagonal (c3–d2–e1). …Bxe1 wins the rook.' },
+    { move:'a1a5', engineEval:-457, category:'HANGING_PIECE',
+      feedback:'a5 is on the diagonal c3–b4–a5, so the bishop still takes it.' } ] },
+
+/* ====================================================================== CHECK */
+{ id:'check-safe-check', conceptId:'check', stage:'guided', band:300, rating:340,
+  fen:'4k3/8/8/8/8/8/3Q4/4K3 w - - 0 1', label:'Give a safe check', prompt:'Give check — without losing your queen.',
+  goal:{ type:'safeCheck' }, policy:'target',
+  hints:['A check is an attack on the king along a line the king sits on.', 'Checks from right next to the king only work if the square is defended.', { text:'For example, from here.', show:'from' }],
+  success:'Check! The king has to answer it, and your queen is out of its reach.',
+  candidates:[
+    { move:'d2e2', engineRank:2, engineEval:1145, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:'Check! Qe2+ attacks the king down the e-file from a safe distance — the king cannot reach e2.' },
+    { move:'d2e3', engineRank:3, engineEval:908, conceptAlignment:1, pedagogicalQuality:.9,
+      feedback:'Check! Qe3+ uses the e-file, far from the king\'s reach.' },
+    { move:'d2d7', engineEval:-9, category:'HANGING_PIECE',
+      feedback:'That is check — but the queen is next to the king and nothing defends her. …Kxd7 and it is a draw.' },
+    { move:'d2d8', engineEval:-9, category:'HANGING_PIECE',
+      feedback:'Check, but d8 touches the king and your queen is undefended there: …Kxd8.' },
+    { move:'d2d6', engineRank:1, mateScore:8, conceptAlignment:.2, pedagogicalQuality:.6, category:'MISSED_OBJECTIVE', outcome:'retry',
+      feedback:[{ min:0, text:'A strong move — it takes squares away from the king — but it is not check. This exercise is about checking.' },
+                { min:1200, text:'Qd6 is actually the engine\'s choice (mate in 8): boxing the king in beats checking it. Here, though, find a check.' }] } ] },
+{ id:'check-escape', conceptId:'check', stage:'transfer', band:300, rating:380,
+  fen:'4r1k1/8/8/8/8/8/3B1PPP/4K3 w - - 0 1', label:'Get out of check', prompt:'You are in check. Get out of it.',
+  policy:'sound',
+  hints:['Three ways out: move the king, block the line, or capture the checking piece.', 'Nothing can capture the rook on e8. Can something block?', { text:'This piece can block.', show:'from' }],
+  candidates:[
+    { move:'d2e3', engineRank:1, engineEval:295, conceptAlignment:1,
+      feedback:'Blocked. The bishop steps between the rook and your king — and the f2 pawn defends it, so …Rxe3+ fxe3 only loses Black the exchange.' },
+    { move:'e1f1', engineRank:2, engineEval:260, conceptAlignment:1, feedback:'Out of check by moving the king off the e-file. Blocking with Be3 was also possible.' },
+    { move:'e1d1', engineRank:3, engineEval:252, conceptAlignment:1, feedback:'That works: the king steps off the e-file. Be3 (block) or Kf1 were fine too.' } ] },
+{ id:'check-capture-checker', conceptId:'check', stage:'recognition', band:300, rating:420,
+  fen:'4k3/8/8/8/8/5n2/6PP/6K1 w - - 0 1', prompt:'What would you play?', policy:'target',
+  hints:['You are in check. Which of the three escapes gains the most?', 'Can anything capture the checking piece?', { text:'This pawn.', show:'from' }],
+  candidates:[
+    { move:'g2f3', engineRank:1, engineEval:761, conceptAlignment:1,
+      feedback:'Correct — gxf3. Of the three ways out of check, capturing the checker is the only one that also wins material.' },
+    { move:'g1f1', engineRank:2, engineEval:48, category:'TACTICAL_MISS',
+      feedback:'You escaped the check, but the knight giving it was undefended and your g-pawn could take it.' },
+    { move:'g1f2', engineRank:3, engineEval:39, category:'TACTICAL_MISS',
+      feedback:'Legal, but moving the king was not the best escape — gxf3 captures the checking knight for free.' },
+    { move:'g1h1', engineRank:4, engineEval:36, category:'TACTICAL_MISS',
+      feedback:'Out of check, but the knight on f3 was free: gxf3.' } ] },
+
+/* ============================================================ HANGING PIECES */
+{ id:'hang-free-bishop', conceptId:'hanging-pieces', stage:'guided', band:400, rating:450,
+  fen:'r3k2r/ppp2ppp/2n3q1/3b4/8/2N2N2/PPP2PPP/R2QKB1R w KQkq - 0 1', label:'Take what is free',
+  prompt:'One black piece has no defender. Win it.', goal:{ type:'capture', square:'d5' }, policy:'target',
+  hints:['For each black piece, count its attackers and its defenders.', 'The bishop on d5: who attacks it? Who defends it?', { text:'Capture here.', show:'to' }],
+  candidates:[
+    { move:'d1d5', engineRank:1, engineEval:555, conceptAlignment:1, pedagogicalQuality:.8,
+      feedback:[{ min:0, text:'Correct — Qxd5. Attacked twice, defended zero times: the bishop was hanging.' },
+                { min:1000, text:'Correct — Qxd5, centralising the queen. …Qxc2 wins a pawn back, which a piece up you can afford.' }] },
+    { move:'c3d5', engineRank:2, engineEval:455, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:[{ min:0, text:'Correct — Nxd5. The bishop had no defender. Your knight on d5 also eyes c7.' },
+                { min:1200, text:'Nxd5 — also a clean piece up. Qxd5 is a touch stronger (+5.6 vs +4.6), but both are completely winning.' }] },
+    { move:'d1e2', engineRank:3, engineEval:405, conceptAlignment:.3, category:'PLAYABLE_NOT_BEST', outcome:'retry',
+      feedback:'Qe2+ is a good check, but the bishop on d5 is simply free. Take it first.' },
+    { move:'f3e5', engineRank:4, engineEval:391, conceptAlignment:.2, category:'PLAYABLE_NOT_BEST', outcome:'retry',
+      feedback:'Active, but the free bishop on d5 is still there. Take material that is offered.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'The bishop on d5 is attacked by your knight and queen and defended by nothing.' } },
+{ id:'hang-free-rook-black', conceptId:'hanging-pieces', stage:'transfer', band:400, rating:480,
+  fen:'6k1/pb3ppp/8/8/8/5R2/PP3P1P/6K1 b - - 0 1', label:'Look along the diagonal', prompt:'You are Black. Something of White\'s is undefended.',
+  goal:{ type:'capture' }, policy:'target',
+  hints:['Your bishop on b7 looks a long way.', 'Follow its diagonal to the other side of the board.', { text:'Here.', show:'to' }],
+  candidates:[
+    { move:'b7f3', engineRank:1, engineEval:551, conceptAlignment:1,
+      feedback:'Correct — …Bxf3. The g2 pawn that usually protects f3 is gone, so the rook was simply hanging.' },
+    { move:'g7g5', engineRank:2, engineEval:-449, category:'TACTICAL_MISS', feedback:'The rook on f3 had no defender and sat on your bishop\'s diagonal: …Bxf3.' },
+    { move:'f7f6', engineRank:3, engineEval:-488, category:'TACTICAL_MISS', feedback:'Solid-looking, but you missed a free rook: …Bxf3.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Check every White piece: which ones have no defender? One sits on your bishop\'s long diagonal.' } },
+{ id:'hang-defended-pawn', conceptId:'hanging-pieces', stage:'recognition', band:400, rating:520, quiet:true,
+  fen:'r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3', prompt:'What would you play?', policy:'sound',
+  hints:['Does the e5 pawn only look free? Count its defenders.', 'No tactic here — just develop well.'],
+  candidates:[
+    { move:'d2d4', engineRank:1, engineEval:46, conceptAlignment:.8, feedback:'Good — d4 challenges the centre straight away (the Scotch).' },
+    { move:'f1b5', engineRank:2, engineEval:31, conceptAlignment:.9, feedback:'Good — Bb5 develops and puts pressure on the defender of e5 (the Ruy Lopez).' },
+    { move:'f1c4', engineRank:3, engineEval:26, conceptAlignment:.9, feedback:'Good — Bc4 develops towards f7 (the Italian).' },
+    { move:'b1c3', engineRank:4, engineEval:21, conceptAlignment:.8, feedback:'Good — a natural developing move.' },
+    { move:'f3e5', engineEval:-227, category:'HANGING_PIECE',
+      feedback:'The e5 pawn looked free, but the knight on c6 defends it: Nxe5 Nxe5 gives away a knight for a pawn.' } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'Probably safe, but early in the game look for a move that develops a piece or claims the centre.' } },
+{ id:'hang-defend-e5', conceptId:'hanging-pieces', stage:'defense', band:400, rating:540, quiet:true,
+  fen:'rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', label:'What changed?', prompt:'White\'s last move created a threat. Deal with it.',
+  policy:'sound', threat:{ move:'f3e5', target:'e5', text:'You carried on, but White\'s knight now attacks e5 and nothing defends it: Nxe5 wins a pawn.' },
+  hints:['What does the knight on f3 attack?', 'Defend the pawn — or counter-attack something of equal value.'],
+  candidates:[
+    { move:'b8c6', engineRank:1, engineEval:-32, conceptAlignment:1, pedagogicalQuality:1, feedback:'Correct — …Nc6 defends e5 and develops a piece at the same time.' },
+    { move:'g8f6', engineRank:2, engineEval:-44, conceptAlignment:.6,
+      feedback:[{ min:0, text:'Good — you counter-attack e4 instead. If Nxe5, then …d6 and …Nxe4 wins the pawn back.' },
+                { min:1100, text:'Good — the Petrov. …Nf6 ignores the threat because …d6 and …Nxe4 regain the pawn; mind the move order (see the Petrov position).' }] },
+    { move:'d7d6', engineRank:3, engineEval:-47, conceptAlignment:.9, feedback:[{ min:0, text:'Good — …d6 defends e5 solidly.' },
+      { min:1000, text:'Good — the Philidor. Solid, though it shuts in your dark-squared bishop.' }] },
+    { move:'f8d6', engineRank:4, engineEval:-79, conceptAlignment:.5,
+      feedback:[{ min:0, text:'It defends e5. Playable.' },
+                { min:1000, text:'Playable, but the bishop on d6 blocks your d-pawn and with it your other bishop.' }] },
+    { move:'d8e7', engineRank:6, engineEval:-94, conceptAlignment:.4,
+      feedback:[{ min:0, text:'It defends e5, but the queen blocks your bishop on f8. …Nc6 was cleaner.' },
+                { min:1400, text:'Inaccurate: the queen defends e5 but locks in the f8 bishop and will be kicked by Nd5 or Nc3–d5.' }],
+      labelByRating:[{ min:1400, label:'INACCURATE' }], category:'POSITIONAL_INACCURACY' },
+    { move:'f7f6', engineEval:-140, category:'POSITIONAL_INACCURACY',
+      feedback:[{ min:0, text:'It defends e5, but it weakens your king badly: Nxe5! fxe5?? Qh5+ is crushing. Defend with a piece instead.' },
+                { min:1200, text:'A mistake: after Nxe5! Black cannot recapture (…fxe5 Qh5+ and the attack is decisive) and has to find …Qe7 just to stay a pawn down.' }] } ] },
+{ id:'hang-ruy-retreat', conceptId:'hanging-pieces', stage:'test', band:500, rating:600, quiet:true,
+  fen:'r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4', prompt:'What would you play?', policy:'sound',
+  threat:{ move:'a6b5', target:'b5', text:'The a6 pawn attacks your bishop on b5. It has to move or be traded.' },
+  candidates:[
+    { move:'b5a4', engineRank:1, engineEval:41, conceptAlignment:1, feedback:'Good — Ba4 keeps the bishop on its diagonal towards e8. The quiet retreat is the main line.' },
+    { move:'b5c6', engineRank:3, engineEval:5, conceptAlignment:.8, feedback:'Good — the Exchange Variation. You give the bishop pair but damage Black\'s pawns.' },
+    { move:'b5c4', engineRank:2, engineEval:-10, conceptAlignment:.7, feedback:[{ min:0, text:'Playable: the bishop is safe and eyes f7.' }, { min:1500, text:'Playable, but you spent a move on …a6 for Black: Bc4 is the Italian a tempo down.' }] },
+    { move:'b5e2', engineRank:4, engineEval:-16, conceptAlignment:.6, feedback:'Playable and safe, if passive.' } ] },
+
+/* ======================================================================= FORK */
+{ id:'fork-knight-check', conceptId:'fork', stage:'guided', band:500, rating:620,
+  fen:'r2q3k/6pp/8/4N3/8/8/2B2PPP/4R1K1 w - - 0 1', label:'Find the fork', prompt:'Win material with a fork.', policy:'target',
+  hints:['Look for a forcing move.', 'Can you give check?', 'Which knight square attacks both the king and the queen?', { text:'This square.', show:'to' }],
+  candidates:[
+    { move:'e5f7', engineRank:1, engineEval:508, conceptAlignment:1, forcingness:1, calculationDepth:3, tacticalComplexity:.4,
+      feedback:[{ min:0, text:'Excellent — Nf7+.<br>The knight checks the king while attacking the queen on d8. Because Black must answer the check first, the queen cannot escape.<br><b>Pattern:</b> forcing knight fork.' },
+                { min:1100, text:'Excellent — Nf7+ Kg8 Nxd8 Rxd8 leaves you a clean piece up.<br><b>Pattern:</b> forcing knight fork — the check removes Black\'s choice of reply.' }] },
+    { move:'c2b3', engineRank:2, engineEval:0, category:'TACTICAL_MISS', conceptAlignment:0,
+      feedback:'There was a forcing tactical win available. Checks come first: look at every knight check.' },
+    { move:'e5f3', engineRank:3, engineEval:-49, category:'TACTICAL_MISS', feedback:'The knight retreats from its best square. Nf7+ forked king and queen.' },
+    { move:'e5g6', engineEval:-309, category:'HANGING_PIECE', feedback:'Ng6+ is check, but …hxg6 takes the knight. A fork only works if the forking piece survives.' },
+    { move:'c2h7', engineEval:-351, category:'HANGING_PIECE', feedback:'Bxh7 wins a pawn and loses the bishop: …Kxh7.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'There was a forcing tactical win available. Look at every check your knight can give.' } },
+{ id:'fork-knight-black', conceptId:'fork', stage:'transfer', band:500, rating:680,
+  fen:'6k1/5ppp/8/8/3n4/8/5PPP/2R3K1 b - - 0 1', label:'Same idea, other colour', prompt:'You are Black. Find the fork.', policy:'target',
+  threat:{ move:'c1c8', mate:true, text:'You missed White\'s threat: Rc8 is mate on your back rank.' },
+  hints:['Forcing moves first.', 'Which knight check also attacks the rook?', { text:'Here.', show:'to' }],
+  candidates:[
+    { move:'d4e2', engineRank:1, engineEval:448, conceptAlignment:1, forcingness:1, calculationDepth:3,
+      feedback:'Excellent — …Ne2+. King on g1, rook on c1, knight on e2 touching both. White must move the king and …Nxc1 follows — which also removes the back-rank threat.' },
+    { move:'h7h5', engineRank:2, engineEval:-245, category:'TACTICAL_MISS',
+      feedback:'Making room for your king is sensible — White did threaten Rc8+ — but …Ne2+ solved that and won the rook.' },
+    { move:'g7g6', engineRank:3, engineEval:-258, category:'TACTICAL_MISS', feedback:'Luft, but you missed …Ne2+ forking king and rook.' },
+    { move:'d4e6', engineRank:4, engineEval:-264, category:'TACTICAL_MISS', feedback:'It guards c7 and d8, but …Ne2+ simply wins the rook.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Check every knight check. One of them attacks the rook as well.' } },
+{ id:'fork-pawn', conceptId:'fork', stage:'recognition', band:500, rating:700,
+  fen:'6k1/p4ppp/2n1b3/8/2PP4/8/4BPPP/1N4K1 w - - 0 1', prompt:'What would you play?', policy:'target',
+  hints:['Two black pieces stand side by side.', 'Pawns attack diagonally forward — and your d-pawn is protected.', { text:'Push this pawn.', show:'from' }],
+  candidates:[
+    { move:'d4d5', engineRank:1, engineEval:443, conceptAlignment:1, calculationDepth:3,
+      feedback:[{ min:0, text:'Correct — d5! The pawn forks the knight and the bishop, and c4 protects it. Black can save only one.' },
+                { min:1100, text:'Correct — d5. …Bxd5 cxd5 still costs Black a piece; the c4 support is what makes the fork work.' }] },
+    { move:'f2f3', engineRank:2, engineEval:-19, category:'TACTICAL_MISS', feedback:'The knight on c6 and bishop on e6 were one pawn push away from a fork: d5.' },
+    { move:'e2d3', engineRank:4, engineEval:-26, category:'TACTICAL_MISS', feedback:'Developing is nice, but d5 forked two pieces.' },
+    { move:'b1d2', engineRank:5, engineEval:-31, category:'TACTICAL_MISS', feedback:'Pawns fork too: d5 attacked c6 and e6 at once.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Two black pieces sit a knight\'s-jump apart on the same rank. Which pawn move attacks both?' } },
+{ id:'fork-move-order', conceptId:'fork', stage:'test', band:700, rating:900,
+  fen:'r1bqk2r/ppp2ppp/8/4N3/8/8/PPP2PPP/R2QK2R w KQkq - 0 1', prompt:'What would you play?', policy:'target',
+  candidates:[
+    { move:'d1d8', engineRank:1, engineEval:456, conceptAlignment:1, forcingness:1, calculationDepth:4,
+      feedback:'Excellent — Qxd8+ Kxd8 Nxf7+ forks the king and the rook on h8. The queen trade comes first because it forces the king onto d8.' },
+    { move:'e5f7', engineEval:-402, category:'WRONG_MOVE_ORDER',
+      feedback:'Your idea works, but the forcing queen trade must come first. After Nxf7 Black is not obliged to recapture — …Qe7+ or …Qxd1+ trades queens with check and the knight on f7 is lost.' },
+    { move:'d1f3', engineRank:2, engineEval:20, category:'TACTICAL_MISS', feedback:'Solid, but Qxd8+ followed by Nxf7+ won the exchange and a pawn.' },
+    { move:'e1g1', engineRank:3, engineEval:10, category:'TACTICAL_MISS', feedback:'Castling is natural, but you had Qxd8+ Kxd8 Nxf7+, winning material.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Look for forcing moves, and think about the order you play them in.' } },
+{ id:'fork-prevent', conceptId:'fork', stage:'defense', band:500, rating:720,
+  fen:'r3k2r/pp3ppp/8/8/1n6/8/PP3PPP/R3KB1R w KQkq - 0 1', label:'Prevent the fork', prompt:'Your opponent threatens a fork. Prevent it.',
+  policy:'sound', threat:{ move:'b4c2', target:'a1', text:'You missed Black\'s threat: …Nc2+ forks your king and the rook on a1.' },
+  hints:['Where can the knight jump with check?', 'Move the king or the rook, or cover c2.'],
+  candidates:[
+    { move:'e1c1', engineRank:1, engineEval:27, conceptAlignment:1, feedback:[{ min:0, text:'Good — castling queenside takes the king off e1 and the rook off a1 in one move.' },
+      { min:1300, text:'Good — O-O-O removes both targets, and …Nxa2+? Kb1 leaves the knight trapped on a2.' }] },
+    { move:'f1b5', engineRank:2, engineEval:20, conceptAlignment:.8, feedback:'Good — Bb5+ gains a tempo: the knight cannot jump while Black is in check, and you castle next.' },
+    { move:'a1d1', engineRank:3, engineEval:10, conceptAlignment:.9, feedback:'Good — the rook leaves a1 and takes the open d-file.' },
+    { move:'e1d2', engineRank:4, engineEval:0, conceptAlignment:.9, feedback:'Good — Kd2 guards c2 so the knight cannot land there.' },
+    { move:'a1c1', engineRank:5, engineEval:-33, conceptAlignment:.7,
+      feedback:[{ min:0, text:'The fork is gone. …Nxa2 does win a pawn, though.' },
+                { min:1400, text:'It stops the fork but allows …Nxa2. O-O-O or Bb5+ prevented it for free.' }],
+      labelByRating:[{ min:1400, label:'INACCURATE' }], category:'RIGHT_PLAN_WRONG_EXECUTION' },
+    { move:'a2a3', engineEval:-369, category:'MISSED_THREAT', feedback:'a3 attacks the knight, but it simply jumps to c2 with check anyway: …Nc2+ and …Nxa1.' },
+    { move:'h2h3', engineEval:-372, category:'MISSED_THREAT', feedback:'You missed Black\'s threat: …Nc2+ forks king and rook.' } ] },
+
+/* ======================================================================== PIN */
+{ id:'pin-queen', conceptId:'pin', stage:'guided', band:500, rating:640,
+  fen:'4k3/p2q1ppp/5n2/8/P7/3B4/5PPP/3Q2K1 w - - 0 1', label:'Pin the queen', prompt:'Black\'s queen and king share a diagonal. Use it.', policy:'target',
+  goal:{ type:'pin' },
+  hints:['A pin needs a line: attacker → piece → something more valuable behind it.', 'The queen on d7 and the king on e8 are on one diagonal.', { text:'Your bishop goes here.', show:'to' }],
+  candidates:[
+    { move:'d3b5', engineRank:1, engineEval:637, conceptAlignment:1, forcingness:.8, calculationDepth:2,
+      feedback:[{ min:0, text:'Excellent — Bb5! The queen is pinned to the king: she cannot leave the diagonal, and a4 defends the bishop. Black loses the queen for a bishop.' },
+                { min:1300, text:'Excellent — Bb5. Note what it does NOT allow: the bishop left d3, opening the d-file, but …Qxd1+ is illegal because the queen is pinned.' }] },
+    { move:'d3f5', engineEval:-100000, mateScore:-1, category:'HANGING_PIECE',
+      feedback:'Bf5 attacks the queen — but it opens the d-file: …Qxd1 is checkmate on your back rank.' },
+    { move:'d1e1', engineRank:2, engineEval:43, category:'TACTICAL_MISS', feedback:'A reasonable check, but Bb5 pinned and won the queen.' },
+    { move:'d1b3', engineRank:3, engineEval:34, category:'TACTICAL_MISS', feedback:'Active, but Black\'s queen and king were lined up for Bb5.' },
+    { move:'a4a5', engineRank:4, engineEval:28, category:'TACTICAL_MISS', feedback:'The a-pawn is useful — as the defender of b5. Bb5 pinned the queen.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Look along the diagonal from b5 to e8.' } },
+{ id:'pin-knight-to-queen', conceptId:'pin', stage:'transfer', band:500, rating:660,
+  fen:'rnbqkb1r/ppp1pppp/5n2/3p4/3P4/4PN2/PPP2PPP/RNBQKB1R b KQkq - 0 3', label:'A quiet pin', prompt:'You are Black. Pin one of White\'s pieces.',
+  goal:{ type:'pin' }, policy:'target',
+  hints:['A relative pin: the pinned piece may move — it just costs something bigger.', 'White\'s e-pawn has moved, so the knight on f3 now stands in front of the queen on d1.', { text:'Your bishop goes here.', show:'to' }],
+  candidates:[
+    { move:'c8g4', engineRank:6, engineEval:-29, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:[{ min:0, text:'Correct — …Bg4 pins the knight to the queen: if it moves, …Bxd1.' },
+                { min:1400, text:'Correct — …Bg4. A relative pin: the knight may still move (c4 and Qb3 are the usual answers). Engines rate …c5, …e6 and …Bg4 within two tenths of a pawn — a style choice, not a truth.' }] },
+    { move:'c7c5', engineRank:1, engineEval:-12, conceptAlignment:.1, category:'MISSED_OBJECTIVE',
+      feedback:[{ min:0, text:'A good move — but not a pin. Which piece of White\'s stands in front of the queen?' },
+                { min:1200, text:'…c5 is the engine\'s first choice here, so no complaint about the move. The exercise wants the pin, though.' }] },
+    { move:'e7e6', engineRank:2, engineEval:-16, conceptAlignment:.1, category:'MISSED_OBJECTIVE', feedback:'Solid, but it shuts in your c8 bishop — the piece that can pin.' },
+    { move:'c8f5', engineRank:5, engineEval:-21, conceptAlignment:.4, category:'MISSED_OBJECTIVE', feedback:'Right piece, good square — but from f5 it pins nothing. One square further: g4.' } ],
+  fallback:{ outcome:'retry', category:'MISSED_OBJECTIVE', feedback:'Find the bishop move that lines up a White piece with the queen behind it.' } },
+{ id:'pin-unpin-early', conceptId:'pin', stage:'defense', band:500, rating:700,
+  fen:'4k3/p2q1ppp/5n2/8/P7/3B4/5PPP/3Q2K1 b - - 0 1', label:'See it coming', prompt:'You are Black. White threatens to pin your queen. Stop it.',
+  policy:'sound', threat:{ move:'d3b5', target:'d7', text:'You missed White\'s threat: Bb5 pins your queen to your king.' },
+  hints:['Which White move lines up your queen and king?', 'Take the king off the diagonal, or the queen.'],
+  candidates:[
+    { move:'e8f8', engineRank:1, engineEval:0, conceptAlignment:1, feedback:'Good — …Kf8 steps off the e8–a4 diagonal before the bishop gets there.' },
+    { move:'d7d6', engineRank:2, engineEval:-3, conceptAlignment:1, feedback:'Good — the queen leaves the diagonal and stays central.' },
+    { move:'e8e7', engineRank:3, engineEval:-8, conceptAlignment:.9, feedback:'Good — the king leaves the diagonal. On e7 it is a little exposed to Qe1+.' },
+    { move:'d7c7', engineRank:4, engineEval:-8, conceptAlignment:.8, feedback:'The queen is off the pin line. Bb5+ is still a check, but nothing is pinned.' },
+    { move:'d7d3', engineEval:-667, category:'HANGING_PIECE', feedback:'…Qxd3 takes a bishop but Qxd3 takes your queen: the d1 queen defends d3.' } ] },
+
+/* ======================================================= OPENING DEVELOPMENT */
+{ id:'dev-second-move', conceptId:'opening-development', stage:'guided', band:700, rating:720,
+  fen:'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2', label:'Develop with purpose', prompt:'Make a good developing move.',
+  policy:'sound',
+  hints:['Knights and bishops first. The queen and king stay home for now.', 'A developing move is even better when it attacks something.', { text:'This piece, for example.', show:'from' }],
+  candidates:[
+    { move:'g1f3', engineRank:1, engineEval:39, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:'Excellent — Nf3 develops towards the centre and attacks e5, so Black has to respond.' },
+    { move:'b1c3', engineRank:2, engineEval:26, conceptAlignment:.9, feedback:'Good — Nc3 develops and supports e4. Nf3 would also have attacked e5.' },
+    { move:'f1c4', engineRank:3, engineEval:12, conceptAlignment:.8, feedback:'Good — the bishop aims at f7, the square only Black\'s king defends.' },
+    { move:'d2d4', engineRank:4, engineEval:2, conceptAlignment:.5,
+      feedback:[{ min:0, text:'A central pawn move. Playable, but after …exd4 Qxd4 Nc6 Black develops by attacking your queen.' },
+                { min:1400, text:'The Centre Game — sound, but the queen recapture costs a tempo after …Nc6.' }] },
+    { move:'d1h5', engineEval:-23, conceptAlignment:.1, pedagogicalQuality:.1, category:'POSITIONAL_INACCURACY', claim:'early-queen',
+      labelByRating:[{ max:1199, label:'INACCURATE' }, { min:1200, label:'PLAYABLE' }],
+      feedback:[{ min:0, text:'The queen comes out early. Black will develop while attacking her — …Nc6, …g6, …Nf6 — and you lose time.' },
+                { min:1200, text:'Playable: Qh5 is only about −0.2 and sets a trap (…Nc6 Bc4 Nf6?? Qxf7#). But it spends tempi — fine in blitz, a poor habit to build.' }] },
+    { move:'a2a3', engineEval:-30, conceptAlignment:0, category:'PLAYABLE_NOT_BEST', outcome:'retry',
+      feedback:'Legal and harmless, but it develops nothing. Early moves should bring out a piece or claim the centre.' },
+    { move:'f2f3', engineEval:-60, conceptAlignment:0, pedagogicalQuality:0, category:'POSITIONAL_INACCURACY', claim:'never-play-f3',
+      feedback:'f3 takes the knight\'s best square and opens the diagonal towards your king. It develops nothing.' },
+    { move:'e1e2', engineEval:-120, conceptAlignment:0, category:'POSITIONAL_INACCURACY',
+      feedback:'The king walks forward and blocks your bishop and queen. Keep the king home until you castle.' } ],
+  fallback:{ outcome:'retry', category:'MISSED_OBJECTIVE', feedback:'Develop a knight or bishop — ideally towards the centre.' } },
+{ id:'dev-black-reply', conceptId:'opening-development', stage:'transfer', band:700, rating:760,
+  fen:'r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3', label:'Your turn to develop', prompt:'You are Black. Develop a piece.',
+  policy:'sound',
+  hints:['Which of your pieces are still at home?', 'Put a piece where it fights for the centre.'],
+  candidates:[
+    { move:'g8f6', engineRank:1, engineEval:-15, conceptAlignment:1, feedback:'Excellent — …Nf6 develops and attacks e4 (the Two Knights).' },
+    { move:'f8c5', engineRank:2, engineEval:-16, conceptAlignment:1, feedback:'Excellent — …Bc5 mirrors White\'s bishop (the Giuoco Piano).' },
+    { move:'d7d6', engineRank:3, engineEval:-49, conceptAlignment:.6, feedback:'Playable and solid, though it hems in your f8 bishop.' },
+    { move:'f8e7', engineRank:4, engineEval:-50, conceptAlignment:.7, feedback:'Playable — the Hungarian. Modest, but it prepares castling.' },
+    { move:'c6d4', engineEval:-101, conceptAlignment:.2, category:'POSITIONAL_INACCURACY',
+      feedback:[{ min:0, text:'The knight moves twice before your other pieces are out. It sets a trap, but against good play you are just behind.' },
+                { min:1300, text:'Dubious: …Nd4 hopes for Nxe5?? Qg5, but after Nxd4 exd4 O-O White is comfortably better.' }] },
+    { move:'d8f6', engineEval:-105, conceptAlignment:.1, category:'POSITIONAL_INACCURACY', claim:'early-queen',
+      feedback:'The queen takes your knight\'s best square and will be chased by Nc3–d5.' },
+    { move:'f7f6', engineEval:-146, conceptAlignment:0, category:'POSITIONAL_INACCURACY', claim:'never-play-f3',
+      feedback:'…f6 develops nothing and opens the diagonal to your king — exactly where the c4 bishop points.' } ],
+  fallback:{ outcome:'retry', category:'MISSED_OBJECTIVE', feedback:'Bring out a knight or a bishop.' } },
+{ id:'dev-castle-or-not', conceptId:'opening-development', stage:'recognition', band:700, rating:820, quiet:true,
+  fen:'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', prompt:'What would you play?', policy:'sound',
+  hints:['Castling is a good habit. Is there a reason to wait one move?', 'What defends e4?'],
+  candidates:[
+    { move:'d2d3', engineRank:1, engineEval:18, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:'Excellent — d3 defends e4 and opens your c1 bishop. Now castling is safe.' },
+    { move:'d2d4', engineRank:2, engineEval:15, conceptAlignment:.7, feedback:'Good — the sharp central break. Fine if you know the lines after …exd4.' },
+    { move:'f3g5', engineRank:3, engineEval:3, conceptAlignment:.3, tacticalComplexity:.8, calculationDepth:9, onlyMoveRisk:.6, positionVolatility:.9, theoryDependency:.8, memorizationBurden:.7, failEval:-150,
+      recommendedRatingMin:1500,
+      feedback:[{ min:0, text:'Ng5 attacks f7, but it breaks a principle (moving a piece twice) and after …d5 the position gets very sharp. Playable, but hard to handle.' },
+                { min:1500, text:'Ng5 is fully sound (the engine calls it level), and it is a principle deliberately broken: you move a piece twice to hit f7. Know …d5 exd5 Na5 before you play it.' }] },
+    { move:'b1c3', engineRank:4, engineEval:-1, conceptAlignment:.8, feedback:'Good — Nc3 also protects e4.' },
+    { move:'e1g1', engineRank:6, engineEval:-35, conceptAlignment:.6, category:'THEORY_MISUNDERSTANDING',
+      feedback:[{ min:0, text:'Castling is a good habit and fine here. One thing to notice: e4 now has no defender, so Black can grab it (…Nxe4). You win it back, but the game is level.' },
+                { min:1300, text:'Playable, but it lets Black take …Nxe4. White regains the pawn (Bd5 or Re1), yet Black equalises comfortably. d3 first keeps e4 solid.' },
+                { min:1900, text:'Slightly inaccurate: it allows …Nxe4 with easy equality. Protect e4 first.' }] } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'Think about what defends your e4 pawn before anything else.' } },
+{ id:'dev-petrov-order', conceptId:'opening-development', stage:'test', band:800, rating:900, quiet:true,
+  fen:'rnbqkb1r/pppp1ppp/5n2/4N3/4P3/8/PPPP1PPP/RNBQKB1R b KQkq - 0 3', prompt:'You are Black. What would you play?', policy:'sound', durability:'THEORY_SENSITIVE',
+  candidates:[
+    { move:'d7d6', engineRank:1, engineEval:-42, conceptAlignment:1, feedback:'Correct — …d6 first. The knight must retreat, and then …Nxe4 regains the pawn safely.' },
+    { move:'f6e4', engineRank:2, engineEval:-64, conceptAlignment:.2, category:'THEORY_MISUNDERSTANDING',
+      labelByRating:[{ min:1000, label:'INACCURATE' }],
+      feedback:[{ min:0, text:'Taking back on e4 is the idea of this opening — but not yet. After Qe2 your knight is attacked, and the natural retreat …Nf6?? loses the queen to Nc6+, a discovered check.' },
+                { min:1300, text:'The move is common in similar positions, but not in this move order: …Nxe4?! Qe2 Qe7 Qxe4 d6 d4 leaves White a comfortable initiative. …d6 first.' }] },
+    { move:'d8e7', engineRank:3, engineEval:-73, conceptAlignment:.4, feedback:'Playable: it hits the knight and prepares …Qxe5-style ideas, but it blocks your bishop.' } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'You are a pawn down for the moment. Kick the knight first, then take on e4.' } },
+{ id:'dev-italian-quiet', conceptId:'opening-development', stage:'test', band:700, rating:760, quiet:true,
+  fen:'r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4', prompt:'What would you play?', policy:'sound',
+  candidates:[
+    { move:'d2d3', engineRank:1, engineEval:32, conceptAlignment:1, feedback:'Good — d3 supports e4 and frees your bishop. There is no tactic here: just play good moves.' },
+    { move:'e1g1', engineRank:2, engineEval:31, conceptAlignment:1, feedback:'Good — castle, and the rook joins the game.' },
+    { move:'c2c3', engineRank:3, engineEval:30, conceptAlignment:.9, feedback:'Good — c3 prepares d4 (the main line).' },
+    { move:'h2h3', engineRank:4, engineEval:24, conceptAlignment:.3, feedback:[{ min:0, text:'Fine, though it develops nothing.' }, { min:1500, text:'Playable, but h3 answers no threat yet; castle or c3 first.' }] },
+    { move:'b1c3', engineRank:5, engineEval:21, conceptAlignment:.9, feedback:'Good — natural development.' } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'Look for a move that develops, castles, or prepares d4.' } },
+
+/* ================================================================= OPPOSITION */
+{ id:'opp-take-it', conceptId:'opposition', stage:'guided', band:900, rating:950, engine:ACADEMY_TB,
+  fen:'8/4k3/8/3K4/4P3/8/8/8 w - - 0 1', label:'Take the opposition', prompt:'White to move. Find the only winning move.', policy:'target', outcome:'win',
+  hints:['Your king should go in front of the pawn, not behind it.', 'Aim for the kings facing each other with one square between — with Black to move.', { text:'This square.', show:'to' }],
+  candidates:[
+    { move:'d5e5', engineRank:1, engineEval:900, tb:'win', conceptAlignment:1,
+      feedback:'Correct — Ke5! The kings face each other with one square between and Black must move: the black king has to give way, and yours walks in front of the pawn.' },
+    { move:'e4e5', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE',
+      feedback:'Winning → Drawn.<br>The pawn push hands the opposition to Black: …Kd7! and White\'s king can no longer get in front of the pawn.' },
+    { move:'d5d4', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. Retreating lets Black\'s king come to e6 and blockade the pawn.' },
+    { move:'d5c5', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. Walking away from the pawn gives Black time: …Ke6.' },
+    { move:'d5c6', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. …Ke6 blockades the pawn and your king is on the wrong side.' },
+    { move:'d5c4', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. The black king reaches e5 or e6 in time.' } ] },
+{ id:'opp-hold-black', conceptId:'opposition', stage:'transfer', band:900, rating:980, engine:ACADEMY_TB, orientation:'b',
+  fen:'8/8/5k2/8/3KP3/8/8/8 b - - 0 1', label:'Now defend', prompt:'You are Black. Find the only drawing move.', policy:'target', outcome:'draw',
+  hints:['The defending king belongs directly in front of the pawn.', 'Which square blocks the pawn\'s path and keeps White\'s king out?', { text:'Here.', show:'to' }],
+  candidates:[
+    { move:'f6e6', tb:'draw', engineEval:0, engineRank:1, conceptAlignment:1,
+      feedback:'Correct — …Ke6. Directly in front of the pawn, ready to meet White\'s king face to face whichever way it goes.' },
+    { move:'f6f7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Your king leaves the square in front of the pawn, and White\'s king gets there first.' },
+    { move:'f6e7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Your king leaves the square in front of the pawn, and White\'s king gets there first.' },
+    { move:'f6g6', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Your king leaves the square in front of the pawn, and White\'s king gets there first.' },
+    { move:'f6g7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Your king leaves the square in front of the pawn, and White\'s king gets there first.' },
+    { move:'f6g5', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Attacking the pawn from the side does not help: e5 and the pawn runs.' } ] },
+{ id:'opp-outflank', conceptId:'opposition', stage:'recognition', band:900, rating:1050, engine:ACADEMY_TB,
+  fen:'8/8/3k4/8/5K2/4P3/8/8 w - - 0 1', prompt:'White to move. What would you play?', policy:'target', outcome:'win',
+  hints:['The obvious move lets Black take the opposition.', 'Get ahead of your pawn — diagonally.'],
+  candidates:[
+    { move:'f4f5', tb:'win', engineEval:900, engineRank:1, conceptAlignment:1,
+      feedback:'Correct — Kf5! Your king gets ahead of its pawn, and Black cannot take the opposition in front of it in time.' },
+    { move:'f4e4', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. Ke4 looks natural, but …Ke6 takes the opposition and you have no spare pawn move that helps.' },
+    { move:'e3e4', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. The pawn runs ahead of its king: …Ke6 and Black blockades.' },
+    { move:'f4g5', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. Too far to the side — …Ke5 wins the race to the centre.' },
+    { move:'f4f3', tb:'draw', engineEval:0, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Winning → Drawn. Retreating gives Black the key squares.' } ] },
+{ id:'opp-defend-side', conceptId:'opposition', stage:'defense', band:900, rating:1080, engine:ACADEMY_TB, orientation:'b',
+  fen:'8/8/4k3/8/5K2/4P3/8/8 b - - 0 1', label:'Keep them out', prompt:'You are Black. White wants Kf5. Stop it — only one move draws.', policy:'target', outcome:'draw',
+  hints:['Where does White\'s king want to go?', 'Meet it face to face.'],
+  candidates:[
+    { move:'e6f6', tb:'draw', engineEval:0, engineRank:1, conceptAlignment:1, feedback:'Correct — …Kf6. You take the opposition and White\'s king cannot get ahead of the pawn.' },
+    { move:'e6d5', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Kf5 and White\'s king gets in front of its pawn.' },
+    { move:'e6d6', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Kf5! and White has the key squares.' },
+    { move:'e6e7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Ke5 takes the opposition.' },
+    { move:'e6f7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Kf5 and then e4–e5.' },
+    { move:'e6d7', tb:'loss', engineEval:-900, category:'ENDGAME_OUTCOME_CHANGE', feedback:'Drawn → Lost. Kf5 gets ahead of the pawn.' } ] },
+
+/* ================================================================= OPEN FILES */
+{ id:'files-take-d', conceptId:'open-files', stage:'guided', band:1000, rating:1050, quiet:true,
+  fen:'r4rk1/ppp2ppp/2n1bn2/4p3/4P3/2N1B3/PPP1BPPP/R4RK1 w - - 0 1', label:'Use the open file', prompt:'No tactics. Improve your position.', policy:'sound',
+  hints:['Which file has no pawns on it at all?', 'Rooks want open files.'],
+  candidates:[
+    { move:'f1d1', engineRank:1, engineEval:60, conceptAlignment:1, pedagogicalQuality:1,
+      feedback:[{ min:0, text:'Excellent — Rfd1 puts a rook on the only open file.' },
+                { min:1200, text:'Excellent — Rfd1 takes the open file with the rook that has nothing to do on f1, keeping the a1 rook for c1 or b1.' }],
+      whyBetter:[{ min:0, text:'Rfd1 puts a rook on the open d-file straight away.' },
+                 { min:1200, text:'Rfd1 is slightly more active because it places the rook immediately on the open file.' },
+                 { min:1800, text:'Rfd1 is more precise: …Bg4 is not yet a real threat, so h3 spends a tempo the rook move uses.' }] },
+    { move:'a1d1', engineRank:4, engineEval:58, conceptAlignment:1,
+      feedback:[{ min:0, text:'Good — the rook takes the open file.' },
+                { min:1400, text:'Good. Rad1 is fine; Rfd1 keeps the queen\'s rook flexible for the c-file later.' }] },
+    { move:'f2f3', engineRank:2, engineEval:57, conceptAlignment:.3,
+      feedback:[{ min:0, text:'Good move — it supports e4 and keeps …Ng4 away. The open file still wants a rook, though.' },
+                { min:1400, text:'Fine prophylaxis (…Ng4 is gone, e4 is rock solid) and the engine likes it. Compare it with Rfd1, which does something with the file.' }] },
+    { move:'b2b3', engineRank:3, engineEval:54, conceptAlignment:.2, feedback:'Playable — but it does not use the open d-file.' },
+    { move:'h2h3', engineEval:31, conceptAlignment:.2,
+      feedback:[{ min:0, max:999, text:'Good move. It prevents …Bg4 ideas and does not create a tactical weakness.' },
+                { min:1000, max:1799, text:'Good practical move. Rfd1 is slightly more active because it places the rook immediately on the open file.' },
+                { min:1800, text:'Playable but slightly inaccurate. Rfd1 is more precise because …Bg4 is not currently a serious threat, so h3 spends an unnecessary tempo.' }] },
+    { move:'a1c1', engineEval:53, conceptAlignment:.4, category:'RIGHT_PLAN_WRONG_EXECUTION',
+      labelByRating:[{ min:1200, label:'PLAYABLE' }], outcomeByRating:[{ min:1200, outcome:'retry' }],
+      feedback:[{ min:0, text:'A rook move is the right plan. The c-file is still closed by your own c2 pawn, though — the d-file is open now.' },
+                { min:1200, text:'Right plan, wrong execution: activating a rook is correct, but the c-file is closed by c2. The d-file is the one that matters.' }] },
+    { move:'c3d5', engineEval:-62, conceptAlignment:0, category:'HANGING_PIECE',
+      feedback:'Nd5 looks active, but Black simply takes: …Bxd5 exd5 Nxd5, and the pawn that recaptured is lost.' } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'Legal, but the open d-file is the key feature of this position.' } },
+{ id:'files-take-d-black', conceptId:'open-files', stage:'transfer', band:1000, rating:1080, quiet:true, orientation:'b',
+  fen:'r4rk1/ppp1bpp1/2n1b2p/4p3/4P3/2N1BN1P/PPP2PP1/R4RK1 b - - 0 1', label:'Same structure, other side', prompt:'You are Black. Improve your position.', policy:'sound',
+  hints:['Find the file with no pawns.', 'Which rook is doing the least?'],
+  candidates:[
+    { move:'f8d8', engineRank:2, engineEval:58, conceptAlignment:1, feedback:'Excellent — …Rfd8 takes the open file with the idle rook.' },
+    { move:'a8d8', engineRank:5, engineEval:50, conceptAlignment:1, feedback:'Good — …Rad8 takes the open file too.' },
+    { move:'f7f5', engineRank:1, engineEval:59, conceptAlignment:.2, tacticalComplexity:.6, positionVolatility:.6, calculationDepth:6,
+      feedback:[{ min:0, text:'An aggressive pawn break — the engine likes it — but it loosens your king. The quiet …Rfd8 is the lesson move.' },
+                { min:1500, text:'…f5 is objectively fine (top engine line), trading structure for activity. The open file will still be there after …Rfd8.' }] },
+    { move:'a8c8', engineEval:41, conceptAlignment:.4, category:'RIGHT_PLAN_WRONG_EXECUTION',
+      labelByRating:[{ min:1200, label:'PLAYABLE' }], outcomeByRating:[{ min:1200, outcome:'retry' }],
+      feedback:'Right plan (activate a rook), wrong file: your own c7 pawn closes the c-file.' },
+    { move:'h6h5', engineEval:18, conceptAlignment:0, category:'POSITIONAL_INACCURACY',
+      labelByRating:[{ min:1000, label:'INACCURATE' }],
+      feedback:'It gains no space that matters and loosens g5. Put a rook on the open file.' },
+    { move:'c6d4', engineEval:-70, conceptAlignment:0, category:'HANGING_PIECE',
+      feedback:'…Nd4 invites Bxd4 exd4 Nxd4: you lose the e5 pawn.' } ],
+  fallback:{ outcome:'retry', category:'PLAYABLE_NOT_BEST', feedback:'Legal, but the open d-file is the key feature here.' } },
+{ id:'files-queen-trade', conceptId:'simplification', stage:'test', band:1000, rating:1100, quiet:true,
+  fen:'6k1/5ppp/3q4/8/8/8/P4PPP/2Q3K1 w - - 0 1', prompt:'You are a pawn up. What would you play?', policy:'sound', claim:'trade-when-ahead',
+  threat:{ move:'d6d1', mate:true, text:'You missed Black\'s threat: …Qd1 is mate on your back rank.' },
+  candidates:[
+    { move:'c1c8', engineRank:1, engineEval:419, conceptAlignment:1, forcingness:1,
+      feedback:[{ min:0, text:'Excellent — Qc8+ Qf8 Qxf8+ Kxf8. The queens come off, your back-rank worries vanish, and the extra a-pawn wins the king ending.' },
+                { min:1500, text:'Excellent — the trade preserves the advantage: the a-pawn is an outside passer and the king ending is winning. That is when simplifying is right.' }] },
+    { move:'a2a4', engineRank:2, engineEval:201, conceptAlignment:.3, category:'PLAYABLE_NOT_BEST',
+      feedback:[{ min:0, text:'The passed pawn advances, but with queens on your king stays weak. Qc8+ forced a winning queen trade.' },
+                { min:1400, text:'Playable, but Qc8+ converted immediately (+4.2 vs +2.0). With queens on, Black keeps perpetual-check chances.' }] },
+    { move:'g2g3', engineRank:3, engineEval:188, conceptAlignment:.4, category:'PLAYABLE_NOT_BEST',
+      feedback:'Making luft is sensible, but Qc8+ solved the back rank and traded queens in one go.' },
+    { move:'c1c5', engineEval:-100000, mateScore:-1, category:'MISSED_THREAT', feedback:'Offering the trade is the right idea, but not like this: …Qd1 is mate.' },
+    { move:'c1d1', engineEval:-100000, mateScore:-1, category:'HANGING_PIECE', feedback:'…Qxd1 is mate — your queen is undefended on d1 and your king has no escape square.' } ],
+  fallback:{ outcome:'fail', category:'MISSED_THREAT', feedback:'Check your back rank before anything else.' } },
+
+/* ================================================================= DEFLECTION */
+{ id:'defl-promote', conceptId:'deflection', stage:'guided', band:1100, rating:1150,
+  fen:'2r3k1/2P2ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1', label:'Deflect the defender', prompt:'Black\'s rook has two jobs. Overload it.', policy:'target',
+  hints:['What is the rook on c8 doing? List every job.', 'It stops the pawn AND guards the back rank.', { text:'Give it a second job — with check.', show:'to' }],
+  candidates:[
+    { move:'d1d8', engineRank:1, mateScore:2, conceptAlignment:1, forcingness:1, calculationDepth:3,
+      feedback:[{ min:0, text:'Correct — Rd8+! The rook must take (…Rxd8), leaving c8 — and cxd8=Q is mate.' },
+                { min:1300, text:'Correct — Rd8+ Rxd8 cxd8=Q#. The defender cannot guard both the back rank and the promotion square.' }] },
+    { move:'h2h4', engineRank:2, engineEval:703, conceptAlignment:0, category:'TACTICAL_MISS', outcome:'retry',
+      feedback:[{ min:0, text:'You are still winning, but there was mate in two: Rd8+.' },
+                { min:1300, text:'Still +7, but Rd8+ was mate in two. Luft moves can wait when a forcing line ends the game.' }] },
+    { move:'g1f1', engineRank:4, engineEval:668, category:'TACTICAL_MISS', outcome:'retry', feedback:'Still winning, but Rd8+ Rxd8 cxd8=Q# ended it at once.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'There was a forcing tactical win available. Start with checks.' } },
+{ id:'defl-promote-black', conceptId:'deflection', stage:'transfer', band:1100, rating:1180, orientation:'b',
+  fen:'3r2k1/5ppp/8/8/8/8/2p2PPP/2R3K1 b - - 0 1', label:'Mirror image', prompt:'You are Black. Promote your pawn.', policy:'target',
+  hints:['What does White\'s rook on c1 have to do?', 'Force it to leave the c-file — with check.'],
+  candidates:[
+    { move:'d8d1', engineRank:1, mateScore:2, conceptAlignment:1, forcingness:1, calculationDepth:3,
+      feedback:'Correct — …Rd1+! Rxd1 cxd1=Q is mate. The rook on c1 could not both block the pawn and guard the back rank.' },
+    { move:'d8d2', engineRank:4, engineEval:669, category:'RIGHT_PLAN_WRONG_EXECUTION', outcome:'retry',
+      feedback:'You want the rook on the first rank — but …Rd2 is not check, so White gets a tempo (Kf1). It still wins, yet …Rd1+ at once was mate in two.' },
+    { move:'g8f8', engineRank:2, engineEval:675, category:'TACTICAL_MISS', outcome:'retry', feedback:'Still winning, but …Rd1+ was mate in two.' },
+    { move:'h7h6', engineRank:3, engineEval:673, category:'TACTICAL_MISS', outcome:'retry', feedback:'Still winning, but …Rd1+ Rxd1 cxd1=Q# was there.' } ],
+  fallback:{ outcome:'fail', category:'TACTICAL_MISS', feedback:'Look for a check that makes White\'s rook leave c1.' } }
+];
+
+/* ---------------------------------------------------------------------------
+   LESSONS
+   ------------------------------------------------------------------------- */
+const ACADEMY_LESSONS = [
+{ id:'academy-coordinates', conceptId:'coordinates', title:'Board coordinates', band:0, branch:'vision', durability:'TIMELESS',
+  skills:{ boardVision:1 }, prerequisites:[], mastery:{ targetMs:12000, pass:.8 },
+  provenance: srcOriginal('academy-coordinates', 'Algebraic notation is common knowledge; exercises and wording original.'),
+  stages:[
+    { type:'intro', text:'Every square has a name. The <b>letter</b> is the file — the column, a to h. The <b>number</b> is the rank — the row, 1 to 8. White\'s pieces start on ranks 1 and 2.' },
+    { type:'demo', fen:'4k3/8/8/8/8/8/8/4K3 w - - 0 1', frames:[
+      { text:'These eight squares are the <b>a-file</b>. Files run a → h from White\'s left to right.', marks:{ a1:'key', a2:'key', a3:'key', a4:'key', a5:'key', a6:'key', a7:'key', a8:'key' } },
+      { text:'This row is the <b>1st rank</b>. Ranks count up from White\'s side.', marks:{ a1:'key', b1:'key', c1:'key', d1:'key', e1:'key', f1:'key', g1:'key', h1:'key' } },
+      { text:'Where the e-file meets the 4th rank is <b>e4</b>.', marks:{ e1:'attack', e2:'attack', e3:'attack', a4:'attack', b4:'attack', c4:'attack', d4:'attack', f4:'attack', g4:'attack', h4:'attack', e4:'target' } },
+      { text:'From Black\'s side the board turns round — a1 is now top-right — but every square keeps its name.', orientation:'b', marks:{ a1:'target', h8:'key' } } ] },
+    { type:'exercise', ref:'coord-e4' },
+    { type:'exercise', ref:'coord-f6-black' },
+    { type:'exercise', ref:'coord-e5-busy' },
+    { type:'mastery', own:3, others:0 } ] },
+
+{ id:'academy-rook', conceptId:'rook-movement', title:'How the rook moves', band:100, branch:'fundamentals', durability:'TIMELESS',
+  skills:{ boardVision:.7, tactics:.3 }, prerequisites:['coordinates'], mastery:{ targetMs:15000, pass:.8 },
+  provenance: srcOriginal('academy-rook', 'Rules of chess; positions composed for this lesson and engine-checked.'),
+  stages:[
+    { type:'intro', text:'The rook moves in straight lines: any number of squares along a rank or a file. It cannot jump, and it captures by landing on an enemy piece.' },
+    { type:'demo', fen:'7k/8/8/8/3R4/8/8/6K1 w - - 0 1', frames:[
+      { text:'From d4 the rook reaches every highlighted square — 14 of them on an empty board.',
+        marks:{ d1:'attack', d2:'attack', d3:'attack', d5:'attack', d6:'attack', d7:'attack', d8:'attack', a4:'attack', b4:'attack', c4:'attack', e4:'attack', f4:'attack', g4:'attack', h4:'attack', d4:'key' } },
+      { text:'Pieces block it. Your own b4 pawn stops it going left; the black pawn on d7 can be captured, but nothing beyond it can be reached.', fen:'7k/3p4/8/8/1P1R4/8/8/6K1 w - - 0 1',
+        marks:{ c4:'attack', e4:'attack', f4:'attack', g4:'attack', h4:'attack', d5:'attack', d6:'attack', d7:'target', d3:'attack', d2:'attack', d1:'attack', b4:'key' } },
+      { text:'Rxd7: the rook captures by moving onto the pawn\'s square.', move:'d4d7', arrows:[['d4','d7','green']] } ] },
+    { type:'exercise', ref:'rook-capture-knight' },
+    { type:'exercise', ref:'rook-long-rank' },
+    { type:'exercise', ref:'rook-take-queen' },
+    { type:'exercise', ref:'rook-save-rook' },
+    { type:'mastery', own:3, others:1 } ] },
+
+{ id:'academy-check', conceptId:'check', title:'Check', band:300, branch:'checkmates', durability:'TIMELESS',
+  skills:{ tactics:.5, boardVision:.3, defense:.2 }, prerequisites:['rook-movement'], mastery:{ targetMs:20000, pass:.8 },
+  provenance: srcOriginal('academy-check', 'Rules of chess; positions composed for this lesson and engine-checked.'),
+  stages:[
+    { type:'intro', text:'A king that is attacked is <b>in check</b>, and the player must deal with it at once. There are exactly three ways: <b>move</b> the king, <b>block</b> the line, or <b>capture</b> the checking piece.' },
+    { type:'demo', fen:'4r1k1/8/8/8/8/8/3B1PPP/4K3 w - - 0 1', frames:[
+      { text:'The rook on e8 attacks straight down the e-file. White is in check.', marks:{ e8:'attack', e1:'target' }, arrows:[['e8','e1','red']] },
+      { text:'Way 1 — <b>move</b> the king off the line: Kd1 or Kf1. Ke2 is illegal: still on the e-file.', marks:{ d1:'key', f1:'key', e2:'attack' }, arrows:[['e1','d1','green'],['e1','f1','green']] },
+      { text:'Way 2 — <b>block</b>: put a piece between. The bishop can go to e3, where f2 protects it.', marks:{ e3:'key', f2:'key' }, arrows:[['d2','e3','green']] },
+      { text:'Way 3 — <b>capture</b> the checker. Nothing of White\'s reaches e8, so not here.', marks:{ e8:'target' } } ] },
+    { type:'exercise', ref:'check-safe-check' },
+    { type:'exercise', ref:'check-escape' },
+    { type:'exercise', ref:'check-capture-checker' },
+    { type:'mastery', own:2, others:2 } ] },
+
+{ id:'academy-hanging', conceptId:'hanging-pieces', title:'Stop hanging pieces', band:400, branch:'vision', durability:'TIMELESS',
+  skills:{ boardVision:.4, tactics:.3, defense:.3 }, prerequisites:['check'], mastery:{ targetMs:30000, pass:.8 },
+  provenance: srcOriginal('academy-hanging', 'Positions composed or taken from standard opening moves; engine-checked.'),
+  stages:[
+    { type:'intro', text:'A piece is <b>hanging</b> when it can be taken for free. Before every move ask two questions: <b>what changed after their move?</b> and <b>for each piece, how many attackers and how many defenders?</b>' },
+    { type:'demo', fen:'r3k2r/ppp2ppp/2n3q1/3b4/8/2N2N2/PPP2PPP/R2QKB1R w KQkq - 0 1', frames:[
+      { text:'Look at Black\'s bishop on d5. Who attacks it? Your knight on c3 and your queen on d1.', marks:{ d5:'target', c3:'attack', d1:'attack' }, arrows:[['c3','d5','green'],['d1','d5','green']] },
+      { text:'Who defends it? The knight on c6 does not reach d5. The queen on g6 does not either. Nobody.', marks:{ d5:'target', c6:'key', g6:'key' } },
+      { text:'Two attackers, zero defenders: the bishop is hanging. Capture it.', move:'c3d5', marks:{ d5:'target' } } ] },
+    { type:'exercise', ref:'hang-free-bishop' },
+    { type:'exercise', ref:'hang-free-rook-black' },
+    { type:'exercise', ref:'hang-defended-pawn' },
+    { type:'exercise', ref:'hang-defend-e5' },
+    { type:'minigame', fen:'r3k2r/ppp2ppp/2n3q1/3N4/8/5N2/PPP2PPP/R2QKB1R b KQkq - 0 1', side:'w',
+      prompt:'You won the bishop. Now keep your extra piece for six moves against the engine.',
+      goal:{ type:'material', plies:12, min:2 },
+      success:'You kept the extra piece. Converting an advantage is just not hanging anything, move after move.',
+      fail:'The material advantage slipped away. Before each move: what changed, and is anything of yours undefended?' },
+    { type:'mastery', own:3, others:2 } ] },
+
+{ id:'academy-fork', conceptId:'fork', title:'The fork', band:500, branch:'tactics', durability:'TIMELESS',
+  skills:{ tactics:.8, calculation:.2 }, prerequisites:['hanging-pieces'], mastery:{ targetMs:30000, pass:.8 },
+  provenance: srcOriginal('academy-fork', 'The fork is a basic tactical pattern; positions composed for this lesson and engine-checked.'),
+  stages:[
+    { type:'intro', text:'A <b>fork</b> is one piece attacking two targets at once. Your opponent can only save one. Forks are strongest when one target is the king: the check must be answered first.' },
+    { type:'demo', fen:'r2q3k/6pp/8/4N3/8/8/2B2PPP/4R1K1 w - - 0 1', frames:[
+      { text:'The king on h8 and the queen on d8 are both a knight\'s jump from f7.', marks:{ h8:'target', d8:'target', f7:'key' } },
+      { text:'Nf7+ — check, and the queen is attacked.', move:'e5f7', marks:{ h8:'target', d8:'target' }, arrows:[['f7','h8','red'],['f7','d8','red']] },
+      { text:'Black must deal with the check first: …Kg8.', move:'h8g8' },
+      { text:'Nxd8 — the queen falls.', move:'f7d8', marks:{ d8:'target' } } ] },
+    { type:'exercise', ref:'fork-knight-check' },
+    { type:'exercise', ref:'fork-knight-black' },
+    { type:'exercise', ref:'fork-pawn' },
+    { type:'exercise', ref:'fork-prevent' },
+    { type:'minigame', fen:'3r2k1/6pp/8/8/8/8/2B2PPP/4R1K1 w - - 0 1', side:'w',
+      prompt:'The fork left you a piece up. Keep it for eight moves against the engine.',
+      goal:{ type:'material', plies:16, min:2 },
+      success:'Advantage kept. Winning material is half the job; keeping it is the other half.',
+      fail:'The extra piece is gone. Watch your back rank and keep your pieces protected.' },
+    { type:'mastery', own:3, others:2 } ] },
+
+{ id:'academy-pin', conceptId:'pin', title:'The pin', band:500, branch:'tactics', durability:'TIMELESS',
+  skills:{ tactics:.8, strategy:.2 }, prerequisites:['hanging-pieces'], mastery:{ targetMs:30000, pass:.8 },
+  provenance: srcOriginal('academy-pin', 'The pin is a basic tactical pattern; positions composed or from standard openings, engine-checked.'),
+  stages:[
+    { type:'intro', text:'A <b>pin</b> attacks a piece that cannot move without exposing something more valuable behind it. Pinned to the <b>king</b>, the piece may not move at all (absolute). Pinned to anything else, it may — at a cost (relative).' },
+    { type:'demo', fen:'4k3/p2q1ppp/5n2/8/P7/3B4/5PPP/3Q2K1 w - - 0 1', frames:[
+      { text:'Queen on d7, king on e8: both on the diagonal a4–e8.', marks:{ d7:'target', e8:'target', b5:'key', c6:'key' } },
+      { text:'Bb5 — the queen is pinned. It is illegal for her to leave the diagonal.', move:'d3b5', arrows:[['b5','e8','red']], marks:{ d7:'target' } },
+      { text:'Her only moves are along the line: c6 or b5. …Qxb5 axb5 gives up the queen for a bishop.', marks:{ c6:'key', b5:'attack', a4:'key' } } ] },
+    { type:'exercise', ref:'pin-queen' },
+    { type:'exercise', ref:'pin-knight-to-queen' },
+    { type:'exercise', ref:'pin-unpin-early' },
+    { type:'mastery', own:3, others:2 } ] },
+
+{ id:'academy-development', conceptId:'opening-development', title:'Opening development', band:700, branch:'openings', durability:'MOSTLY_TIMELESS',
+  skills:{ openings:.6, strategy:.4 }, prerequisites:['hanging-pieces'], mastery:{ targetMs:30000, pass:.75 },
+  claims:['knights-before-bishops','never-play-f3','early-queen'],
+  provenance: srcOriginal('academy-development', 'Opening principles are common knowledge; standard opening positions, engine-checked. Not current-theory claims.'),
+  stages:[
+    { type:'intro', text:'In the opening: <b>claim the centre</b>, <b>develop</b> knights and bishops, <b>castle</b>, and <b>connect the rooks</b>. Every move should do something — and none should give your opponent free moves (tempo). These are principles, not laws: break one only for a concrete reason.' },
+    { type:'demo', fen:'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', frames:[
+      { text:'1.e4 — a pawn in the centre, opening lines for the queen and bishop.', move:'e2e4', marks:{ d5:'key', f5:'key' } },
+      { text:'1…e5 — Black does the same.', move:'e7e5' },
+      { text:'2.Nf3 — develops towards the centre and attacks e5: a move with a threat.', move:'g1f3', arrows:[['f3','e5','red']] },
+      { text:'2…Nc6 — develops and defends.', move:'b8c6' },
+      { text:'3.Bc4 — the bishop aims at f7, defended only by the king.', move:'f1c4', arrows:[['c4','f7','red']] },
+      { text:'3…Bc5 and 4.O-O: king safe, rook joining the game.', move:'f8c5' },
+      { text:'Castled. In four moves: centre, two pieces out, king safe.', move:'e1g1', marks:{ g1:'key', f1:'key' } } ] },
+    { type:'exercise', ref:'dev-second-move' },
+    { type:'exercise', ref:'dev-black-reply' },
+    { type:'exercise', ref:'dev-castle-or-not' },
+    { type:'mastery', own:3, others:2 } ] },
+
+{ id:'academy-opposition', conceptId:'opposition', title:'The opposition', band:900, branch:'endgames', durability:'TIMELESS',
+  skills:{ endgames:.8, calculation:.2 }, prerequisites:['check'], mastery:{ targetMs:40000, pass:.8 },
+  provenance: srcOriginal('academy-opposition', 'Classical endgame theory; every position verified against the 7-piece Syzygy tablebase via tablebase.lichess.ovh.',
+    { humanReviewed:false }),
+  stages:[
+    { type:'intro', text:'Kings may never stand next to each other. When they face each other with <b>one square between</b>, the player who has to move must give way. Having the <b>opposition</b> means your opponent is the one to move. In king-and-pawn endings it often decides win or draw.' },
+    { type:'demo', fen:'8/4k3/8/3K4/4P3/8/8/8 w - - 0 1', frames:[
+      { text:'White to move. Only one move wins — the pawn push throws it away.', marks:{ d5:'key', e7:'key', e4:'key' } },
+      { text:'Ke5! Kings face each other, one square between, Black to move.', move:'d5e5', marks:{ e6:'attack' } },
+      { text:'…Kd7: Black must step aside.', move:'e7d7' },
+      { text:'Kf6: White\'s king walks past and escorts the pawn home.', move:'e5f6', marks:{ e7:'key', e8:'key' } } ] },
+    { type:'exercise', ref:'opp-take-it' },
+    { type:'exercise', ref:'opp-hold-black' },
+    { type:'exercise', ref:'opp-outflank' },
+    { type:'exercise', ref:'opp-defend-side' },
+    { type:'minigame', fen:'8/4k3/8/3K4/4P3/8/8/8 w - - 0 1', side:'w',
+      prompt:'Win it. Promote your pawn against the engine\'s best defence.',
+      goal:{ type:'promote', plies:40 },
+      success:'Promoted. Opposition first, then the pawn.',
+      fail:'Not yet. Keep your king in front of the pawn and take the opposition before pushing.' },
+    { type:'mastery', own:3, others:1 } ] },
+
+{ id:'academy-open-files', conceptId:'open-files', title:'Open files', band:1000, branch:'strategy', durability:'MOSTLY_TIMELESS',
+  skills:{ strategy:.7, practical:.3 }, prerequisites:['opening-development'], mastery:{ targetMs:40000, pass:.75 },
+  claims:['trade-when-ahead'],
+  provenance: srcOriginal('academy-open-files', 'Positional principle; position composed for this lesson and engine-checked.'),
+  stages:[
+    { type:'intro', text:'A file with no pawns on it is <b>open</b>. Rooks belong there: from an open file they invade the 7th and 8th ranks. Positions like this have <b>no tactic</b> — several moves are fine, and the best one is usually the one that uses the open file.' },
+    { type:'demo', fen:'r4rk1/ppp2ppp/2n1bn2/4p3/4P3/2N1B3/PPP1BPPP/R4RK1 w - - 0 1', frames:[
+      { text:'No pawns on the d-file: it is open.', marks:{ d1:'key', d2:'key', d3:'key', d4:'key', d5:'key', d6:'key', d7:'key', d8:'key' } },
+      { text:'Whoever controls it can later land a rook on d7 or d8.', marks:{ d7:'target', d8:'target' } },
+      { text:'Rfd1 — the rook doing nothing on f1 takes the file.', move:'f1d1', arrows:[['d1','d8','green']] },
+      { text:'…Rfd8 contests it. The fight for the file has started.', move:'f8d8' } ] },
+    { type:'exercise', ref:'files-take-d' },
+    { type:'exercise', ref:'files-take-d-black' },
+    { type:'mastery', own:2, others:3 } ] },
+
+{ id:'academy-deflection', conceptId:'deflection', title:'Deflection', band:1100, branch:'tactics', durability:'TIMELESS',
+  skills:{ tactics:.6, calculation:.4 }, prerequisites:['fork','pin'], mastery:{ targetMs:40000, pass:.8 },
+  provenance: srcOriginal('academy-deflection', 'Standard combination motif; positions composed for this lesson and engine-checked.'),
+  stages:[
+    { type:'intro', text:'Some defenders have <b>two jobs</b>. A <b>deflection</b> forces such a piece away from one of them — usually with a check or a capture it cannot refuse.' },
+    { type:'demo', fen:'2r3k1/2P2ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1', frames:[
+      { text:'Black\'s rook guards the promotion square c8 and the whole back rank.', marks:{ c8:'target', d8:'key', e8:'key', f8:'key' } },
+      { text:'Rd8+! The rook must capture — nothing else stops the check.', move:'d1d8', arrows:[['d8','g8','red']] },
+      { text:'…Rxd8: c8 is abandoned.', move:'c8d8', marks:{ c8:'key' } },
+      { text:'cxd8=Q — checkmate.', move:'c7d8q', marks:{ d8:'target' } } ] },
+    { type:'exercise', ref:'defl-promote' },
+    { type:'exercise', ref:'defl-promote-black' },
+    { type:'mastery', own:2, others:3 } ] }
+];
+
+/* Flat lookups, built once. Every exercise inherits skills + provenance from
+   its lesson unless it states its own. */
+const ACADEMY = (function(){
+  const lessons = {}, exercises = {}, concepts = {};
+  ACADEMY_LESSONS.forEach(l => { lessons[l.id] = l; });
+  ACADEMY_SPINE.forEach(b => b.topics.forEach(t => {
+    const lessonId = t[4] || null;
+    const lesson = lessonId ? lessons[lessonId] : null;
+    concepts[t[0]] = { id:t[0], title:t[1], branch:t[2], durability:t[3], band:b.band, lessonId,
+                       prerequisites: lesson ? lesson.prerequisites : [] };
+  }));
+  ACADEMY_EXERCISES.forEach(x => {
+    const lesson = ACADEMY_LESSONS.find(l => l.conceptId === x.conceptId);
+    x.skills = x.skills || (lesson ? lesson.skills : { practical:1 });
+    x.durability = x.durability || (lesson ? lesson.durability : (concepts[x.conceptId] || {}).durability);
+    x.engine = x.engine || ACADEMY_ENGINE;
+    x.provenance = x.provenance || srcOriginal(x.id, 'Composed for Gambit Academy; engine-checked (' + x.engine.tool + ').');
+    exercises[x.id] = x;
+  });
+  const claims = {};
+  ACADEMY_CLAIMS.forEach(c => { claims[c.id] = c; });
+  return {
+    lessons, exercises, concepts, claims,
+    pool: () => ACADEMY_EXERCISES.slice(),
+    lessonFor: conceptId => ACADEMY_LESSONS.find(l => l.conceptId === conceptId) || null,
+    claimText: (id, r) => { const c = claims[id]; return c ? Academy.levelText(c.stages, r) : ''; },
+    openingStage: r => ACADEMY_OPENING_STAGES.find(s => r >= s.min && r <= s.max) || ACADEMY_OPENING_STAGES[0]
+  };
+})();
+</script>
+<script>
+"use strict";
+/* ============================================================================
+   SECTION 35 — ACADEMY SCREEN + LESSON RUNNER
+   ----------------------------------------------------------------------------
+   The Academy view (stages → topics, filtered by branch), the skill profile,
+   and a runner that plays an Academy lesson on the existing lesson screen:
+   intro → demo → exercises → mini-game → mastery test → summary.
+
+   It borrows the lesson screen's DOM and the shared Board, and gives both
+   back untouched: Lesson.start() resets every hook this runner sets.
+   Everything it knows about chess comes from Academy.judge().
+   ========================================================================== */
+const ACADEMY_KEY = 'gambit-academy.academy.v1';
+
+const AcademyStore = {
+  state:null,
+  load(){
+    if (this.state) return this.state;
+    try {
+      const raw = JSON.parse(localStorage.getItem(ACADEMY_KEY));
+      this.state = raw && raw.v === 1 ? raw : Academy.newState(0);
+    } catch(e){ this.state = Academy.newState(0); }
+    return this.state;
+  },
+  save(){ try { localStorage.setItem(ACADEMY_KEY, JSON.stringify(this.state)); } catch(e){} },
+  reset(placement){ this.state = Academy.newState(placement || 0); this.save(); return this.state; },
+  /** Change the starting stage. Skills with real evidence keep their estimate. */
+  place(r){
+    const s = this.load();
+    s.placement = r;
+    Object.keys(s.skills).forEach(k => { if (!s.skills[k].n) s.skills[k].rating = r; });
+    this.save();
+  },
+  noteFailure(conceptId, category){
+    const s = this.load();
+    const c = s.concepts[conceptId] || (s.concepts[conceptId] = Academy.newConcept());
+    c.failures[category] = (c.failures[category] || 0) + 1;
+    this.save();
+  }
+};
+
+/* ---------------------------------------------------------------------------
+   ACADEMY VIEW
+   ------------------------------------------------------------------------- */
+const AcademyView = { branch:'all', open:{} };
+/** Branch icon: an SVG piece silhouette, or a plain text glyph. */
+const branchIcon = b => b.piece ? miniPiece(b.piece) : b.glyph;
+
+function academyStatusChip(st, c){
+  const pctM = Math.round(((c && c.mastery) || 0) * 100);
+  return {
+    mastered:'<span class="pill bg-green t-green">Mastered · ' + pctM + '%</span>',
+    review:  '<span class="pill bg-blue t-blue">Review due</span>',
+    learning:'<span class="pill bg-amber t-amber">Learning · ' + pctM + '%</span>',
+    ready:   '<span class="pill bg-green t-green">Ready</span>',
+    ahead:   '<span class="pill ac-pill-ahead">Ahead of you</span>',
+    planned: '<span class="pill ac-pill-planned">Planned</span>'
+  }[st];
+}
+
+function renderAcademy(){
+  const s = AcademyStore.load(), now = Date.now();
+  const overall = Academy.overall(s), band = Academy.bandOf(overall);
+  const pool = ACADEMY.pool();
+  const due = Object.keys(s.concepts).filter(id => Academy.isDue(s.concepts[id], now) && pool.some(x => x.conceptId === id));
+  const next = ACADEMY_LESSONS.filter(l => Academy.recommended(s, ACADEMY.concepts[l.conceptId]))
+    .sort((a, b) => a.band - b.band)[0] || ACADEMY_LESSONS.find(l => Academy.masteryOf(s, l.conceptId) < Academy.MASTERED);
+  $('#acChip').textContent = Academy.bandLabel(overall);
+
+  let html =
+    '<div class="ac-hero">' +
+      '<div class="ac-hero__top">' +
+        '<div class="ac-hero__rating"><span class="eyebrow" style="color:rgba(255,255,255,.8)">Academy rating</span>' +
+          '<b>' + overall + '</b><span>' + band.title + '</span></div>' +
+        '<button class="ac-hero__stage" data-act="ac-placement">Set stage</button>' +
+      '</div>' +
+      '<p class="ac-hero__note">An instructional stage for choosing what to learn next — not a FIDE, Chess.com or Lichess rating.</p>' +
+      '<div class="ac-hero__cta">' +
+        (next ? '<button class="hero__cta" data-act="ac-open" data-id="' + next.conceptId + '">' +
+                (Academy.masteryOf(s, next.conceptId) > 0 ? 'Continue: ' : 'Next: ') + next.title + '</button>' : '') +
+        '<button class="hero__cta ac-cta-review" data-act="ac-review"' + (due.length ? '' : ' disabled') + '>' +
+          'Mixed review' + (due.length ? ' · ' + due.length : '') + '</button>' +
+      '</div>' +
+    '</div>';
+
+  /* skill profile */
+  html += '<div class="card ac-skills">' +
+    '<div class="ac-skills__head"><div class="eyebrow">Skill profile</div>' +
+    '<span class="muted" style="font-size:11.5px">separate estimates, not one number</span></div>' +
+    Academy.SKILLS.map(sk => {
+      const v = s.skills[sk.id] || { rating:s.placement, n:0 };
+      const shown = v.n >= 3 ? Math.round(v.rating / 10) * 10 : null;
+      return '<div class="ac-skill"><span class="ac-skill__n">' + sk.name + '</span>' +
+        '<span class="bar ac-skill__bar"><i class="bar__fill" style="display:block;width:' +
+          Math.min(100, Math.round(((shown == null ? s.placement : shown) / 2200) * 100)) + '%;' +
+          (shown == null ? 'background:var(--line)' : '') + '"></i></span>' +
+        '<span class="ac-skill__v' + (shown == null ? ' is-est' : '') + '">' + (shown == null ? '—' : shown) + '</span></div>';
+    }).join('') +
+    '<p class="muted" style="font-size:11.5px;margin-top:8px">A skill shows a number after three rated exercises. Until then it follows your chosen stage.</p>' +
+    '</div>';
+
+  /* branch filter */
+  const lessonCount = b => ACADEMY_LESSONS.filter(l => l.branch === b).length;
+  html += '<div class="ac-branches" role="tablist">' +
+    '<button class="ac-branch' + (AcademyView.branch === 'all' ? ' is-on' : '') + '" data-act="ac-branch" data-id="all">All</button>' +
+    Academy.BRANCHES.map(b => '<button class="ac-branch' + (AcademyView.branch === b.id ? ' is-on' : '') + '" data-act="ac-branch" data-id="' + b.id + '">' +
+      '<span aria-hidden="true" style="display:inline-flex">' + branchIcon(b) + '</span>' + b.name + (lessonCount(b.id) ? ' <i>' + lessonCount(b.id) + '</i>' : '') + '</button>').join('') +
+    '</div>';
+
+  /* stages */
+  ACADEMY_SPINE.forEach(stage => {
+    const topics = stage.topics.map(t => ACADEMY.concepts[t[0]]).filter(c => AcademyView.branch === 'all' || c.branch === AcademyView.branch);
+    if (!topics.length) return;
+    const title = Academy.bandOf(stage.band).title;
+    const mine = band.rating === stage.band;
+    const seeded = topics.filter(c => c.lessonId);
+    const defaultOpen = seeded.length > 0 || Math.abs(stage.band - overall) <= 200;
+    const open = AcademyView.open[stage.band] != null ? AcademyView.open[stage.band] : defaultOpen;
+    html += '<div class="ac-stage' + (mine ? ' is-mine' : '') + '">' +
+      '<button class="ac-stage__head" data-act="ac-stage" data-id="' + stage.band + '" aria-expanded="' + open + '">' +
+        '<span class="ac-stage__band">' + (stage.band === 0 ? 'Start' : stage.band === 2100 ? '2100+' : stage.band) + '</span>' +
+        '<span class="ac-stage__title">' + title + '</span>' +
+        (mine ? '<span class="pill bg-amber t-amber">Your stage</span>' : '') +
+        '<span class="ac-stage__count">' + (seeded.length ? seeded.length + '/' : '') + topics.length + '</span>' +
+        '<span class="ac-stage__chev" data-icon="chevronDown"' + (open ? ' style="transform:rotate(180deg)"' : '') + '></span>' +
+      '</button>';
+    if (open){
+      html += '<div class="ac-topics">' + topics.map(c => {
+        const st = Academy.conceptStatus(s, c, now);
+        const rec = s.concepts[c.id];
+        const br = Academy.BRANCHES.find(b => b.id === c.branch);
+        const lesson = c.lessonId ? ACADEMY.lessons[c.lessonId] : null;
+        const needs = (c.prerequisites || []).filter(p => Academy.masteryOf(s, p) < Academy.UNLOCK).map(p => ACADEMY.concepts[p].title);
+        return '<button class="ac-topic ac-topic--' + st + '" data-act="ac-open" data-id="' + c.id + '">' +
+          '<span class="ac-topic__icon bg-' + br.accent + ' t-' + br.accent + '" aria-hidden="true">' + branchIcon(br) + '</span>' +
+          '<span class="ac-topic__body">' +
+            '<span class="ac-topic__t">' + c.title + '</span>' +
+            '<span class="ac-topic__m">' + br.name + ' · ' + (stage.band === 0 ? 'beginner' : 'recommended ' + stage.band) +
+              (needs.length && lesson ? ' · builds on ' + needs.join(', ') : '') +
+              (rec && rec.attempts ? ' · ' + rec.attempts + ' attempts' : '') + '</span>' +
+            (lesson && rec && rec.attempts ? '<span class="bar ac-topic__bar"><i class="bar__fill" style="display:block;width:' + Math.round(rec.mastery * 100) + '%"></i></span>' : '') +
+          '</span>' + academyStatusChip(st, rec) +
+        '</button>';
+      }).join('') + '</div>';
+    }
+    html += '</div>';
+  });
+  html += '<p class="muted" style="text-align:center;margin:18px 0 6px">Every topic stays open to you. Prerequisites and mastery decide what is <i>recommended</i>, not what is allowed.</p>';
+
+  $('#academyBody').innerHTML = html;
+  paintIcons($('#academyBody'));
+}
+
+/* ---- detail sheet for one topic ----------------------------------------- */
+function academyTopicSheet(conceptId){
+  const s = AcademyStore.load(), c = ACADEMY.concepts[conceptId];
+  if (!c) return;
+  const lesson = c.lessonId ? ACADEMY.lessons[c.lessonId] : null;
+  const rec = s.concepts[conceptId];
+  const st = Academy.conceptStatus(s, c);
+  const br = Academy.BRANCHES.find(b => b.id === c.branch);
+  const dur = Academy.DURABILITY[c.durability];
+  const r = Academy.overall(s);
+  const day = t => t ? new Date(t).toLocaleDateString(undefined, { month:'short', day:'numeric' }) : '—';
+  const dueText = rec && rec.nextReview ? (rec.nextReview <= Date.now() ? 'now' : day(rec.nextReview)) : '—';
+  let html =
+    '<div class="eyebrow" style="margin-bottom:6px">' + br.name + ' · ' + (c.band === 0 ? 'Absolute beginner' : 'Recommended from ' + c.band) + '</div>' +
+    '<h3 class="ac-sheet__title">' + c.title + '</h3>' +
+    '<div class="ac-sheet__chips">' + academyStatusChip(st, rec) +
+      '<span class="pill ac-pill-dur" title="' + dur.note + '">' + dur.label + '</span></div>';
+  if (lesson){
+    const intro = lesson.stages.find(x => x.type === 'intro');
+    html += '<p class="verdict__text" style="margin-top:10px">' + (intro ? intro.text : '') + '</p>';
+    if ((lesson.prerequisites || []).length)
+      html += '<div class="ac-prereqs"><div class="eyebrow">Builds on</div>' + lesson.prerequisites.map(p => {
+        const m = Academy.masteryOf(s, p);
+        return '<div class="ac-prereq"><span class="' + (m >= Academy.UNLOCK ? 't-green' : 't-amber') + '">' + (m >= Academy.UNLOCK ? '✓' : '○') + '</span>' +
+          ACADEMY.concepts[p].title + '<span class="muted">' + Math.round(m * 100) + '%</span></div>';
+      }).join('') +
+      (Academy.prereqsMet(s, c) ? '' : '<p class="muted" style="margin-top:6px">You can start now — these just make it easier.</p>') + '</div>';
+    html += '<dl class="detail">' +
+      '<div><dt>Mastery</dt><dd>' + Math.round(((rec && rec.mastery) || 0) * 100) + '%</dd></div>' +
+      '<div><dt>Success rate</dt><dd>' + (rec && rec.attempts ? Math.round(rec.successes / rec.attempts * 100) + '%' : '—') + '</dd></div>' +
+      '<div><dt>Last reviewed</dt><dd>' + day(rec && rec.lastReviewed) + '</dd></div>' +
+      '<div><dt>Next review</dt><dd>' + dueText + '</dd></div>' +
+    '</dl>';
+    (lesson.claims || []).forEach(id => {
+      const cl = ACADEMY.claims[id];
+      html += '<div class="ac-claim"><div class="eyebrow">Rule of thumb, at your level</div><p>' + ACADEMY.claimText(id, r) + '</p>' +
+        '<span class="muted">Why teachers disagree: ' + cl.kinds.map(k => Academy.DISAGREEMENTS[k]).join(' ') + '</span></div>';
+    });
+    html += '<div class="sheet__buttons">' +
+      '<button class="btn btn--primary" data-act="ac-start" data-id="' + lesson.id + '">' + (rec && rec.attempts ? 'Replay lesson' : 'Start lesson') + '</button>' +
+      '<button class="btn btn--blue" data-act="ac-test" data-id="' + lesson.id + '"' + (rec && rec.attempts ? '' : ' disabled') + '>Mastery test</button>' +
+    '</div>';
+  } else {
+    html += '<p class="muted" style="margin-top:10px">This topic is part of the curriculum, but its lesson has not been written yet. The data model, provenance rules and tests are ready for it.</p>' +
+      '<div class="sheet__buttons" style="grid-template-columns:1fr"><button class="btn btn--ghost" data-act="dismiss-sheet">Close</button></div>';
+  }
+  Sheet.open(html, 'academy-topic');
+}
+
+function academyPlacementSheet(){
+  const s = AcademyStore.load();
+  Sheet.open(
+    '<div class="eyebrow" style="margin-bottom:8px">Your starting stage</div>' +
+    '<p class="muted">Pick the stage that sounds like you. It sets where recommendations start and how feedback is pitched until your exercises give better evidence. You can change it at any time.</p>' +
+    '<div class="ac-place">' + Academy.BANDS.map(b =>
+      '<button class="ac-place__b' + (s.placement === b.rating ? ' is-on' : '') + '" data-act="ac-place" data-id="' + b.rating + '">' +
+        '<b>' + (b.rating === 0 ? 'Start' : b.rating === 2100 ? '2100+' : b.rating) + '</b><span>' + b.title + '</span></button>').join('') +
+    '</div>', 'settings');
+}
+
+/* ---------------------------------------------------------------------------
+   SPARRING — the mini-game opponent. Stockfish if it boots, the tablebase for
+   small endings when online, and a material-greedy fallback otherwise.
+   ------------------------------------------------------------------------- */
+const Sparring = {
+  async reply(pos){
+    const moves = Rules.allMoves(pos);
+    if (!moves.length) return null;
+    if (pos.board.filter(Boolean).length <= 7 && Net.online()){
+      const tb = await Tablebase.lookup(pos);
+      if (tb && tb.moves && tb.moves.length){
+        const m = Rules.coerce(pos, tb.moves[0].uci);
+        if (Rules.moves(pos, m.from).indexOf(m.to) >= 0) return m;
+      }
+    }
+    if (typeof Worker !== 'undefined'){
+      const ok = await Promise.race([Engine.boot(), new Promise(r => setTimeout(() => r(false), 4000))]);
+      if (ok){
+        const res = await Engine.analyse(pos, { movetime:350 });
+        if (res && res.best){
+          const m = Rules.coerce(pos, res.best);
+          if (Rules.moves(pos, m.from).indexOf(m.to) >= 0) return m;
+        }
+      }
+    }
+    return this.greedy(pos, moves);
+  },
+  /** Captures what it can safely, avoids hanging, likes checks and promotions. */
+  greedy(pos, moves){
+    const V = Academy.VALUE;
+    let best = null, bestScore = -1e9;
+    moves.forEach(m => {
+      const victim = pos.board[m.to], piece = pos.board[m.from];
+      const after = Rules.apply(pos, m);
+      let sc = victim ? V[victim.toLowerCase()] * 10 : 0;
+      const hang = Academy.hangingAfter(pos, m);
+      if (hang.length) sc -= hang[0].loss * 10;
+      if (Rules.inCheck(after, after.turn === 'w')) sc += Rules.allMoves(after).length ? 2 : 1000;
+      if (piece.toLowerCase() === 'p' && (m.to < 8 || m.to >= 56)) sc += 80;
+      sc += Math.random();
+      if (sc > bestScore){ bestScore = sc; best = m; }
+    });
+    return best;
+  }
+};
+
+/* ---------------------------------------------------------------------------
+   RUNNER
+   ------------------------------------------------------------------------- */
+const AcademyRunner = {
+  active:false, lesson:null, steps:[], i:0, frame:0, ex:null, pos:null, busy:false,
+  mode:'lesson', run:null,
+
+  /* ---- lifecycle ---- */
+  start(lessonId, opts){
+    opts = opts || {};
+    const lesson = ACADEMY.lessons[lessonId];
+    if (!lesson) return toast('That lesson does not exist yet.');
+    Sheet.close(); Complete.hide();
+    this.lesson = lesson; this.mode = opts.testOnly ? 'test' : 'lesson';
+    this.steps = [];
+    const pool = ACADEMY.pool();
+    const seed = Date.now() & 0xffff;
+    lesson.stages.forEach(stg => {
+      if (opts.testOnly && stg.type !== 'mastery') return;
+      if (stg.type === 'intro') this.steps.push({ kind:'intro', text:stg.text });
+      else if (stg.type === 'demo') this.steps.push({ kind:'demo', demo:stg });
+      else if (stg.type === 'exercise') this.steps.push({ kind:'exercise', ex:ACADEMY.exercises[stg.ref] });
+      else if (stg.type === 'minigame') this.steps.push({ kind:'minigame', game:stg });
+      else if (stg.type === 'mastery'){
+        const items = Academy.buildMasteryTest(lesson, pool, { own:stg.own, others:stg.others, seed });
+        items.forEach((x, k) => this.steps.push({ kind:'exercise', ex:x, test:true, first:k === 0 }));
+      }
+    });
+    this.begin(lesson.title, lesson.branch);
+  },
+  startReview(){
+    const s = AcademyStore.load();
+    const items = Academy.buildReview(s, ACADEMY.pool(), { size:6 });
+    if (!items.length) return toast('Nothing is due for review yet.');
+    Sheet.close(); Complete.hide();
+    this.lesson = null; this.mode = 'review';
+    this.steps = items.map(x => ({ kind:'exercise', ex:x, test:true }));
+    this.begin('Mixed review', 'analysis');
+  },
+  begin(title, branch){
+    const s = AcademyStore.load();
+    this.active = true; this.i = 0;
+    this.run = { first:0, total:0, conceptBefore:{}, skillsBefore:JSON.parse(JSON.stringify(s.skills)), overallBefore:Academy.overall(s),
+                 results:[] };
+    const br = Academy.BRANCHES.find(b => b.id === branch) || { name:'Academy' };
+    $('#lsCourse').textContent = 'Academy · ' + br.name;
+    $('#lsMission').textContent = title;
+    Board.clearMarks(); Board.arrow(null);
+    show('lesson');
+    this.render();
+  },
+  exit(){
+    this.detach();
+    this.active = false;
+    Sheet.close();
+    show('academy');
+  },
+  restart(){
+    if (this.mode === 'review') return this.startReview();
+    if (this.lesson) this.start(this.lesson.id, { testOnly:this.mode === 'test' });
+  },
+  detach(){
+    Board.onMove = null; Board.onSquare = null; Board.onIllegal = null;
+    Board.interactive = false; Board.arrow(null);
+  },
+  step(){ return this.steps[this.i]; },
+  next(){
+    if (this.busy) return;
+    this.i++;
+    if (this.i >= this.steps.length) return this.finish();
+    this.render();
+  },
+
+  /* ---- shared UI ---- */
+  dots(){
+    $('#lsDots').innerHTML = this.steps.map((st, k) =>
+      '<i class="' + (k < this.i ? 'on' : k === this.i ? 'cur' : '') + '"></i>').join('');
+  },
+  say(html, tone){ Lesson.say(html, tone); },
+  actions(list){ Lesson.setActions(list); },
+  turn(pos, side){
+    const w = pos.turn === 'w';
+    $('#lsTurn').innerHTML = '<span class="disc ' + (w ? 'w' : 'b') + '"></span>' + (w ? 'White' : 'Black') + ' to move' +
+      (side && (side === pos.turn) ? ' — that\'s you' : '');
+  },
+  rating(ex){ return Academy.ratingFor(AcademyStore.load(), ex && ex.skills); },
+
+  render(){
+    const st = this.step();
+    this.detach();
+    Board.clearMarks();
+    this.dots();
+    $('#lsGoal').style.display = 'none';
+    this.busy = false;
+    if (st.kind === 'intro') return this.renderIntro(st);
+    if (st.kind === 'demo'){ this.frame = 0; return this.renderFrame(true); }
+    if (st.kind === 'exercise') return this.renderExercise(st);
+    if (st.kind === 'minigame') return this.renderGame(st);
+  },
+
+  /* ---- intro ---- */
+  renderIntro(st){
+    const firstDemo = this.steps.find(x => x.kind === 'demo');
+    const pos = Rules.parse(firstDemo ? firstDemo.demo.fen : Rules.START);
+    this.pos = pos;
+    Board.set(pos, false); Board.last = null; Board.fit();
+    this.turn(pos);
+    this.say(st.text, '');
+    this.actions([{ label:'Show me', kind:'primary', act:'ac-next', icon:'chevronRight' }]);
+  },
+
+  /* ---- demonstration: frames with highlights, arrows and moves ---- */
+  frameState(k){
+    const d = this.step().demo;
+    let pos = Rules.parse(d.fen);
+    for (let j = 0; j < k; j++){
+      const f = d.frames[j];
+      if (f.fen) pos = Rules.parse(f.fen);
+      if (f.move) pos = Rules.apply(pos, Rules.coerce(pos, f.move));
+    }
+    const f = d.frames[k];
+    if (f.fen) pos = Rules.parse(f.fen);
+    return { pos, orient:f.orientation || 'w' };
+  },
+  renderFrame(animate){
+    const d = this.step().demo, k = this.frame, f = d.frames[k];
+    const { pos, orient } = this.frameState(k);
+    const decorate = () => {
+      Board.marks = {};
+      Object.keys(f.marks || {}).forEach(sq => { Board.marks[Rules.idx(sq)] = f.marks[sq]; });
+      Board.render();
+      Board.arrows((f.arrows || []).map(a => [Rules.idx(a[0]), Rules.idx(a[1]), a[2]]));
+      this.busy = false;
+    };
+    Board.arrow(null);
+    Board.set(pos, orient === 'b'); Board.last = null; Board.fit();
+    this.say(f.text, '');
+    this.turn(pos);
+    this.actions([
+      { label:'Back', kind:'ghost', act:'ac-frame-back', icon:'chevronLeft', disabled:k === 0 },
+      { label:'Replay', kind:'outline', act:'ac-frame-replay', icon:'refresh' },
+      { label:k >= d.frames.length - 1 ? 'Try it' : 'Next', kind:'primary', act:'ac-frame-next', icon:'chevronRight' }
+    ]);
+    if (f.move && animate){
+      this.busy = true;
+      setTimeout(() => {
+        const mv = Rules.coerce(pos, f.move);
+        Board.play(mv, () => { this.pos = Board.pos; this.turn(Board.pos); decorate(); });
+      }, 260);
+    } else {
+      if (f.move){ const mv = Rules.coerce(pos, f.move); Board.pos = Rules.apply(pos, mv); Board.last = { from:mv.from, to:mv.to }; }
+      decorate();
+    }
+  },
+  frameNext(){
+    if (this.busy) return;
+    const d = this.step().demo;
+    if (this.frame >= d.frames.length - 1) return this.next();
+    this.frame++; this.renderFrame(true);
+  },
+  frameBack(){ if (this.busy || this.frame === 0) return; this.frame--; this.renderFrame(false); },
+  frameReplay(){ if (this.busy) return; this.frame = 0; this.renderFrame(true); },
+
+  /* ---- exercises ---- */
+  stageLabel(st){
+    const ex = st.ex;
+    if (this.mode === 'review') return 'Review';
+    if (st.test) return 'Mastery test';
+    return { guided:'Guided', transfer:'Transfer', recognition:'Your move', defense:'Defence', test:'Test' }[ex.stage] || '';
+  },
+  renderExercise(st){
+    const ex = st.ex;
+    this.ex = ex; this.hintLevel = 0; this.failed = false; this.retried = false; this.solved = false; this.revealed = false;
+    this.t0 = Date.now();
+    this.pos = Rules.parse(ex.fen);
+    const flip = ex.orientation ? ex.orientation === 'b' : this.pos.turn === 'b';
+    Board.set(this.pos, flip); Board.last = null; Board.fit();
+    const showLabel = !st.test && ex.showLabel !== false && ['guided','transfer','defense'].indexOf(ex.stage) >= 0 && ex.label;
+    const lead = '<span class="ac-stagelabel">' + this.stageLabel(st) + '</span> ';
+    const prompt = st.test || this.mode === 'review'
+      ? (ex.kind === 'square' ? ex.prompt : (this.pos.turn === 'w' ? 'White' : 'Black') + ' to move. What would you play?')
+      : ex.prompt;
+    this.basePrompt = lead + (showLabel ? '<b>' + ex.label + '.</b> ' : '') + prompt;
+    if (st.first) this.basePrompt = '<b>Mastery test.</b> These are mixed in with other ideas — nothing tells you which one to look for. ' + prompt;
+    this.say(this.basePrompt, '');
+    this.turn(this.pos, ex.kind === 'square' ? null : this.pos.turn);
+    this.exActions();
+    this.attach();
+  },
+  exActions(done){
+    if (done){
+      this.actions([{ label:this.i >= this.steps.length - 1 ? 'Finish' : 'Continue', kind:'primary', act:'ac-next', icon:'chevronRight' }]);
+      return;
+    }
+    const hints = (this.ex.hints || []).length;
+    const list = [];
+    if (!this.step().test && this.mode !== 'review') list.push({ label:'Hint', kind:'outline', act:'ac-hint', icon:'bulb', disabled:this.hintLevel >= hints });
+    list.push({ label:'Show answer', kind:'ghost', act:'ac-reveal', icon:'target', disabled:!this.failed && !this.retried && this.hintLevel < hints });
+    list.push({ label:'Continue', kind:'primary', act:'ac-next', icon:'chevronRight', disabled:true });
+    this.actions(list);
+  },
+  attach(){
+    Board.interactive = true;
+    if (this.ex.kind === 'square'){ Board.onSquare = i => this.onSquare(i); return; }
+    Board.onMove = mv => this.onMove(mv);
+    Board.onIllegal = (from, to) => this.onIllegal(from, to);
+  },
+  best(){
+    const a = Academy.analysePosition(this.ex, this.rating(this.ex));
+    return a.instructionalBest || a.engineBest;
+  },
+  hint(){
+    const ex = this.ex, hints = ex.hints || [];
+    if (this.hintLevel >= hints.length) return;
+    const h = hints[this.hintLevel++];
+    const text = typeof h === 'string' ? h : h.text;
+    if (typeof h === 'object' && h.show){
+      if (ex.kind === 'square') Board.marks[Rules.idx(ex.target)] = 'hintTo';
+      else {
+        const b = this.best(), mv = Rules.coerce(this.pos, b.move);
+        if (h.show === 'from') Board.marks[mv.from] = 'hintFrom';
+        if (h.show === 'to'){ Board.marks[mv.to] = 'hintTo'; }
+      }
+      Board.render();
+    }
+    this.say('<b>Hint ' + this.hintLevel + '.</b> ' + text, 'hint');
+    this.exActions();
+  },
+  reveal(){
+    const ex = this.ex;
+    this.revealed = true;
+    if (ex.kind === 'square'){
+      Board.marks = {}; Board.marks[Rules.idx(ex.target)] = 'hintTo'; Board.render();
+      this.say('<b>Here it is: ' + ex.target + '.</b> Tap it to continue.', 'hint');
+    } else {
+      const b = this.best(), mv = Rules.coerce(this.pos, b.move);
+      Board.marks = {}; Board.marks[mv.from] = 'hintFrom'; Board.marks[mv.to] = 'hintTo'; Board.render();
+      Board.arrow(mv.from, mv.to);
+      this.say('<b>The move is ' + Rules.san(this.pos, mv) + '.</b> Play it on the board to see why.', 'hint');
+    }
+    if (!this.failed){ this.failed = true; this.recordAttempt(false, 'MISSED_OBJECTIVE'); }
+  },
+  onIllegal(from, to){
+    const why = Academy.explainIllegal(this.pos, from, to);
+    if (!why) return;
+    Board.shake();
+    AcademyStore.noteFailure(this.ex.conceptId, 'ILLEGAL_MOVE');
+    this.say('<b>' + Academy.FAILURES.ILLEGAL_MOVE.title + '.</b> ' + why, 'bad');
+  },
+  onSquare(i){
+    if (this.solved) return;
+    const res = Academy.judgeSquare(this.ex, i, Board.flip);
+    if (res.outcome === 'correct'){
+      this.solved = true; Board.interactive = false;
+      Board.marks = {}; Board.marks[i] = 'good'; Board.render();
+      this.recordAttempt(!this.failed && !this.revealed, null);
+      this.say('<b>' + res.title + '.</b> ' + res.text, 'good');
+      return this.exActions(true);
+    }
+    Board.marks = {}; Board.marks[i] = 'bad'; Board.render(); Board.shake();
+    if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
+    this.say('<b>' + res.title + '.</b> ' + res.text, 'bad');
+    this.exActions();
+  },
+  onMove(mv){
+    if (this.busy || this.solved) return;
+    const ex = this.ex, r = this.rating(ex);
+    const res = Academy.judge(ex, this.pos, mv, r);
+    this.busy = true; Board.interactive = false; Board.arrow(null);
+    const start = this.pos;
+    Board.play(mv, () => {
+      this.busy = false;
+      if (res.outcome === 'correct' || res.outcome === 'accepted'){
+        this.solved = true;
+        Board.marks = {}; Board.marks[mv.to] = 'good'; Board.render();
+        this.recordAttempt(!this.failed && !this.revealed, null, this.retried ? 1 : 0);
+        this.say(this.successHTML(res, r), 'good');
+        return this.exActions(true);
+      }
+      Board.marks = {}; Board.marks[mv.to] = 'bad'; Board.render();
+      if (res.outcome === 'retry'){
+        this.retried = true;
+        this.say('<b>' + res.title + '.</b> ' + res.text + ' <i>Try another move.</i>', 'hint');
+        AcademyStore.noteFailure(ex.conceptId, res.category || 'PLAYABLE_NOT_BEST');
+        setTimeout(() => this.resetBoard(start), 1500);
+        return this.exActions();
+      }
+      Board.shake();
+      if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
+      this.say('<b>' + res.title + '.</b>', 'bad');
+      this.pending = { start };
+      Sheet.open(this.failureHTML(res, start, mv), 'academy');
+      this.exActions();
+    });
+  },
+  resetBoard(start){
+    if (!this.active || this.solved || this.step().ex !== this.ex) return;
+    this.pos = start;
+    const flip = Board.flip;
+    Board.set(start, flip); Board.last = null; Board.clearMarks();
+    this.attach();
+  },
+  retry(){
+    Sheet.close();
+    if (!this.pending) return;
+    this.resetBoard(this.pending.start);
+    this.pending = null;
+    this.say(this.basePrompt, '');
+  },
+  successHTML(res, r){
+    /* authored feedback usually opens with its own "Excellent — Nf7+"; don't say it twice */
+    let h = res.text.indexOf(res.san) >= 0 && res.text.indexOf(res.san) < 40 ? res.text : '<b>' + res.title + '.</b><br>' + res.text;
+    const cand = res.cand;
+    if (res.stronger && res.stronger.move){
+      const sp = Rules.coerce(this.pos && this.pos.board ? Rules.parse(this.ex.fen) : this.pos, res.stronger.move);
+      const san = Rules.san(Rules.parse(this.ex.fen), sp);
+      if (res.text.indexOf(san) < 0)
+        h += '<span class="ac-note">' + (res.stronger.text || ('Also worth knowing: ' + san + ' was a little stronger.')) + (res.stronger.numbers || '') + '</span>';
+    }
+    if (cand && cand.claim) h += '<span class="ac-note">Rule of thumb at your level: ' + ACADEMY.claimText(cand.claim, r) + '</span>';
+    if (cand && r >= 800){
+      const chips = cand.labels.map(l => '<span class="ac-label t-' + Academy.LABELS[l].tone + '">' + Academy.LABELS[l].text + '</span>').join('');
+      if (chips) h += '<span class="ac-labels">' + chips + '</span>';
+    }
+    return h;
+  },
+  failureHTML(res, start, mv){
+    const meta = Academy.FAILURES[res.category] || Academy.FAILURES.PLAYABLE_NOT_BEST;
+    const tone = meta.tone === 'blue' ? 'blue' : meta.tone === 'amber' ? 'amber' : meta.tone === 'orange' ? 'orange' : 'red';
+    const label = res.cand && res.cand.labels ? res.cand.labels.filter(l => ['INACCURATE','MISTAKE','BLUNDER','PLAYABLE'].indexOf(l) >= 0)[0] : null;
+    return '<div class="verdict bg-' + tone + '">' +
+        '<div class="verdict__icon" style="background:var(--' + (tone === 'amber' ? 'amber' : tone) + ')">' + icon('warn') + '</div>' +
+        '<div style="flex:1">' +
+          '<div class="verdict__label t-' + tone + '">' + meta.title + '</div>' +
+          '<div class="verdict__move">You played ' + res.san + (label ? ' · ' + Academy.LABELS[label].text : '') + '</div>' +
+          '<p class="verdict__text">' + res.text + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sheet__buttons">' +
+        '<button class="btn btn--primary" data-act="ac-retry">' + icon('undo') + 'Try again</button>' +
+        '<button class="btn btn--ghost" data-act="ac-reveal-sheet">' + icon('target') + 'Show answer</button>' +
+      '</div>';
+  },
+  recordAttempt(success, category, extraHints){
+    const ex = this.ex, s = AcademyStore.load();
+    if (this.recorded === ex) return;            /* one rated attempt per exercise visit */
+    this.recorded = ex;
+    if (!(ex.conceptId in this.run.conceptBefore)) this.run.conceptBefore[ex.conceptId] = Academy.masteryOf(s, ex.conceptId);
+    const timeMs = Date.now() - this.t0;
+    const lesson = ACADEMY.lessonFor(ex.conceptId);
+    Academy.record(s, ex.conceptId, {
+      success, category, hints:this.hintLevel + (extraHints || 0), timeMs,
+      targetMs: lesson ? lesson.mastery.targetMs : 30000,
+      exerciseRating: ex.rating == null ? (ex.band || 0) + 50 : ex.rating,
+      skills: ex.skills
+    });
+    this.run.total++; if (success) this.run.first++;
+    this.run.results.push({ id:ex.id, concept:ex.conceptId, success, category });
+    AcademyStore.save();
+  },
+
+  /* ---- mini-game against the engine ---- */
+  renderGame(st){
+    const g = st.game;
+    this.game = { g, plies:0, over:false, startQueens:0 };
+    this.pos = Rules.parse(g.fen);
+    const mine = g.side === 'w';
+    this.game.startQueens = this.pos.board.filter(p => p === (mine ? 'Q' : 'q')).length;
+    Board.set(this.pos, g.side === 'b'); Board.last = null; Board.fit();
+    this.say('<span class="ac-stagelabel">Mini-game</span> ' + g.prompt, '');
+    this.turn(this.pos, g.side);
+    this.actions([
+      { label:'Skip', kind:'ghost', act:'ac-next', icon:'chevronRight' },
+      { label:'Continue', kind:'primary', act:'ac-next', icon:'chevronRight', disabled:true }
+    ]);
+    Board.onMove = mv => this.gameMove(mv);
+    Board.onIllegal = (from, to) => { const why = Academy.explainIllegal(this.pos, from, to); if (why) this.say('<b>Not legal.</b> ' + why, 'bad'); };
+    if (this.pos.turn !== g.side) this.gameReply();
+    else Board.interactive = true;
+  },
+  gameMove(mv){
+    if (this.game.over || this.busy) return;
+    Board.interactive = false; this.busy = true;
+    Board.play(mv, () => {
+      this.pos = Board.pos; this.game.plies++; this.busy = false;
+      if (!this.gameCheck()) this.gameReply();
+    });
+  },
+  async gameReply(){
+    this.busy = true;
+    this.turn(this.pos, this.game.g.side);
+    const mv = await Sparring.reply(this.pos);
+    if (!this.active || !this.game || this.step().game !== this.game.g) return;
+    if (!mv){ this.busy = false; return this.gameCheck(); }
+    Board.play(mv, () => {
+      this.pos = Board.pos; this.game.plies++; this.busy = false;
+      this.turn(this.pos, this.game.g.side);
+      if (!this.gameCheck()) Board.interactive = true;
+    });
+  },
+  /** Returns true when the mini-game is over. */
+  gameCheck(){
+    const g = this.game.g, pos = this.pos, mine = g.side === 'w';
+    const replies = Rules.allMoves(pos);
+    const mated = !replies.length && Rules.inCheck(pos, pos.turn === 'w');
+    const stale = !replies.length && !mated;
+    const diff = Academy.material(pos.board, mine) - Academy.material(pos.board, !mine);
+    const onlyKings = pos.board.filter(Boolean).length === 2;
+    let result = null;
+    if (mated) result = pos.turn === g.side ? 'fail' : 'win';
+    else if (g.goal.type === 'promote'){
+      const q = pos.board.filter(p => p === (mine ? 'Q' : 'q')).length;
+      if (q > this.game.startQueens) result = 'win';
+      else if (stale || onlyKings || this.game.plies >= g.goal.plies) result = 'fail';
+    } else if (g.goal.type === 'material'){
+      if (stale) result = 'fail';
+      else if (this.game.plies >= g.goal.plies) result = diff >= g.goal.min ? 'win' : 'fail';
+    } else if (g.goal.type === 'hold'){
+      if (stale || onlyKings || this.game.plies >= g.goal.plies) result = 'win';
+    } else if (g.goal.type === 'mate'){
+      if (stale || this.game.plies >= g.goal.plies) result = 'fail';
+    }
+    if (!result){
+      if (g.goal.type === 'material') this.say('<span class="ac-stagelabel">Mini-game</span> Move ' + Math.ceil((this.game.plies + 1) / 2) + ' of ' + g.goal.plies / 2 +
+        ' · material ' + (diff > 0 ? '+' : '') + diff, '');
+      return false;
+    }
+    this.game.over = true; Board.interactive = false;
+    const lesson = this.lesson, s = AcademyStore.load();
+    if (lesson){
+      if (!(lesson.conceptId in this.run.conceptBefore)) this.run.conceptBefore[lesson.conceptId] = Academy.masteryOf(s, lesson.conceptId);
+      Academy.record(s, lesson.conceptId, { success:result === 'win', exerciseRating:lesson.band + 150,
+        skills:Object.assign({ practical:.5 }, lesson.skills), category:result === 'win' ? null : 'PLAYABLE_NOT_BEST' });
+      AcademyStore.save();
+    }
+    this.say('<b>' + (result === 'win' ? 'Done!' : 'Not this time.') + '</b> ' + (result === 'win' ? g.success : g.fail), result === 'win' ? 'good' : 'bad');
+    this.actions([
+      { label:'Play again', kind:'ghost', act:'ac-game-again', icon:'refresh' },
+      { label:this.i >= this.steps.length - 1 ? 'Finish' : 'Continue', kind:'primary', act:'ac-next', icon:'chevronRight' }
+    ]);
+    return true;
+  },
+
+  /* ---- summary ---- */
+  finish(){
+    this.detach();
+    const s = AcademyStore.load(), run = this.run;
+    const lesson = this.lesson;
+    if (lesson && this.mode === 'lesson'){
+      const L = s.lessons[lesson.id] || { runs:0, best:0 };
+      L.runs++; L.completedAt = Date.now();
+      L.best = Math.max(L.best, run.total ? run.first / run.total : 0);
+      s.lessons[lesson.id] = L;
+      AcademyStore.save();
+    }
+    const overall = Academy.overall(s);
+    const concepts = Object.keys(run.conceptBefore);
+    const rows = concepts.map(id => {
+      const c = s.concepts[id], before = run.conceptBefore[id];
+      const next = c && c.nextReview ? (c.nextReview - Date.now() < 3600000 ? 'soon' : 'in ' + Math.max(1, Math.round((c.nextReview - Date.now()) / 86400000)) + 'd') : '—';
+      return '<div class="ac-sum__row"><span>' + (ACADEMY.concepts[id] || { title:id }).title + '</span>' +
+        '<b>' + Math.round(before * 100) + '% → ' + Math.round(((c && c.mastery) || 0) * 100) + '%</b><span class="muted">review ' + next + '</span></div>';
+    }).join('');
+    const skills = Academy.SKILLS.filter(sk => s.skills[sk.id] && run.skillsBefore[sk.id] && Math.round(s.skills[sk.id].rating) !== Math.round(run.skillsBefore[sk.id].rating))
+      .map(sk => { const d = Math.round(s.skills[sk.id].rating - run.skillsBefore[sk.id].rating); return sk.name + ' ' + (d > 0 ? '+' : '') + d; });
+    $('#doneBody').innerHTML =
+      '<div class="done__title">' + (this.mode === 'review' ? 'Review complete' : this.mode === 'test' ? 'Mastery test complete' : 'Lesson complete') + '</div>' +
+      '<div class="done__grade" style="margin-top:10px">' + run.first + ' of ' + run.total + ' first try</div>' +
+      '<div class="done__stats">' +
+        '<div class="tile"><div class="tile__k">Academy</div><div class="tile__v">' + overall + '</div></div>' +
+        '<div class="tile"><div class="tile__k">Change</div><div class="tile__v">' + ((overall - run.overallBefore) > 0 ? '+' : '') + (overall - run.overallBefore) + '</div></div>' +
+        '<div class="tile"><div class="tile__k">Stage</div><div class="tile__v" style="font-size:15px">' + Academy.bandLabel(overall) + '</div></div>' +
+      '</div>' +
+      (rows ? '<div class="card ac-sum">' + rows + '</div>' : '') +
+      (skills.length ? '<p class="done__memory">Skill estimates: <b>' + skills.join(' · ') + '</b></p>' : '') +
+      '<p class="done__memory">One good session is not mastery. These ideas come back in mixed review — sooner if you missed them.</p>' +
+      '<div class="stack">' +
+        '<button class="btn btn--primary btn--wide" data-act="ac-done">Back to the Academy' + icon('chevronRight') + '</button>' +
+        (lesson ? '<button class="btn btn--ghost btn--wide" data-act="ac-test" data-id="' + lesson.id + '">' + icon('target') + 'Take the mastery test again</button>' : '') +
+      '</div>';
+    paintIcons($('#doneBody'));
+    $('#done').classList.add('is-open');
+    this.active = false;
+  }
+};
+</script>
+<script>
+"use strict";
+/* ============================================================================
    SECTION 21 — SHEETS: the mistake → consequence → recovery flow
    ========================================================================== */
 const Sheet = {
@@ -4291,7 +6960,7 @@ function renderVariation(id){
    SECTION 24 — ROUTER
    ========================================================================== */
 let current = 'path', history = [];
-const RENDER = { path:renderPath, learn:renderLearn, review:renderReview, profile:renderProfile };
+const RENDER = { path:renderPath, academy:renderAcademy, learn:renderLearn, review:renderReview, profile:renderProfile };
 
 function show(name, param){
   if (name === 'lesson'){
@@ -4355,9 +7024,32 @@ document.addEventListener('click', function(e){
       break;
     }
     case 'exit-lesson':
+      if (AcademyRunner.active){ AcademyRunner.exit(); break; }
       if (Lesson.m && Lesson.mode === 'lesson' && Lesson.i > 0) toast('Progress saved — you can pick this up later.');
       Sheet.close(); show('path'); break;
-    case 'restart': Sheet.close(); Lesson.restart(); break;
+    case 'restart': Sheet.close(); if (AcademyRunner.active) AcademyRunner.restart(); else Lesson.restart(); break;
+
+    /* ---- academy ---- */
+    case 'ac-branch':      AcademyView.branch = id; renderAcademy(); break;
+    case 'ac-stage':
+      AcademyView.open[+id] = el.getAttribute('aria-expanded') !== 'true';
+      renderAcademy(); break;
+    case 'ac-open':        academyTopicSheet(id); break;
+    case 'ac-placement':   academyPlacementSheet(); break;
+    case 'ac-place':       AcademyStore.place(+id); Sheet.close(); renderAcademy(); toast('Stage set to ' + Academy.bandLabel(+id) + '.'); break;
+    case 'ac-start':       AcademyRunner.start(id); break;
+    case 'ac-test':        AcademyRunner.start(id, { testOnly:true }); break;
+    case 'ac-review':      AcademyRunner.startReview(); break;
+    case 'ac-next':        AcademyRunner.next(); break;
+    case 'ac-frame-next':  AcademyRunner.frameNext(); break;
+    case 'ac-frame-back':  AcademyRunner.frameBack(); break;
+    case 'ac-frame-replay':AcademyRunner.frameReplay(); break;
+    case 'ac-hint':        AcademyRunner.hint(); break;
+    case 'ac-reveal':      AcademyRunner.reveal(); break;
+    case 'ac-retry':       AcademyRunner.retry(); break;
+    case 'ac-reveal-sheet':AcademyRunner.retry(); AcademyRunner.reveal(); break;
+    case 'ac-game-again':  AcademyRunner.render(); break;
+    case 'ac-done':        Complete.hide(); show('academy'); break;
     case 'hint': Lesson.hint(); break;
     case 'goal': Lesson.showGoal(); break;
     case 'undo': Lesson.rewind(); break;
@@ -4439,6 +7131,7 @@ document.addEventListener('click', function(e){
       /* Closing a feedback sheet must not leave the board frozen — treat it
          as "take it back", exactly like the button inside the sheet. */
       const mode = Sheet.mode;
+      if (mode === 'academy'){ AcademyRunner.retry(); break; }
       Sheet.close();
       if (Lesson.m && (mode === 'verdict' || mode === 'rescue')){
         if (mode === 'rescue' && Lesson.pending && Lesson.pending.recovery &&
@@ -4457,7 +7150,7 @@ document.addEventListener('click', function(e){
       break;
     }
     case 'reset-demo': resetProgress('demo'); Sheet.close(); show('profile'); toast('Sample profile restored.'); break;
-    case 'reset-zero': resetProgress('zero'); Sheet.close(); show('path'); toast('Progress cleared.'); break;
+    case 'reset-zero': resetProgress('zero'); AcademyStore.reset(0); Sheet.close(); show('path'); toast('Progress cleared.'); break;
   }
 });
 

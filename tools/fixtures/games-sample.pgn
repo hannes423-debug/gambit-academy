@@ -1,0 +1,32 @@
+[Event "Synthetic fixture"]
+[Site "Gambit Academy"]
+[Date "2026.09.17"]
+[White "Fixture A"]
+[Black "Fixture B"]
+[Result "1-0"]
+[WhiteElo "2210"]
+[BlackElo "2190"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 {the Italian} Nf6 (3... Bc5 4. c3) 4. d3 Be7 5. O-O O-O 6. Re1 d6 7. c3 $1 Na5 8. Bb5 c6 9. Ba4 b5 10. Bc2 1-0
+
+[Event "Synthetic fixture"]
+[Site "Gambit Academy"]
+[Date "2026.09.17"]
+[White "Fixture C"]
+[Black "Fixture D"]
+[Result "0-1"]
+[WhiteElo "2300"]
+[BlackElo "2280"]
+
+1. f3 e5 2. g4 Qh4# 0-1
+
+[Event "Synthetic fixture (broken)"]
+[Site "Gambit Academy"]
+[Date "2026.09.17"]
+[White "Fixture E"]
+[Black "Fixture F"]
+[Result "*"]
+[WhiteElo "2300"]
+[BlackElo "2300"]
+
+1. e4 e5 2. Ke3 Nc6 *

@@ -113,12 +113,20 @@ check('6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1', 'a1a8', (p,a) => noMoves(a) && Rules.
 check('r2q3k/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1', 'g5f7', (p,a) => Rules.inCheck(a,false) && Rules.moves({...a,turn:'w'}, Rules.idx('f7')).includes(Rules.idx('d8')), 'Nf7+ forks king and queen');
 // pawn on d5 attacks c6 and e6
 (function(){
-  const pos = Rules.parse('3q1rk1/5ppp/2n1b3/8/3P4/8/5PPP/3Q1RK1 w - - 0 1');
+  /* The first version of this position had White already two pieces down and
+     d5 simply lost to ...Bxd5. The fork must be protected: check c4 covers d5. */
+  const pos = Rules.parse('6k1/p4ppp/2n1b3/8/2PP4/8/4BPPP/1N4K1 w - - 0 1');
   const after = Rules.apply(pos, Rules.coerce(pos, 'd4d5'));
   after.turn = 'w';
   const targets = Rules.moves(after, Rules.idx('d5'));
   const ok = targets.includes(Rules.idx('c6')) && targets.includes(Rules.idx('e6'));
   console.log((ok?'  ✓ ':'  ✗ ') + 'd5 attacks both c6 and e6 (pawn fork)'); if(!ok) errors++;
+  const guard = Rules.apply(after, Rules.coerce(after, 'c4d5'));
+  const protectedFork = after.board[Rules.idx('c4')] === 'P' && guard.board[Rules.idx('d5')] === 'P';
+  console.log((protectedFork?'  ✓ ':'  ✗ ') + 'c4 protects the forking pawn'); if(!protectedFork) errors++;
+  const material = b => b.reduce((s,p)=>s+(p?({p:1,n:3,b:3,r:5,q:9,k:0})[p.toLowerCase()]*(p===p.toUpperCase()?1:-1):0),0);
+  const even = material(pos.board) >= 0;
+  console.log((even?'  ✓ ':'  ✗ ') + 'White is not already material down before the fork'); if(!even) errors++;
 })();
 // stalemate line in the K+P endgame
 (function(){
@@ -236,3 +244,4 @@ check('r2q3k/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1', 'g5f7', (p,a) => Rules.inCheck(a
 console.log('\nmissions playable:', Object.values(IDX.mission).filter(m=>m.playable).length,
             '/ total', Object.values(IDX.mission).length);
 console.log(errors ? '\nFAILURES: ' + errors : '\nALL CHECKS PASSED');
+process.exit(errors ? 1 : 0);

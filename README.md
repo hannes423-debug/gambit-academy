@@ -30,6 +30,20 @@ server, which is exactly the origin you need.
 
 ## What's in it
 
+**The Academy.** A curriculum from absolute beginner to 2100+, arranged in
+100-point *Academy rating* stages (an instructional stage, not a FIDE, Chess.com or
+Lichess rating) across twelve branches. The ten seeded lessons are board
+coordinates, the rook, check, hanging pieces, the fork, the pin, opening
+development, the opposition, open files and deflection. Each one runs intro →
+animated demo → guided exercise → transfer → unlabeled recognition → defence →
+mini-game against the engine → mastery test. The judgement is human-aware:
+Stockfish's first choice is not automatically "correct", a move 0.15 worse is
+not automatically "wrong", and the same move gets different feedback at 600,
+1200 and 1900. Mistakes are classified (hanging piece, missed threat, wrong move
+order, *Winning → Drawn*, …), mastery needs spaced success over several days,
+and the learner has nine separate skill estimates instead of one number. All
+the design rules are in [`docs/ACADEMY.md`](docs/ACADEMY.md).
+
 **Guided lessons.** 24 missions across Foundations, Openings (Italian,
 Caro-Kann, Sicilian, Queen's Gambit), Tactics (forks, pins, skewers, discovered
 attacks) and Endgames (king and pawn, opposition, the Lucena bridge). Guided
@@ -113,7 +127,10 @@ Everything lives in `index.html` in numbered sections. The seams that matter:
 | `Book` | The opening trie plus a lazily built position index for transpositions. |
 | `Explorer` / `Tablebase` | Lichess API calls. Both optional; the app degrades cleanly without a connection. |
 | `Engine` | Stockfish over UCI in a Worker, with three fallback sources. |
-| `makeBoard()` | Board renderer factory. The lesson and the explorer each own one. |
+| `makeBoard()` | Board renderer factory. The lesson and the explorer each own one. `onSquare` / `onIllegal` hooks let the Academy take raw taps and explain illegal moves. |
+| `Academy` (§33) | Pure model: bands, skills, win-probability judgement, candidate analysis, illegal-move explanations, mastery, scheduling, mixed review, provenance validation, educational quality. No DOM, and loaded as-is by the Node tools. |
+| `ACADEMY_*` (§34) | Curriculum spine, lessons, exercises, rules of thumb. Data only. |
+| `AcademyRunner` (§35) | Academy view, topic sheets and the lesson runner. It borrows the lesson screen and gives it back. |
 
 Board sizing is done in JavaScript, not CSS. Some Android WebViews don't clamp
 an `aspect-ratio` box with `max-width`, which let the board size itself from the
@@ -145,11 +162,50 @@ npm test
   end: guided move, hint, mistake, consequence, recovery, completion, replay.
 - **`tools/subsystems.js`** — the opening book, transposition index, explorer
   merge, engine UCI parsing, punish flow and puzzle import.
+- **`tools/academy.test.js`** — curriculum loading, legal positions and
+  solutions, the chess claims the lessons make, illegal-move explanations,
+  failure categories, multiple acceptable moves, engine-best vs practical vs
+  instructional best, feedback by rating, mastery, scheduling, prerequisites,
+  skills, provenance and licences, educational quality.
+- **`tools/import.test.js`** — puzzle and PGN importers on synthetic fixtures,
+  including licence refusal.
+- **`tools/academy-ui.js`** — boots the app in jsdom and takes a learner
+  through a whole Academy lesson, then checks that the original missions still work.
+
+Every harness exits non-zero on failure (`validate.js` used to print
+`FAILURES` and exit 0).
+
+`npm run verify:academy` re-scores every Academy candidate with the bundled
+Stockfish and checks K+P positions against the Lichess tablebase. It takes
+minutes and needs a connection for the tablebase, so it is not part of `npm test`.
 
 `tools/build-openings.js` regenerates the embedded opening book from the lichess
 TSVs. Put `a.tsv`–`e.tsv` in `tools/data/` first.
 
 ---
+
+## Importing datasets
+
+Large datasets never go into git. Importers stream their input, write NDJSON
+shards and a `manifest.json` under `data/` (ignored), and validate the
+provenance record before writing anything.
+
+```
+npm run import:puzzles -- lichess_db_puzzle.csv.zst --min-popularity 50
+npm run query:puzzles -- --motif fork --rating 650-800 --quality 0.7 --length 1
+npm run import:games -- games.pgn --source-name "…" --source-url … --license CC0-1.0 --positions
+npm run import:evals -- data/games/positions.ndjson --depth 18 --multipv 5
+npm run import:tablebase -- data/games/positions.ndjson --limit 200
+```
+
+Puzzles are sharded by 100-point band with a per-band theme index, and each one
+gets an educational-quality estimate (clean motif, visual clarity, depth,
+ambiguity, …), so "Fork I" can prefer a clean one-move fork over a same-rated
+puzzle with four overlapping motifs. Queries filter by rating, motif, phase,
+opening, solution length, popularity, plays, calculation depth and quality.
+The PGN importer replays every move through the app's rules and rejects
+illegal games. It refuses research-only licences, and CC-BY material without
+`--attribution`.
 
 ## Credits
 

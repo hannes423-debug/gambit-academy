@@ -1,0 +1,7 @@
+PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags
+syn001,r2q2k1/6pp/8/4N3/8/8/2B2PPP/4R1K1 b - - 0 1,g8h8 e5f7 h8g8 f7d8,734,74,96,1200,fork short middlegame,,
+syn002,rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1,e2e4 e7e5 g1f3 b8c6 f1c4 g8f6 f3g5 d7d5,741,131,41,90,fork pin deflection sacrifice long middlegame,,Queens_Gambit_Declined
+syn003,6k1/5ppp/8/8/3n4/8/5PPP/2R2K2 w - - 0 1,f1g1 d4e2 g1f1 e2c1,745,80,12,40,fork short endgame,,
+syn004,this,row,is,malformed
+syn005,8/8/8/8/8/8/8/K6k w - - 0 1,a1a8,1500,70,90,300,mateIn1 endgame,,
+syn006,rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2,f7f6 f3e5,1105,76,88,700,advantage opening short,,Damiano_Defense
