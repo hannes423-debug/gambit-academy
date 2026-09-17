@@ -33,11 +33,12 @@ function load(markers){
   const ctx = sandbox();
   vm.createContext(ctx);
   const all = blocks();
-  const wanted = all.filter(b => markers.some(m => b.includes(m)));
-  if (wanted.length !== markers.length) {
-    const missing = markers.filter(m => !all.some(b => b.includes(m)));
-    if (missing.length) throw new Error('script blocks not found: ' + missing.join(', '));
-  }
+  const optional = markers.filter(m => m.endsWith('?')).map(m => m.slice(0, -1));
+  const required = markers.filter(m => !m.endsWith('?'));
+  const names = required.concat(optional);
+  const wanted = all.filter(b => names.some(m => b.includes(m)));
+  const missing = required.filter(m => !all.some(b => b.includes(m)));
+  if (missing.length) throw new Error('script blocks not found: ' + missing.join(', '));
   wanted.forEach((b, i) => vm.runInContext(b, ctx, { filename: 'block:' + i }));
   return name => vm.runInContext(name, ctx);
 }
@@ -45,7 +46,7 @@ function load(markers){
 /** The pure layers: rules, legacy curriculum/helpers, academy model + content. */
 function loadAcademy(){
   return load(['SECTION 13 — RULES LAYER', 'SECTION 14 — CURRICULUM DATA', 'SECTION 15 — INDEX + HELPERS',
-               'SECTION 33 — ACADEMY MODEL', 'SECTION 34 — ACADEMY CURRICULUM']);
+               'SECTION 33 — ACADEMY MODEL', 'SECTION 34a — ACADEMY GENERATED CONTENT?', 'SECTION 34 — ACADEMY CURRICULUM']);
 }
 
 module.exports = { blocks, load, loadAcademy, HTML };

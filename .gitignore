@@ -5,3 +5,5 @@ package-lock.json
 # working files from the opening-book build
 tools/data/
 tools/openings.json
+# imported datasets (multi-GB, rebuildable from tools/import)
+data/
