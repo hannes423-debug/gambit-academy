@@ -11,12 +11,13 @@
     "build:openings": "node tools/build-openings.js",
     "serve": "python3 -m http.server 8080",
     "academy": "node tools/academy.test.js && node tools/academy-ui.js",
-    "verify:academy": "node tools/verify-academy.js --tb",
+    "verify:academy": "node tools/verify-academy.js --tb && node tools/live.test.js",
     "import:puzzles": "node tools/import/lichess-puzzles.js",
     "query:puzzles": "node tools/import/query-puzzles.js",
     "import:games": "node tools/import/pgn-games.js",
     "import:evals": "node tools/import/engine-annotate.js",
-    "import:tablebase": "node tools/import/tablebase.js"
+    "import:tablebase": "node tools/import/tablebase.js",
+    "test:live": "node tools/live.test.js"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"

@@ -523,5 +523,90 @@ test('puzzle query filters by rating, motif, phase, length, popularity and quali
   ok(!A.PuzzleQuery.matches(p, { qualityMin:.9 }));
 });
 
+/* ======================================================================== */
+section('live engine judgement');
+/* Scores are handed in, so these tests never need the engine itself; what
+   they pin down is what the numbers are allowed to change. */
+const CAP = '4k3/8/8/3p4/4P3/8/8/4K3 w - - 0 1';
+const liveOf = (o) => Object.assign({ cpBefore:0, mateBefore:null, cpAfter:0, mateAfter:null, best:null, bestSan:null }, o);
+const judgeLiveUci = (ex, u, r, live) => {
+  const pos = Rules.parse(ex.fen);
+  const res = A.judge(ex, pos, Rules.coerce(pos, u), r);
+  return A.judgeLive(res, ex, r, live);
+};
+
+test('an unlisted sound move becomes a retry instead of a failure', () => {
+  const ex = { id:'t-live-1', conceptId:'fork', fen:CAP, policy:'target',
+               candidates:[{ move:'e1e2', engineEval:20 }],
+               fallback:{ feedback:'We are practising the capture.' } };
+  const plain = judgeUci(ex, 'e1d2', 900);
+  eq(plain.outcome, 'fail', 'without the engine it is a failure');
+  const live = judgeLiveUci(ex, 'e1d2', 900, liveOf({ cpBefore:60, cpAfter:55, best:'e4d5', bestSan:'exd5' }));
+  eq(live.outcome, 'retry');
+  eq(live.category, 'PLAYABLE_NOT_BEST');
+  ok(/^The engine /.test(live.text), live.text);
+  ok(/practising the capture/.test(live.text), 'keeps the authored line: ' + live.text);
+});
+test('an authored fallback outcome is never overridden by the engine', () => {
+  const ex = { id:'t-live-2', conceptId:'fork', fen:CAP, policy:'target',
+               candidates:[{ move:'e4d5', engineEval:120 }],
+               fallback:{ outcome:'fail', category:'MISSED_OBJECTIVE', feedback:'Take the pawn.' } };
+  const res = judgeLiveUci(ex, 'e1d2', 900, liveOf({ cpBefore:60, cpAfter:58 }));
+  eq(res.outcome, 'fail');
+  eq(res.category, 'MISSED_OBJECTIVE');
+  ok(res.liveNote && /^The engine /.test(res.liveNote), res.liveNote);
+});
+test('a goal-meeting move that throws the game away still fails', () => {
+  const ex = { id:'t-live-3', conceptId:'fork', fen:CAP, policy:'target',
+               goal:{ type:'capture' }, candidates:[], fallback:{} };
+  const pass = judgeUci(ex, 'e4d5', 900);
+  ok(pass.outcome === 'accepted', 'the goal alone accepts it: ' + pass.outcome);
+  const res = judgeLiveUci(ex, 'e4d5', 900, liveOf({ cpBefore:300, cpAfter:-400, best:'e1e2', bestSan:'Ke2' }));
+  eq(res.outcome, 'fail');
+  eq(res.category, 'TACTICAL_MISS');
+  ok(/blunder/.test(res.text) && /Ke2/.test(res.text), res.text);
+});
+test('a mistake-sized cost on a passing move fails as a positional inaccuracy', () => {
+  const ex = { id:'t-live-4', conceptId:'fork', fen:CAP, policy:'target',
+               goal:{ type:'capture' }, candidates:[], fallback:{} };
+  const res = judgeLiveUci(ex, 'e4d5', 1200, liveOf({ cpBefore:120, cpAfter:-60, best:'e1e2', bestSan:'Ke2' }));
+  eq(res.outcome, 'fail');
+  eq(res.category, 'POSITIONAL_INACCURACY');
+});
+test('authored candidates are left alone', () => {
+  const ex = { id:'t-live-5', conceptId:'fork', fen:CAP, policy:'target',
+               candidates:[{ move:'e4d5', engineEval:120, feedback:'Yes — the pawn is free.' }], fallback:{} };
+  const res = judgeLiveUci(ex, 'e4d5', 900, liveOf({ cpBefore:300, cpAfter:-400 }));
+  eq(res.outcome, 'correct');
+  ok(!res.live, 'no live verdict on an authored move');
+});
+test('inside a decided position a small drop is not a blunder', () => {
+  const sc = A.liveScore(liveOf({ cpBefore:900, cpAfter:600 }), 1200);
+  ok(sc.sound, sc.label + ' drop ' + sc.drop.toFixed(1));
+  const real = A.liveScore(liveOf({ cpBefore:100, cpAfter:-400 }), 1200);
+  eq(real.label, 'BLUNDER');
+});
+test('tolerance still scales with rating', () => {
+  const live = liveOf({ cpBefore:60, cpAfter:0 });
+  ok(A.liveScore(live, 400).sound, 'forgiving at 400: ' + A.liveScore(live, 400).label);
+  ok(!A.liveScore(live, 2100).sound, 'strict at 2100: ' + A.liveScore(live, 2100).label);
+});
+test('win percentages are shown from 1600 and hidden below it', () => {
+  const sc = A.liveScore(liveOf({ cpBefore:100, cpAfter:-400 }), 1600);
+  ok(/%/.test(A.liveText(sc, 1600)), A.liveText(sc, 1600));
+  ok(!/%/.test(A.liveText(sc, 900)), A.liveText(sc, 900));
+});
+test('a missing or half-missing score changes nothing', () => {
+  const ex = { id:'t-live-6', conceptId:'fork', fen:CAP, policy:'target',
+               candidates:[{ move:'e4d5', engineEval:120 }], fallback:{} };
+  ['none', 'half'].forEach(k => {
+    const live = k === 'none' ? liveOf({ cpBefore:null, cpAfter:null }) : liveOf({ cpBefore:60, cpAfter:null });
+    const res = judgeLiveUci(ex, 'e1d2', 900, live);
+    eq(res.outcome, 'fail', k);
+    ok(!res.live, k + ': no live verdict');
+  });
+  eq(A.judgeLive(null, ex, 900, liveOf({})), null);
+});
+
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed ? 1 : 0);

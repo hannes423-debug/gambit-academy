@@ -170,14 +170,17 @@ npm test
 - **`tools/import.test.js`** — puzzle and PGN importers on synthetic fixtures,
   including licence refusal.
 - **`tools/academy-ui.js`** — boots the app in jsdom and takes a learner
-  through a whole Academy lesson, then checks that the original missions still work.
+  through a whole Academy lesson, then drives live engine judgement with a
+  scripted worker, then checks that the original missions still work.
 
 Every harness exits non-zero on failure (`validate.js` used to print
 `FAILURES` and exit 0).
 
 `npm run verify:academy` re-scores every Academy candidate with the bundled
-Stockfish and checks K+P positions against the Lichess tablebase. It takes
-minutes and needs a connection for the tablebase, so it is not part of `npm test`.
+Stockfish, checks K+P positions against the Lichess tablebase, and then runs
+`tools/live.test.js`, which scores real positions with the real engine and
+asserts the live verdicts a learner would see. It takes minutes and needs a
+connection for the tablebase, so it is not part of `npm test`.
 
 `tools/build-openings.js` regenerates the embedded opening book from the lichess
 TSVs. Put `a.tsv`–`e.tsv` in `tools/data/` first.

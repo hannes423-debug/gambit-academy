@@ -4459,6 +4459,7 @@ const Academy = (function(){
 
     res.outcome = outcome;
     res.category = category;
+    res.goalMet = met;
 
     /* 2. words */
     let text = cand ? says(cand.feedback) : '';
@@ -4489,6 +4490,76 @@ const Academy = (function(){
       /* correct for this level, but a stronger tactical possibility exists */
       res.stronger = { move:eng.move, text: says(eng.whyBetter) || '', numbers: evalVisible(r, cand.drop) ? ' (' + fmtEval(eng) + ')' : '' };
     }
+    return res;
+  }
+
+  /* ------------------------------------------------------------------------
+     LIVE ENGINE JUDGEMENT
+     Authored candidates cannot cover every legal move, so an unlisted move
+     used to get only the automatic checks and a generic line. When Stockfish
+     is running, the runner scores the position before and after the move and
+     hands the numbers here. Pure: no engine call, no DOM. Every score in
+     `live` is from the MOVER's point of view.
+     ---------------------------------------------------------------------- */
+  const LIVE_TEXT = {
+    ENGINE_BEST:        'The engine agrees — nothing here is better.',
+    STRONG_ALTERNATIVE: 'The engine rates this as good as its own first choice.',
+    PLAYABLE:           'The engine rates this a sound move.',
+    INACCURATE:         'The engine calls this a slight inaccuracy.',
+    MISTAKE:            'The engine calls this a mistake.',
+    BLUNDER:            'The engine calls this a blunder.'
+  };
+  /** Compare the two positions in win %, with the same decided-position and
+      rating tolerances the authored candidates get. */
+  function liveScore(live, r){
+    const winBefore = winPct(live.cpBefore, live.mateBefore);
+    const winAfter  = winPct(live.cpAfter,  live.mateAfter);
+    let drop = Math.max(0, winBefore - winAfter);
+    if ((winAfter >= 80 && winBefore >= 80) || (winAfter <= 20 && winBefore <= 20)) drop *= .4;
+    const label = objectiveLabel(drop, r);
+    return { winBefore, winAfter, drop, label,
+             sound: ['ENGINE_BEST','STRONG_ALTERNATIVE','PLAYABLE'].indexOf(label) >= 0,
+             best: live.best || null, bestSan: live.bestSan || null, depth: live.depth || null };
+  }
+  /** Win % reads better than centipawns — and only once numbers help at all. */
+  function liveText(sc, r){
+    const t = LIVE_TEXT[sc.label] || '';
+    if (!evalVisible(r, sc.drop)) return t;
+    return t + ' Winning chances ' + Math.round(sc.winBefore) + '% to ' + Math.round(sc.winAfter) + '%.';
+  }
+  /** Refine an unauthored verdict with live engine numbers. Mutates `res`. */
+  function judgeLive(res, ex, r, live){
+    if (!res || !live || res.cand) return res;
+    if (live.cpBefore == null && live.mateBefore == null) return res;
+    if (live.cpAfter == null && live.mateAfter == null) return res;
+    const sc = liveScore(live, r);
+    res.live = sc;
+    const note = liveText(sc, r);
+    const authored = !!(ex && ex.fallback && ex.fallback.outcome);
+    const passed = res.outcome === 'correct' || res.outcome === 'accepted';
+
+    /* a move that meets the exercise goal but throws the position away */
+    if (passed && (sc.label === 'MISTAKE' || sc.label === 'BLUNDER')){
+      res.outcome = 'fail';
+      res.category = sc.label === 'BLUNDER' ? 'TACTICAL_MISS' : 'POSITIONAL_INACCURACY';
+      res.title = (FAILURES[res.category] || FAILURES.POSITIONAL_INACCURACY).title;
+      res.text = note + (sc.bestSan ? ' ' + sc.bestSan + ' was the move.' : '');
+      return res;
+    }
+    if (passed){
+      res.liveNote = sc.label === 'INACCURATE' && sc.bestSan ? note + ' ' + sc.bestSan + ' keeps more.' : note;
+      return res;
+    }
+    /* it failed on lesson grounds: if the engine rates it sound and the
+       exercise's own goal was not missed, that is a retry, not a mistake */
+    if (sc.sound && res.goalMet !== false && !authored && res.outcome === 'fail'){
+      res.outcome = 'retry';
+      res.category = 'PLAYABLE_NOT_BEST';
+      res.title = FAILURES.PLAYABLE_NOT_BEST.title;
+      res.text = note + ' It is just not the idea this exercise practises. ' + res.text;
+      return res;
+    }
+    res.liveNote = note;
     return res;
   }
 
@@ -4743,6 +4814,7 @@ const Academy = (function(){
     VALUE, attacksFrom, attackers, material, explainIllegal, hangingAfter, threatStillWorks,
     winPct, tolerance, objectiveLabel, calcCapacity, candidate, difficulty, executionRisk, analysePosition,
     levelText, evalVisible, fmtEval, GOALS, goalMet, pinsBy, judge, judgeSquare,
+    LIVE_TEXT, liveScore, liveText, judgeLive,
     newState, newConcept, computeMastery, record, schedule, isDue, RELEARN_MS, MASTERED, UNLOCK,
     updateSkills, overall, skillRating, ratingFor, masteryOf, prereqsMet, conceptStatus, recommended,
     rng, buildReview, buildMasteryTest, MOTIF_THEMES, EduQuality, PuzzleQuery
@@ -6276,36 +6348,74 @@ const AcademyRunner = {
     this.say('<b>' + res.title + '.</b> ' + res.text, 'bad');
     this.exActions();
   },
+  /* ---- live engine judgement for moves the lesson never listed ---- */
+  liveEnabled(){
+    return typeof Worker !== 'undefined' && !Engine.failed &&
+           !(P.settings && P.settings.liveEngine === false);
+  },
+  /** Score the position before and after an unlisted move, both from the
+      mover's side, and let Academy.judgeLive refine the verdict. */
+  async liveCheck(ex, start, mv, r, res){
+    const ok = await Promise.race([Engine.boot(), new Promise(go => setTimeout(() => go(false), 3000))]);
+    if (!ok) return res;
+    const opts = { depth:12 };
+    const before = await Engine.analyse(start, opts);
+    if (!before) return res;
+    const after = await Engine.analyse(Rules.apply(start, mv), opts);
+    if (!after) return res;
+    const live = { cpBefore:before.cp, mateBefore:before.mate,
+                   cpAfter:  after.cp   == null ? null : -after.cp,
+                   mateAfter:after.mate == null ? null : -after.mate,
+                   best:before.best || null, depth:Math.min(before.depth || 0, after.depth || 0) };
+    if (live.best){
+      try { live.bestSan = Rules.san(start, Rules.coerce(start, live.best)); } catch(e){ live.best = null; }
+    }
+    return Academy.judgeLive(res, ex, r, live);
+  },
   onMove(mv){
     if (this.busy || this.solved) return;
     const ex = this.ex, r = this.rating(ex);
     const res = Academy.judge(ex, this.pos, mv, r);
     this.busy = true; Board.interactive = false; Board.arrow(null);
     const start = this.pos;
+    /* the engine runs while the piece slides, and is capped so nothing stalls */
+    let live = null;
+    if (!res.cand && !ex.noLive && this.liveEnabled()){
+      let settled = false;
+      live = Promise.race([ this.liveCheck(ex, start, mv, r, res).catch(() => res),
+                            new Promise(go => setTimeout(() => go(res), 3500)) ])
+                    .then(v => { settled = true; return v; });
+      setTimeout(() => { if (!settled && this.active && !this.solved) this.say('Checking with the engine…', ''); }, 500);
+    }
     Board.play(mv, () => {
-      this.busy = false;
-      if (res.outcome === 'correct' || res.outcome === 'accepted'){
-        this.solved = true;
-        Board.marks = {}; Board.marks[mv.to] = 'good'; Board.render();
-        this.recordAttempt(!this.failed && !this.revealed, null, this.retried ? 1 : 0);
-        this.say(this.successHTML(res, r), 'good');
-        return this.exActions(true);
-      }
-      Board.marks = {}; Board.marks[mv.to] = 'bad'; Board.render();
-      if (res.outcome === 'retry'){
-        this.retried = true;
-        this.say('<b>' + res.title + '.</b> ' + res.text + ' <i>Try another move.</i>', 'hint');
-        AcademyStore.noteFailure(ex.conceptId, res.category || 'PLAYABLE_NOT_BEST');
-        setTimeout(() => this.resetBoard(start), 1500);
-        return this.exActions();
-      }
-      Board.shake();
-      if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
-      this.say('<b>' + res.title + '.</b>', 'bad');
-      this.pending = { start };
-      Sheet.open(this.failureHTML(res, start, mv), 'academy');
-      this.exActions();
+      if (live) return live.then(() => this.present(res, ex, r, mv, start));
+      this.present(res, ex, r, mv, start);
     });
+  },
+  present(res, ex, r, mv, start){
+    this.busy = false;
+    if (!this.active || this.solved || this.step().ex !== ex) return;
+    if (res.outcome === 'correct' || res.outcome === 'accepted'){
+      this.solved = true;
+      Board.marks = {}; Board.marks[mv.to] = 'good'; Board.render();
+      this.recordAttempt(!this.failed && !this.revealed, null, this.retried ? 1 : 0);
+      this.say(this.successHTML(res, r), 'good');
+      return this.exActions(true);
+    }
+    Board.marks = {}; Board.marks[mv.to] = 'bad'; Board.render();
+    if (res.outcome === 'retry'){
+      this.retried = true;
+      this.say('<b>' + res.title + '.</b> ' + res.text + ' <i>Try another move.</i>', 'hint');
+      AcademyStore.noteFailure(ex.conceptId, res.category || 'PLAYABLE_NOT_BEST');
+      setTimeout(() => this.resetBoard(start), 1500);
+      return this.exActions();
+    }
+    Board.shake();
+    if (!this.failed){ this.failed = true; this.recordAttempt(false, res.category); }
+    this.say('<b>' + res.title + '.</b>', 'bad');
+    this.pending = { start };
+    Sheet.open(this.failureHTML(res, start, mv), 'academy');
+    this.exActions();
   },
   resetBoard(start){
     if (!this.active || this.solved || this.step().ex !== this.ex) return;
@@ -6331,6 +6441,7 @@ const AcademyRunner = {
       if (res.text.indexOf(san) < 0)
         h += '<span class="ac-note">' + (res.stronger.text || ('Also worth knowing: ' + san + ' was a little stronger.')) + (res.stronger.numbers || '') + '</span>';
     }
+    if (res.liveNote) h += '<span class="ac-note">' + res.liveNote + '</span>';
     if (cand && cand.claim) h += '<span class="ac-note">Rule of thumb at your level: ' + ACADEMY.claimText(cand.claim, r) + '</span>';
     if (cand && r >= 800){
       const chips = cand.labels.map(l => '<span class="ac-label t-' + Academy.LABELS[l].tone + '">' + Academy.LABELS[l].text + '</span>').join('');
@@ -6348,6 +6459,7 @@ const AcademyRunner = {
           '<div class="verdict__label t-' + tone + '">' + meta.title + '</div>' +
           '<div class="verdict__move">You played ' + res.san + (label ? ' · ' + Academy.LABELS[label].text : '') + '</div>' +
           '<p class="verdict__text">' + res.text + '</p>' +
+          (res.liveNote && res.text.indexOf(res.liveNote) < 0 ? '<p class="verdict__text muted">' + res.liveNote + '</p>' : '') +
         '</div>' +
       '</div>' +
       '<div class="sheet__buttons">' +
@@ -6604,6 +6716,7 @@ const Sheet = {
   },
   engineSetup(){
     const cur = (P.settings && P.settings.engineUrl) || '';
+    const live = !(P.settings && P.settings.liveEngine === false);
     this.open(
       '<div class="eyebrow" style="margin-bottom:10px">Stockfish</div>' +
       '<p class="muted">Status: <b>' + (Engine.ready ? 'running (' + Engine.name + ')' : Engine.failed ? 'not found' : 'not started') + '</b></p>' +
@@ -6612,6 +6725,10 @@ const Sheet = {
       'Workers also need an http origin — Acode\'s preview server gives you one, opening the file directly does not.</p>' +
       '<input id="engUrl" value="' + cur.replace(/"/g, '&quot;') + '" placeholder="or paste an engine URL" ' +
         'style="width:100%;margin-top:12px;padding:12px;border-radius:12px;border:1.5px solid var(--line);font:inherit;font-size:13px">' +
+      '<button class="btn btn--ghost btn--wide" data-act="toggle-live" style="margin-top:12px">' + icon('bolt') +
+        'Judge unlisted moves live: ' + (live ? 'on' : 'off') + '</button>' +
+      '<p class="muted" style="margin-top:8px;font-size:12px">With this on, a move an Academy exercise never listed is scored by the engine ' +
+      'before and after, so a sound try is called a retry and a losing one is named for what it costs.</p>' +
       '<div class="sheet__buttons">' +
         '<button class="btn btn--primary" data-act="engine-save">Save & connect</button>' +
         '<button class="btn btn--ghost" data-act="dismiss-sheet">Close</button>' +
@@ -7172,6 +7289,13 @@ document.addEventListener('click', function(e){
     case 'open-learn': show('learn'); break;
     case 'back': goBack(); break;
     case 'open-settings': Sheet.settings(); break;
+    case 'toggle-live': {
+      P.settings = P.settings || {};
+      P.settings.liveEngine = P.settings.liveEngine === false;
+      save(); Sheet.engineSetup();
+      toast(P.settings.liveEngine ? 'Live engine judgement on.' : 'Live engine judgement off.');
+      break;
+    }
 
     /* ---- opening explorer ---- */
     case 'tree-play':   Tree.play(Rules.coerce(Tree.pos, el.dataset.uci)); break;

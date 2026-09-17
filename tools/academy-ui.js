@@ -159,6 +159,63 @@ async function until(fn, ms){ const end = Date.now() + (ms || 3000); while (Date
   click('[data-act="exit-lesson"]'); await wait(80);
   t('leaving returns to the academy', !!$('#screen-academy.is-active'));
 
+  console.log('\n— live engine judgement —');
+  /* A fake Stockfish worker: it answers UCI and reports whatever score the
+     test asks for, per position. What is under test is the runner's wiring —
+     tools/live.test.js runs the same path against the real engine. */
+  ev(`window.__fake = { cp:40, best:'a1a5', byFen:{} };
+      window.Worker = function(){
+        const self = this;
+        this.postMessage = function(cmd){
+          if (cmd.indexOf('position fen ') === 0){ self.fen = cmd.slice(13); return; }
+          if (cmd.indexOf('go') !== 0 && cmd !== 'uci') return;
+          setTimeout(function(){
+            if (!self.onmessage) return;
+            if (cmd === 'uci') return self.onmessage({ data:'uciok' });
+            const f = window.__fake, cp = (self.fen in f.byFen) ? f.byFen[self.fen] : f.cp;
+            self.onmessage({ data:'info depth 12 score cp ' + cp + ' pv ' + f.best });
+            self.onmessage({ data:'bestmove ' + f.best });
+          }, 0);
+        };
+        this.terminate = function(){};
+      };
+      Object.assign(Engine, { worker:null, ready:false, booting:false, failed:false, _pending:null });`);
+
+  const EXID = 'rook-take-queen';
+  ev("AcademyRunner.start('academy-rook')"); await wait(120);
+  /* jump straight to the recognition exercise: the steps before it are
+     covered by the fork lesson above */
+  ev("AcademyRunner.i = AcademyRunner.steps.findIndex(s => s.ex && s.ex.id === '" + EXID + "'); AcademyRunner.render();");
+  await wait(120);
+  t('reached an exercise whose failures are not pre-authored', step().ex && step().ex.id === EXID, step().ex && step().ex.id);
+
+  /* the engine says the unlisted move throws the game away: still a failure,
+     and the sheet carries the engine's own line */
+  const afterH3 = ev("(function(){ const p = Rules.parse(ACADEMY.exercises['" + EXID + "'].fen); return Rules.toFEN(Rules.apply(p, Rules.coerce(p, 'h2h3'))); })()");
+  ev("window.__fake.byFen['" + afterH3 + "'] = 900;");
+  await move('h2h3'); await wait(900);
+  t('engine booted from the local path', ev("Engine.ready") === true && /^\.\//.test(ev("Engine.name")), ev("Engine.name"));
+  t('a losing unlisted move still fails', !!$('#sheet.is-open'), txt('#sheetBody .verdict__label'));
+  t('the sheet carries the engine verdict', /engine calls this a blunder/i.test(txt('#sheetBody')), txt('#sheetBody').slice(0, 90));
+  click('#sheetBody [data-act="ac-retry"]'); await wait(150);
+
+  /* same move, engine now says it is sound: a retry, not a failure */
+  ev("window.__fake.byFen['" + afterH3 + "'] = 35;");
+  await move('h2h3'); await wait(900);
+  t('a sound unlisted move becomes a retry', !$('#sheet.is-open') && /The engine (rates|agrees|calls)/.test(txt('#lsText')) &&
+    ev("AcademyRunner.retried") === true, txt('#lsText').slice(0, 95));
+  t('the coach still says what the exercise wants', /not the idea this exercise practises/i.test(txt('#lsText')));
+  await until(() => ev("Board.interactive") === true, 2500);
+  t('the board comes back for another try', ev("Board.interactive") === true && ev("Board.pos.board[Rules.idx('h2')]") === 'P');
+  await move('a1a5'); await wait(200);
+  t('the lesson move is still accepted afterwards', /is-good/.test($('#lsCoach').className), txt('#lsText').slice(0, 60));
+
+  /* the toggle in Settings turns the whole thing off */
+  ev("P.settings = P.settings || {}; P.settings.liveEngine = false;");
+  t('the settings toggle disables live judgement', ev("AcademyRunner.liveEnabled()") === false);
+  ev("P.settings.liveEngine = true;");
+  click('[data-act="exit-lesson"]'); await wait(80);
+
   console.log('\n— legacy lessons still work —');
   ev("Lesson.start('fk-1')"); await wait(120);
   t('board hooks were handed back', ev("Board.onSquare") === null && ev("Board.onIllegal") === null && ev("AcademyRunner.active") === false);

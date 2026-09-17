@@ -106,6 +106,29 @@ Moves that are not listed still get judged: hanging pieces
 unmet goals, and illegal attempts (`Academy.explainIllegal`, e.g. "Your king
 cannot move to e2 because the bishop on b5 controls that square").
 
+### Live engine judgement
+
+Authored candidates cannot cover every legal move. When Stockfish is running
+(`AcademyRunner.liveEnabled()`, Settings → Engine turns it off) an **unlisted**
+move is scored before and after, both from the mover's side, and
+`Academy.judgeLive` refines the verdict:
+
+- a sound move that simply is not the lesson's idea becomes a **retry**, and
+  keeps the authored line that says what the exercise practises
+- a move that meets the exercise's goal but throws the position away
+  **fails** — `TACTICAL_MISS` for a blunder, `POSITIONAL_INACCURACY` for a
+  mistake
+- an authored `fallback.outcome`, and any move that *is* in `candidates`, are
+  never overridden
+- win percentages appear in the text only where `evalVisible` allows them
+
+The same rating tolerance and decided-position shrink apply as for authored
+candidates, so at Academy 400 a 5 % slip is still "sound" and at 2100+ it is
+not. The engine runs while the piece slides and is capped at 3.5 s; if it does
+not answer, the authored verdict stands. `tools/live.test.js` runs this path
+against the real engine (`npm run verify:academy`), and `tools/academy-ui.js`
+drives it in the browser with a scripted worker.
+
 ### Failure categories
 
 `ILLEGAL_MOVE` · `WRONG_SQUARE` · `HANGING_PIECE` · `MISSED_THREAT` ·
