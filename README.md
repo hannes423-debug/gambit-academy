@@ -185,6 +185,25 @@ connection for the tablebase, so it is not part of `npm test`.
 `tools/build-openings.js` regenerates the embedded opening book from the lichess
 TSVs. Put `a.tsv`–`e.tsv` in `tools/data/` first.
 
+`tools/layout.js`, driven by `tools/cdp.py`, measures the layout at a real
+emulated viewport (it needs `pip install websocket-client` and Chrome):
+
+```
+python3 -m http.server 8137
+python3 tools/cdp.py tools/layout.js --url http://localhost:8137/index.html \
+        --size 390x844 --mobile --shot /tmp/phone.png
+python3 tools/cdp.py tools/layout.js --url http://localhost:8137/index.html \
+        --size 1440x900 --shot /tmp/desktop.png
+```
+
+It checks every screen for sideways scroll and for inactive screens still
+taking up space, that the six-tab nav neither wraps nor scrolls, that no icon
+renders at its intrinsic size, that an open sheet stays on screen, and that the
+lesson board is neither tiny nor clipped. Anything in its `problems` array is a
+real finding. Two traps it exists to avoid: `--window-size` is the OS window,
+not the viewport (asking for 390 gives the page about 500px), and measuring
+during the sheet's 300ms slide reports an overflow that is not there.
+
 ---
 
 ## Importing datasets
