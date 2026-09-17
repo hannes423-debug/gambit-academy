@@ -205,6 +205,16 @@ The workflow for a new idea is: **discover it → verify it independently →
 find or compose positions → check them with the engine or tablebase → write
 original explanations.**
 
+## Keying a candidate move
+
+`Academy.judge` looks a candidate up by `Rules.key(mv)` plus the promotion
+letter **only when it is not a queen**, because a queen is the default. A spec
+that authors `b7b8q` and stores it verbatim produces an exercise where the
+right answer is unfindable, and the only symptom is every attempt judging as a
+failure. `tools/author/build.js` now normalises every candidate key
+(`keyOf`), and `academy.test.js` asserts each move exercise has a move that
+judges as correct at its own band — which is what caught it.
+
 ## Authoring checklist
 
 1. Compose the position and every candidate with `Rules`-legal moves.

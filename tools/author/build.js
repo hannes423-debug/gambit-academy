@@ -102,6 +102,14 @@ function legal(pos, uci){
   return m && m.from >= 0 && m.to >= 0 && !!pos.board[m.from] && Rules.moves(pos, m.from).indexOf(m.to) >= 0;
 }
 function sanOf(fen, uci){ const p = Rules.parse(fen); return Rules.san(p, Rules.coerce(p, uci)); }
+/** The key Academy.judge() looks a candidate up by: no suffix for a queen
+    promotion, because that is the default. Authoring 'b7b8q' and storing it
+    verbatim made the answer unfindable, and the only symptom was the whole
+    exercise judging as a failure. */
+function keyOf(fen, uci){
+  const p = Rules.parse(fen), m = Rules.coerce(p, uci);
+  return Rules.key(m) + (m.promo && m.promo !== 'q' ? m.promo : '');
+}
 function sanLine(fen, ucis){
   let p = Rules.parse(fen); const out = [];
   for (const u of ucis){ const m = Rules.coerce(p, u); if (!legal(p, u)) break; out.push(Rules.san(p, m)); p = Rules.apply(p, m); }
@@ -163,8 +171,10 @@ async function buildExercise(lesson, spec, i){
   const pieces = pos.board.filter(Boolean).length;
   const useTb = spec.engine === 'tb' || (spec.engine !== 'engine' && pieces <= 7 && spec.engine !== 'none');
   const cands = {};
-  const add = (move, extra) => { cands[move] = Object.assign(cands[move] || { move }, extra); };
+  const key = u => keyOf(spec.fen, u);
+  const add = (move, extra) => { const k = key(move); cands[k] = Object.assign(cands[k] || { move:k }, extra); };
   const successText = spec.success;
+  const answerKeys = answers.map(key);
   const bestAnswerSan = sanOf(spec.fen, answers[0]);
   const line = spec.line ? sanLine(spec.fen, spec.line) : null;
 
@@ -184,7 +194,7 @@ async function buildExercise(lesson, spec, i){
     tb.moves.forEach((m, k) => {
       const cat = mine(m.category);
       const noted = (spec.notes || {})[m.uci];
-      const isAnswer = answers.indexOf(m.uci) >= 0;
+      const isAnswer = answerKeys.indexOf(key(m.uci)) >= 0;
       if (!isAnswer && !noted && cat === bestCat && !spec.listAllMoves) return;          /* equally good: judged by outcome, no need to list */
       if (!isAnswer && !noted && cat === bestCat) { add(m.uci, { tb:cat, engineEval:cp(cat), conceptAlignment:.5, feedback:'Also keeps the ' + (cat === 'draw' ? 'draw' : 'win') + '. ' + bestAnswerSan + ' was the lesson move.' }); return; }
       if (isAnswer) add(m.uci, { tb:cat, engineEval:cp(cat), engineRank:1, conceptAlignment:1, pedagogicalQuality:1, feedback:successText });
@@ -212,12 +222,13 @@ async function buildExercise(lesson, spec, i){
       { feedback:k === 0 || !spec.alsoFeedback ? successText : spec.alsoFeedback })));
     Object.keys(spec.notes || {}).forEach(u => {
       const n = spec.notes[u];
-      if (answers.indexOf(u) >= 0) return;
+      if (answerKeys.indexOf(key(u)) >= 0) return;
       add(u, Object.assign({ cp:scored[u], conceptAlignment:n.alignment != null ? n.alignment : 0 }, n));
       delete cands[u].alignment;
     });
     top.forEach((l, k) => {
-      if (cands[l.move]){ cands[l.move].engineRank = k + 1; if (!cands[l.move].cp) cands[l.move].cp = l; return; }
+      const lk = key(l.move);
+      if (cands[lk]){ cands[lk].engineRank = k + 1; if (!cands[lk].cp) cands[lk].cp = l; return; }
       if (spec.noEngineExtras) return;
       const drop = bestWin - win(l);
       const altSan = sanOf(spec.fen, l.move);
@@ -232,7 +243,7 @@ async function buildExercise(lesson, spec, i){
       if (c.cp){ if (c.cp.mate != null){ c.mateScore = c.cp.mate; } else c.engineEval = c.cp.cp; delete c.cp; }
       Object.keys(c).forEach(k => c[k] === undefined && delete c[k]);
     });
-    if (line && line.length) Object.values(cands).filter(c => answers.indexOf(c.move) >= 0).forEach(c => {
+    if (line && line.length) Object.values(cands).filter(c => answerKeys.indexOf(c.move) >= 0).forEach(c => {
       if (typeof c.feedback === 'string' && c.feedback.indexOf('{line}') >= 0) c.feedback = c.feedback.replace('{line}', line.join(' '));
       if (Array.isArray(c.feedback)) c.feedback = c.feedback.map(v => Object.assign({}, v, { text:v.text.replace('{line}', line.join(' ')) }));
     });

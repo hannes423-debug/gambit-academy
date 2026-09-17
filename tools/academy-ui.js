@@ -216,6 +216,27 @@ async function until(fn, ms){ const end = Date.now() + (ms || 3000); while (Date
   ev("P.settings.liveEngine = true;");
   click('[data-act="exit-lesson"]'); await wait(80);
 
+  console.log('\n— the rules lessons (castling, en passant, promotion) —');
+  /* These three are the only lessons whose answer is a special move, so the
+     runner has to accept a move the board generates in its own way. */
+  const rules = [
+    { lesson:'academy-castling', uci:'e1g1', want:/Castled/, name:'castling' },
+    { lesson:'academy-en-passant', uci:'e5d6', want:/exd6/, name:'en passant' },
+    { lesson:'academy-promotion', uci:'b7b8', want:/queen/i, name:'promotion' }
+  ];
+  for (const r of rules){
+    ev("AcademyRunner.start('" + r.lesson + "')"); await wait(120);
+    ev("AcademyRunner.i = AcademyRunner.steps.findIndex(s => s.kind === 'exercise'); AcademyRunner.render();"); await wait(120);
+    await move(r.uci); await wait(250);
+    const good = /is-good/.test($('#lsCoach').className);
+    t(r.name + ' is accepted by the runner', good && r.want.test(txt('#lsText')), txt('#lsText').slice(0, 70));
+  }
+  ev("AcademyRunner.start('academy-promotion')"); await wait(120);
+  ev("AcademyRunner.i = AcademyRunner.steps.findIndex(s => s.kind === 'exercise'); AcademyRunner.render();"); await wait(100);
+  t('the promoted piece really is a queen', (await (async () => { await move('b7b8'); await wait(200);
+    return ev("Board.pos.board[Rules.idx('b8')]"); })()) === 'Q');
+  click('[data-act="exit-lesson"]'); await wait(80);
+
   console.log('\n— placement test —');
   const before = ev("JSON.stringify(AcademyStore.load().concepts)");
   ev("academyPlacementSheet()"); await wait(40);
