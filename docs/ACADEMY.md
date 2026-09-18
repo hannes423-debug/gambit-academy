@@ -168,6 +168,29 @@ drives it in the browser with a scripted worker.
 exercise practises: no failure is recorded and the board resets. `fail` opens
 the feedback sheet and is recorded once per exercise visit.
 
+## Where the content stands
+
+Bands **0 to 1500 are complete**: 85 lessons over 85 of the 121 spine topics,
+343 exercises, of which 58 are `quiet` and 80 are square taps. Everything from
+1600 up is still `planned`, and nothing anywhere is `humanReviewed`.
+
+Two habits made the upper bands workable:
+
+- **Probe before authoring.** `tools/probe.js` gives the tablebase verdict per
+  move and MultiPV with win% gaps for a position, so a spec arrives already
+  knowing that Kg2 is the only draw or that Rd1 is the one rook move that
+  throws the win away. Bands 1100 and 1400 built clean first time.
+- **Ask for a square when the skill is recognition.** A `kind:'square'`
+  exercise needs only a legal position, so it cannot assert a move that the
+  engine would disagree with. Naming the outpost, the hole, the weak pawn, the
+  base of a chain, the crossing square of two defenders or the doomed piece is
+  what those topics are actually about.
+
+Small positions are worth seeking out: with seven pieces or fewer the Syzygy
+tablebase settles a claim absolutely, which is why the calculation and endgame
+bands lean on three- and four-piece positions where "this move draws and that
+one loses" is a fact rather than an evaluation.
+
 ## Positions the build tool rejected
 
 Worth knowing before authoring the next batch, because each of these looked

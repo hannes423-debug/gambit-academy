@@ -445,16 +445,19 @@ test('no review session repeats a motif back to back, over many seeds', () => {
   /* regression: the de-clash pass only looked forward for a swap partner, so
      a clash between the LAST two items had nothing to swap with and stayed. */
   const t0 = Date.UTC(2026, 0, 1);
-  for (let seed = 1; seed <= 40; seed++){
+  for (let seed = 1; seed <= 120; seed++){
     const s = A.newState(700);
     A.record(s, 'fork', { success:false, now:t0 });
     A.record(s, 'pin', { success:true, now:t0 });
     A.record(s, 'check', { success:true, now:t0 });
     const items = A.buildReview(s, AC.pool(), { now:t0 + 2 * DAY, size:6, seed });
-    const concepts = new Set(items.map(x => x.conceptId));
-    if (concepts.size < 2) continue;
+    const counts = {};
+    items.forEach(x => { counts[x.conceptId] = (counts[x.conceptId] || 0) + 1; });
+    /* a clash is only avoidable while no concept holds more than half the session */
+    if (Math.max.apply(null, Object.values(counts)) > Math.ceil(items.length / 2)) continue;
     for (let i = 1; i < items.length; i++)
-      ok(items[i].conceptId !== items[i-1].conceptId, 'seed ' + seed + ' repeats ' + items[i].conceptId);
+      ok(items[i].conceptId !== items[i-1].conceptId,
+         'seed ' + seed + ' repeats ' + items[i].conceptId + ' in ' + items.map(x => x.conceptId).join(' > '));
   }
 });
 test('a guided quiet position cannot sneak into review as filler', () => {

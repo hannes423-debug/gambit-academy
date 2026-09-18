@@ -34,7 +34,11 @@ async function until(fn, ms){ const end = Date.now() + (ms || 3000); while (Date
   t('skill profile lists nine skills', $$('.ac-skill').length === 9);
   t('twelve branch filters plus All', $$('.ac-branch').length === 13);
   t('seeded topics render as cards', $$('.ac-topic').length >= 10, $$('.ac-topic').length + ' topics');
-  t('planned topics are shown as planned', $$('.ac-topic--planned').length > 0);
+  /* Every stage that still has planned topics is above 1500 now, and those
+     stages start collapsed, so open one before looking for them. */
+  ev("AcademyView.open[2100] = true; renderAcademy();"); await wait(60);
+  t('planned topics are shown as planned', $$('.ac-topic--planned').length > 0, $$('.ac-topic--planned').length + ' planned cards');
+  ev("AcademyView.open[2100] = false; renderAcademy();"); await wait(40);
 
   $('.ac-branch[data-id="endgames"]').click(); await wait(40);
   const endgameTopics = $$('.ac-topic .ac-topic__t').map(e => e.textContent);
