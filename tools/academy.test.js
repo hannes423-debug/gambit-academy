@@ -441,6 +441,34 @@ test('mixed review: due concepts first, unlabeled, interleaved, no guided items'
   ok(items.some(x => x.quiet), 'no quiet position in review');
   for (let i = 1; i < items.length; i++) ok(items[i].conceptId !== items[i-1].conceptId || items.every(x => x.conceptId === items[0].conceptId), 'back-to-back ' + items[i].conceptId);
 });
+test('no review session repeats a motif back to back, over many seeds', () => {
+  /* regression: the de-clash pass only looked forward for a swap partner, so
+     a clash between the LAST two items had nothing to swap with and stayed. */
+  const t0 = Date.UTC(2026, 0, 1);
+  for (let seed = 1; seed <= 40; seed++){
+    const s = A.newState(700);
+    A.record(s, 'fork', { success:false, now:t0 });
+    A.record(s, 'pin', { success:true, now:t0 });
+    A.record(s, 'check', { success:true, now:t0 });
+    const items = A.buildReview(s, AC.pool(), { now:t0 + 2 * DAY, size:6, seed });
+    const concepts = new Set(items.map(x => x.conceptId));
+    if (concepts.size < 2) continue;
+    for (let i = 1; i < items.length; i++)
+      ok(items[i].conceptId !== items[i-1].conceptId, 'seed ' + seed + ' repeats ' + items[i].conceptId);
+  }
+});
+test('a guided quiet position cannot sneak into review as filler', () => {
+  /* regression: the quiet filler bypassed the guided filter, so a review
+     session could open with an exercise that names its own motif. */
+  const guidedQuiet = EXERCISES.filter(x => x.quiet && x.stage === 'guided');
+  ok(guidedQuiet.length > 0, 'no guided quiet exercise left to test with');
+  const s = A.newState(700), t0 = Date.UTC(2026, 0, 1);
+  A.record(s, 'fork', { success:false, now:t0 });
+  for (let seed = 1; seed <= 12; seed++){
+    const items = A.buildReview(s, AC.pool(), { now:t0 + 2 * DAY, size:6, seed });
+    ok(items.every(x => x.stage !== 'guided'), 'seed ' + seed + ': ' + items.filter(x => x.stage === 'guided').map(x => x.id));
+  }
+});
 test('mastery test hides the lesson motif among lower-band items', () => {
   const lesson = AC.lessons['academy-fork'];
   const items = A.buildMasteryTest(lesson, AC.pool(), { own:3, others:2, seed:9 });

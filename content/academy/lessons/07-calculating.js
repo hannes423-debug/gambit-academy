@@ -1,0 +1,118 @@
+/* Band 800: how to calculate rather than what to calculate — listing
+   candidates, starting with forcing moves, seeing three plies, and the order
+   you play the moves in. Most positions here are three or four pieces, so the
+   Syzygy tablebase judges them absolutely: "this move draws" is a fact, not an
+   opinion.
+   Spec format: see tools/author/build.js. Text is original to Gambit Academy. */
+const MISS = { outcome:'retry', category:'MISSED_OBJECTIVE' };
+
+module.exports = [
+{ id:'candidate-moves', title:'Candidate moves', band:800, branch:'calculation', durability:'TIMELESS',
+  skills:{ calculation:.8, practical:.2 }, prerequisites:['cct'], mastery:{ targetMs:45000 },
+  intro:'Before you calculate anything, name your <b>candidates</b>: two or three moves worth looking at. Most mistakes are not miscalculations — they are the move you never considered, because you started analysing the first idea that arrived and never came back.',
+  demo:{ fen:'6k1/5ppp/8/8/r7/8/8/3Q2K1 w - - 0 1', frames:[
+    ['A loose rook on a4, and a black king behind unmoved pawns. Two candidates.', { marks:'target:a4 key:g8' }],
+    ['Candidate one: Qxa4 wins a rook. Perfectly good — and a whole game still to play.', { marks:'attack:a4' }],
+    ['Candidate two: Qd8 is mate. The list is what makes you look at the second one.', { move:'d1d8', arrows:'d8-g8 red' }] ]},
+  exercises:[
+    { stage:'guided', fen:'6k1/5ppp/8/8/r7/8/8/3Q2K1 w - - 0 1', label:'Name two, then choose', prompt:'There is a free rook on a4. Name your candidates before you take it.',
+      goal:{ type:'mate' }, answer:'d1d8',
+      hints:['Candidate one is the capture. What is candidate two?', 'Look at the eighth rank and count the king\'s escape squares.', '@to'],
+      success:'Qd8 is mate. Qxa4 wins a rook and keeps the game going — the difference between the two is one list.',
+      notes:{ d1a4:{ feedback:'Qxa4 wins a rook, and it is objectively good. It is also the move that misses mate in one, which is what a second candidate is for.', outcome:'retry', category:'TACTICAL_MISS' } } },
+    { stage:'transfer', fen:'8/8/8/4k3/8/8/8/3QK3 w - - 0 1', label:'Three of them lose the queen', prompt:'Queen and king against a bare king. Play a move that keeps the win.',
+      answer:'d1d3',
+      hints:['Three of your queen\'s checks put her right next to the black king.', 'Instead, stand a knight\'s move away from the king: that takes squares away without offering anything.', '@to'],
+      success:'Qd3 boxes the king in from a knight\'s distance — the technique that mates in a handful of moves. Qd4+, Qd5+ and Qd6+ all look active and all lose the queen to Kxd-something, which turns a win into a draw.',
+      notes:{ d1d4:{ feedback:'Qd4+ stands next to the king: Kxd4 and the game is drawn on the spot.' },
+              d1d5:{ feedback:'Qd5+ is met by Kxd5. A check is not worth much if the checking piece is taken.' },
+              d1d6:{ feedback:'Qd6+ hands over the queen the same way. Checks that touch a lone king are the classic candidate you must reject.' } } },
+    { stage:'recognition', fen:'4k3/3p2p1/8/8/8/8/3P2P1/4K3 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['e1e2','e1f2','e1d1','e1f1','d2d3','d2d4','g2g3','g2g4'], policy:'sound',
+      hints:['List the candidates: there are no captures and no checks.', 'So the list is all quiet moves, and the king is the piece that wants improving.'],
+      success:'Nothing forcing exists, so every candidate is a quiet move and they all hold. A list that comes back with nothing sharp in it is a finding, not a failure.' },
+    { stage:'test', fen:'6k1/5ppp/8/8/8/8/3r4/3R2K1 w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'capture' }, answer:'d1d2',
+      hints:['Two candidates: take the rook, or move yours along the first rank.', 'One of them is the only move that does not lose.', '@to'],
+      success:'Rxd2 — and every other move on the board loses, because …Rd1 is mate next move. That is why the list gets written before the calculation.' } ] },
+
+{ id:'forcing-moves', title:'Forcing moves first', band:800, branch:'calculation', durability:'TIMELESS',
+  skills:{ calculation:.8, tactics:.2 }, prerequisites:['candidate-moves'], mastery:{ targetMs:45000 },
+  intro:'Put the <b>forcing</b> moves at the top of your list: checks, captures and direct threats. Not because they are always best — they are not — but because they narrow the opponent\'s replies to a handful, so you can actually calculate them to the end. A forcing move you have checked is worth more than three quiet moves you have guessed at.',
+  demo:{ fen:'6k1/5ppp/8/8/8/7q/8/R5K1 w - - 0 1', frames:[
+    ['A queen against a rook: if Black ever gets a move, you are lost.', { marks:'target:h3' }],
+    ['So start with the forcing move. Ra8 is check, and the whole eighth rank is covered.', { move:'a1a8', arrows:'a8-g8 red' }],
+    ['Black has exactly one legal answer, Qc8 — and Rxc8 is mate. Every other white move on the first move loses.', { move:'h3c8' }],
+    ['', { move:'a8c8', marks:'key:c8' }] ]},
+  exercises:[
+    { stage:'guided', fen:'6k1/5ppp/8/8/8/7q/8/R5K1 w - - 0 1', label:'The only forcing move', prompt:'You are a queen down. Find the move that wins anyway.',
+      goal:{ type:'check' }, answer:'a1a8',
+      hints:['Nothing quiet can help you here: Black is a queen up.', 'Start the list with checks. There is exactly one.', '@to'],
+      success:'Ra8+ and Black must block with Qc8, which Rxc8 takes — mate. The tablebase says every other first move loses outright, which is what "forcing first" is for.' },
+    { stage:'transfer', fen:'8/8/3k4/8/3K4/8/3P4/8 w - - 0 1', label:'Check them to the end', prompt:'King and pawn against a king. Three of your six moves throw the win away. Find one that keeps it.',
+      answer:['d2d3','d4c4','d4e4'],
+      hints:['Pushing the pawn and stepping sideways both keep the win; stepping backwards does not.', 'Your king must stay in front of, or beside, its pawn.'],
+      success:'d3, Kc4 and Ke4 all win. Kc3, Kd3 and Ke3 are draws — the same-looking moves, one rank too passive. A forcing move you have not checked to the end is just a guess.' },
+    { stage:'recognition', fen:'4k3/1p4p1/8/8/8/8/1P4P1/4K3 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['e1e2','e1f2','e1d2','e1d1','e1f1'], policy:'sound',
+      hints:['No checks, no captures, no threats: the forcing list is empty.', 'Then the move is positional — walk the king.'],
+      success:'The forcing list is empty, so the position is about the king marching towards the pawns. Knowing that nothing is forcing is what tells you to switch from calculating to planning.',
+      allowWorse:10, allowWorseWhy:'A symmetrical pawn ending; every reasonable move holds the draw.' },
+    { stage:'test', fen:'6k1/5ppp/8/8/8/8/1r6/4R1K1 w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'mate' }, answer:'e1e8',
+      hints:['Their rook on the second rank is about to be very annoying. Check your own forcing moves first.', '@to'],
+      success:'Re8 is mate. Every other move loses — their threat never got a turn.' } ] },
+
+{ id:'visualise-3-ply', title:'Seeing three moves ahead', band:800, branch:'calculation', durability:'TIMELESS',
+  skills:{ calculation:.9, boardVision:.1 }, prerequisites:['candidate-moves'], mastery:{ targetMs:50000 },
+  intro:'Three <b>plies</b> — your move, their answer, your move again — is the unit almost every exchange is decided by. You do not need to see ten moves ahead; you need to see this one clearly, with the pieces where they will actually be. Count material at the <i>end</i> of the sequence, not in the middle.',
+  demo:{ fen:'6k1/5ppp/2n5/4p3/3P4/5N2/5PPP/6K1 w - - 0 1', frames:[
+    ['Your pawn on d4 attacks e5. The knight on c6 defends it, and your knight on f3 attacks it too.', { marks:'target:e5 key:d4,f3', arrows:'d4-e5 red, f3-e5 red, c6-e5 green' }],
+    ['Ply one: dxe5.', { move:'d4e5' }],
+    ['Ply two: …Nxe5 — the only recapture.', { move:'c6e5' }],
+    ['Ply three: Nxe5, and you are a pawn up. Two attackers against one defender, counted to the end.', { move:'f3e5', marks:'key:e5' }] ]},
+  exercises:[
+    { stage:'guided', fen:'6k1/5ppp/2n5/4p3/3P4/5N2/5PPP/6K1 w - - 0 1', label:'Count to three', prompt:'Two attackers, one defender. Start the sequence.',
+      goal:{ type:'capture' }, answer:'d4e5',
+      hints:['Take with the pawn first — the cheapest piece goes in first.', 'Then count: they recapture, you recapture, and you are a pawn up.', '@to'],
+      success:'dxe5 Nxe5 Nxe5 and you have won a pawn. Nxe5 first would be met by …Nxe5 and dxe5, which is only a trade — the order decides it.' },
+    { stage:'transfer', fen:'6k1/5ppp/5n2/3p4/4P3/2N5/5PPP/6K1 b - - 0 1', orientation:'b', label:'The same count, your side', prompt:'You are Black. Two attackers on e4, one defender. Start the sequence.',
+      goal:{ type:'capture' }, answer:'d5e4',
+      hints:['Cheapest piece first.', 'Count all three plies before you commit.', '@to'],
+      success:'…dxe4 Nxe4 Nxe4 and you are a pawn up. Exactly the same count, mirrored — which is the point of practising it from both sides.' },
+    { stage:'recognition', fen:'4k3/2p3p1/8/8/8/8/2P3P1/4K3 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['e1e2','e1f2','e1d2','e1d1','e1f1'], policy:'sound',
+      hints:['There is no contact between the pieces at all, so there is no sequence to count.', 'March the king.'],
+      success:'Nothing touches anything, so three-ply counting has nothing to work on. Save it for the moment pieces meet.',
+      allowWorse:10, allowWorseWhy:'A symmetrical pawn ending; every reasonable move holds.' },
+    { stage:'test', fen:'6k1/5ppp/1n6/3p4/2P5/4N3/5PPP/6K1 w - - 0 1', prompt:'What would you play?',
+      goal:{ type:'capture' }, answer:'c4d5',
+      hints:['Count the attackers and defenders of d5 first.', 'Cheapest attacker goes in first.', '@to'],
+      success:'cxd5 Nxd5 Nxd5 — two attackers beat one defender, and you finish a piece up on the square.' } ] },
+
+{ id:'move-ordering', title:'Move ordering', band:800, branch:'calculation', durability:'TIMELESS',
+  skills:{ calculation:.7, endgames:.3 }, prerequisites:['visualise-3-ply'], mastery:{ targetMs:50000 },
+  intro:'Two moves, both right, and the game hangs on which you play first. This is the most common way a won position becomes a draw: the moves were found, the order was not. When you have a plan of two or three moves, ask what your opponent does in <b>between</b> them.',
+  demo:{ fen:'8/8/1p6/1P6/7k/8/6P1/6K1 w - - 0 1', frames:[
+    ['The b-pawns are locked. Your winning plan is the g-pawn — and the king has to escort it.', { marks:'key:g2,g1 target:h4' }],
+    ['Push first and the black king is already there: g4+ is met by …Kg5 and the pawn never gets through.', { move:'g2g4', marks:'attack:g4' }],
+    ['King first is the same two moves in the other order, and it wins: the king shields the pawn all the way up.', { fen:'8/8/1p6/1P6/7k/8/6P1/6K1 w - - 0 1', move:'g1f2', marks:'key:f2' }] ]},
+  exercises:[
+    { stage:'guided', fen:'8/8/1p6/1P6/7k/8/6P1/6K1 w - - 0 1', label:'King first', prompt:'You are winning. Play the move that keeps it.',
+      answer:['g1f2','g1f1','g1h2','g1h1'],
+      hints:['Both plans are "walk the king up and push the g-pawn". Only the order is in question.', 'Pushing now lets the black king stop the pawn; move the king first.'],
+      success:'Any king move wins; both pawn pushes draw. Same two moves, same plan, opposite results — the order was the whole game.' },
+    { stage:'transfer', fen:'8/8/8/6k1/8/P7/8/7K w - - 0 1', label:'Pawn first', prompt:'And now the other way round. Play the move that wins.',
+      answer:'a3a4',
+      hints:['Count whether the black king can catch the pawn: draw the square from the pawn to its promotion square.', 'It is one tempo outside. Spend that tempo on the pawn, not the king.',  '@to'],
+      success:'a4 wins and every king move draws. Here the pawn is the one that cannot afford to wait — the rule is not "king first", it is "work out which move cannot wait".' },
+    { stage:'recognition', fen:'4k3/4p1p1/8/8/8/8/4P1P1/4K3 w - - 0 1', quiet:true, prompt:'What would you play?',
+      answer:['e1d2','e1f2','e1d1'], policy:'sound',
+      hints:['Nothing here is racing, so nothing depends on the order.', 'Improve the king and see what Black does.'],
+      success:'No race, no order to get wrong. Ordering matters when two plans are both in flight; here there is only one, and it is slow.',
+      allowWorse:10, allowWorseWhy:'A symmetrical pawn ending; every reasonable move holds.' },
+    { stage:'test', fen:'8/8/8/8/6k1/P7/8/7K w - - 0 1', prompt:'What would you play?',
+      answer:'a3a4',
+      hints:['The black king is one square closer than last time. Count the square again.', '@to'],
+      success:'a4, and only a4. One square closer and the king moves would have drawn — the count is what tells you which move cannot wait.' } ] }
+];
